@@ -1,0 +1,114 @@
+/* Navigation container */
+.oc-nav {
+  background: #fff;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.oc-nav__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 12px 16px;
+}
+
+/* Logo */
+.oc-logo {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px;
+  margin-right: 6px;
+}
+.oc-logo__img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+/* Search */
+.oc-search {
+  flex: 1 1 600px;
+  max-width: 760px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #0b66ff, #0071ff);
+  border-radius: 30px;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(3,45,80,0.08);
+  overflow: hidden;
+}
+
+/* small menu / category button on the left of search */
+.oc-search__menu {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 20px;
+  margin-right: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* search input */
+.oc-search__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 10px;
+  font-size: 16px;
+  color: #222;
+  background: transparent;
+  border-radius: 20px;
+}
+
+/* submit button on the right (black circle) */
+.oc-search__submit {
+  background: #000;
+  border: none;
+  width: 46px;
+  height: 44px;
+  border-radius: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* Actions (right side) */
+.oc-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 8px;
+}
+.oc-actions__signin {
+  color: #0b66ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.oc-actions__cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.oc-actions__cartimg {
+  height: 36px;
+  width: auto;
+}
+
+/* Responsive */
+@media (max-width: 880px) {
+  .oc-search { max-width: 480px; }
+  .oc-logo__img { height: 40px; }
+}
+@media (max-width: 640px) {
+  .oc-search__menu { display: none; }
+  .oc-search__input { font-size: 14px; }
+  .oc-actions__signin { display: none; } /* hide on tiny screens */
+}
