@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{{ config('app.name', 'OmniCart') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
 </head>
 <body>
     <header class="oc-nav">
@@ -15,7 +15,7 @@
             </a>
 
             <!-- Center: Search -->
-            <form action="{{ route('search') ?? url('/search') }}" method="GET" class="oc-search" role="search" aria-label="Search OmniCart">
+            <form action="{{ Route::has('products.search') ? route('products.search') : url('/search') }}" method="GET" class="oc-search" role="search" aria-label="Search OmniCart">
                 <button type="button" class="oc-search__menu">V</button>
                 <input class="oc-search__input" name="q" type="search" placeholder="Search OmniCart" aria-label="Search" />
                 <button type="submit" class="oc-search__submit" aria-label="Search">
@@ -25,8 +25,8 @@
 
             <!-- Right: Sign in + Cart -->
             <div class="oc-actions">
-                <a href="{{ route('login') }}" class="oc-actions__signin">Sign In</a>
-                <a href="{{ route('cart') }}" class="oc-actions__cart" aria-label="View cart">
+                <a href="{{ Route::has('signin') ? route('signin') : url('/login') }}" class="oc-actions__signin">Sign In</a>
+                <a href="{{ Route::has('basket.view') ? route('basket.view') : url('/cart') }}" class="oc-actions__cart" aria-label="View cart">
                     <img src="{{ asset('images/cart.png') }}" alt="Cart" class="oc-actions__cartimg" />
                 </a>
             </div>
