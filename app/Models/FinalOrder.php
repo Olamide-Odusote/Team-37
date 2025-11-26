@@ -22,12 +22,12 @@ class FinalOrder extends Model
 
     public function address()
     {
-        return $this->belongsTo(CustomerAddress::class, 'Address_ID');
+        return $this->belongsTo(CustomerAddress::class, 'CustomerAddress_ID');
     }  
 
     public function payment()
     {
-        return $this->belongsTo(CustomerPayment::class, 'Payment_ID');
+        return $this->belongsTo(CustomerPayment::class, 'CustomerPayment_ID');
     }
 
     public function items()

@@ -10,7 +10,7 @@ class Customer extends Model
         'Name',
         'Email',
         'Password',
-        'Mobile Number',
+        'Mobile_Number',
     ];
 
     /* Password hash for serialisation */

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('return_requests', function (Blueprint $table) {
-            $table->id('Return_ID');
-            $table->foreignId('OrderItem_ID');
-            $table->string('Reason');
-            $table->enum('Status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
+            $table->id('ReturnRequest_ID');
+            $table->foreignId('OrderItem_ID')->constrained('order_items', 'OrderItem_ID')->onDelete('cascade');
+            $table->text('Reason')->nullable();
+            $table->enum('Status', ['pending', 'approved', 'rejected']);
             $table->timestamps();
         });
     }
