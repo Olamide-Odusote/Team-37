@@ -19,6 +19,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReturnRequestController;
 
+
 // --------------------
 // Public Pages
 // --------------------
@@ -27,10 +28,12 @@ Route::get('/about', [ContactController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
+
 // --------------------
 // Authentication
 // --------------------
 Route::prefix('auth')->group(function () {
+
     // Customer registration
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
@@ -49,6 +52,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/password/reset', [AuthController::class, 'changePassword'])->name('password.reset.submit');
 });
 
+
 // --------------------
 // Products & Categories
 // --------------------
@@ -57,6 +61,7 @@ Route::get('/products/search', [ProductController::class, 'search'])->name('prod
 Route::post('/products/{product}/feedback', [FeedbackController::class, 'submitFeedback'])->name('feedback.submit');
 
 Route::resource('categories', ProductCategoryController::class)->only(['index', 'show']);
+
 
 // --------------------
 // Basket
@@ -67,22 +72,33 @@ Route::prefix('basket')->group(function () {
     Route::post('/remove/{product}', [BasketController::class, 'removeFromBasket'])->name('basket.remove');
 });
 
+
 // --------------------
 // Orders & Checkout
 // --------------------
 Route::resource('orders', FinalOrderController::class)->only(['index', 'show']);
+
 Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout');
 Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+
 
 // --------------------
 // Returns
 // --------------------
-Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'submitReturnRequest'])->name('return.submit');
+Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'submitReturnRequest'])
+    ->name('return.submit');
+
 
 // --------------------
 // Admin Inventory Management
 // --------------------
-Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
-    Route::resource('inventory', InventoryController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('inventory-logs', InventoryLogController::class)->only(['index']);
-});
+Route::middleware(['auth:admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::resource('inventory', InventoryController::class)
+            ->only(['index', 'store', 'update', 'destroy']);
+
+        Route::resource('inventory-logs', InventoryLogController::class)
+            ->only(['index']);
+    });

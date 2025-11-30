@@ -1,44 +1,85 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{{ config('app.name', 'OmniCart') }}</title>
+    <link rel=preconnect href="https://fonts.googleapis.com">
+    <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}">
+    <!-- bootstrap css -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 </head>
+
 <body>
-    <header class="oc-nav">
-        <div class="oc-nav__inner">
-            <!-- Left: Logo -->
-            <a href="{{ url('/') }}" class="oc-logo">
-                <img src="{{ asset('images/OmniCart_Logo.png') }}" alt="OmniCart logo" class="oc-logo__img" />
-            </a>
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="{{ asset('images/OmniCart_Logo.png') }}" class="logo">
+        </div>
 
-            <!-- Center: Search -->
-            <form action="{{ Route::has('products.search') ? route('products.search') : url('/search') }}" method="GET" class="oc-search" role="search" aria-label="Search OmniCart">
-                <button type="button" class="oc-search__menu">V</button>
-                <input class="oc-search__input" name="q" type="search" placeholder="Search OmniCart" aria-label="Search" />
-                <button type="submit" class="oc-search__submit" aria-label="Search">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2"/></svg>
+        <div class="nav-center">
+            <div class="search-container">
+                <select class="category-select">
+                    <option value="all">V</option>
+                </select>
+                <input type="text" class="search-input" placeholder="Search OmniCart">
+                <button class="search-btn">
+                    <img src="{{ asset('images/search_icon.png') }}" class="search-icon">
                 </button>
-            </form>
-
-            <!-- Right: Sign in + Cart -->
-            <div class="oc-actions">
-                <a href="{{ Route::has('signin') ? route('signin') : url('/login') }}" class="oc-actions__signin">Sign In</a>
-                <a href="{{ Route::has('basket.view') ? route('basket.view') : url('/cart') }}" class="oc-actions__cart" aria-label="View cart">
-                    <img src="{{ asset('images/cart.png') }}" alt="Cart" class="oc-actions__cartimg" />
-                </a>
             </div>
         </div>
-    </header>
+
+        <div class="nav-right">
+            @auth
+                <!--User is logged in, show their username-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{ Auth::user()->username }} <!--Show username -->
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <!-- Logout form -->
+                            <form action="{{ route('signout.post') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Sign Out</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            @else
+                <!-- User is not logged in, show Sign In Link -->
+                <li class="nav-item">
+                    <a class="signin" href="{{ route('signin') }}">Sign In</a>
+                </li>
+            @endauth
+            <img src="{{ asset('images/cart.png') }}" class="basket-icon">
+        </div>
+    </nav>
 
     <main>
         @yield('content')
     </main>
 
-    <footer>
-        {{-- optional footer --}}
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Conditions Of Use & Sale</a>
+            <a href="#">Privacy Notice</a>
+            <a href="#">Cookies Notice</a>
+        </div>
+
+        <p class="copyright">
+            © 2025– , OmniCart.Co.Uk
+        </p>
     </footer>
+
+
 </body>
+
 </html>
