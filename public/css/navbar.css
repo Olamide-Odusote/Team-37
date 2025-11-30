@@ -1,32 +1,148 @@
-/* Navbar styles matching the markup in app.blade.php */
-.oc-nav {
-  background: #fff;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.06);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-.oc-nav__inner {
-  max-width: 1200px;
-  margin: 0 auto;
+/* NAVBAR WRAPPER */
+.navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding: 12px 16px;
+  padding: 10px 20px;
+  background: #fdfdfd;
+  border-bottom: 2px solid #dfe3e9;
+  font-family: 'Poppins', sans-serif;
 }
 
-.oc-logo { display: inline-flex; align-items: center; padding: 6px; }
-.oc-logo__img { height: 48px; width: auto; display: block; }
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
 
-.oc-search { flex: 1 1 600px; max-width: 760px; display: flex; align-items: center; background: linear-gradient(90deg,#0b66ff,#0071ff); border-radius:30px; padding:6px; box-shadow:0 2px 6px rgba(3,45,80,0.08); overflow:hidden; }
-.oc-search__menu { background: rgba(255,255,255,0.08); color:#fff; border:none; width:44px; height:44px; border-radius:20px; margin-right:8px; font-weight:700; cursor:pointer; }
-.oc-search__input { flex:1; border:none; outline:none; padding:12px 10px; font-size:16px; color:#222; background:transparent; border-radius:20px; }
-.oc-search__submit { background:#000; border:none; width:46px; height:44px; border-radius:22px; display:inline-flex; align-items:center; justify-content:center; margin-left:8px; cursor:pointer; }
+/* ICONS */
+.logo {
+    width: 150px;
+}
 
-.oc-actions { display:flex; align-items:center; gap:16px; margin-left:8px; }
-.oc-actions__signin { color:#0b66ff; text-decoration:none; font-weight:500; }
-.oc-actions__cart { display:inline-flex; align-items:center; justify-content:center; }
-.oc-actions__cartimg { height:36px; width:auto; }
+.basket-icon {
+    width: 55px;
+}
 
-@media (max-width:880px){ .oc-search{ max-width:480px } .oc-logo__img{ height:40px } }
-@media (max-width:640px){ .oc-search__menu{ display:none } .oc-search__input{ font-size:14px } .oc-actions__signin{ display:none } }
+
+/* LEFT & RIGHT SECTION */
+.nav-left{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: flex-start;
+}
+.nav-right{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: flex-end;
+}
+
+.nav-left, .nav-right {
+    min-width: 200px;
+}
+
+/* SEARCH BAR */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #0055c0;
+    border-radius: 22px;
+    padding: 2px;
+    margin: 0 auto;
+}
+
+.category-select {
+    background: #0055c0;
+    border: none;
+    padding: 18px 18px;
+    color: #fdfdfd;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 22px 0 0 22px;
+}
+
+.search-input {
+    width: 500px;
+    padding: 18px 20px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    border-radius: 35px;
+}
+
+.search-btn {
+    background: #000;
+    border: none;
+    padding: 18px 18px;
+    border-radius: 0 22px 22px 0;
+    cursor: pointer;
+}
+
+.search-icon {
+    width: 20px;
+}
+
+.signin{
+  color: #0055c0;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* FOOTER */
+.footer {
+    background: #fdfdfd;
+    padding: 40px;
+    border-top: 4px solid #dfe3e9;
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin-bottom: 25px;
+}
+
+.footer-links a {
+    color: #0055c0;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.copyright {
+    font-size: 16px;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        text-align: center;
+    }
+
+    .nav-left,
+    .nav-right,
+    .search-container {
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+

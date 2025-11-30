@@ -1,0 +1,79 @@
+.body {
+  background-color: #ccc;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  color-scheme: #0055c0;
+  min-height: 100vh;
+  align-items: center;
+}
+.login {
+  background-color: white;
+  width: 400px;
+  padding: 30px 40px;
+  max-width: 90%;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+}
+.signInText {
+  color: #0055c0;
+  font-size: 1.4em;
+  margin-bottom: 50px;
+  text-transform: lowercase;
+  
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 30px;
+  margin-bottom: 45px;
+}
+.input input {
+  padding: 15px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  outline: none;
+  text-align: left;
+  border-radius: 30px;
+}
+.signInButton {
+  background-color: white;
+  color: #333;
+  padding: 12px;
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 30px;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+  margin-bottom: 15px;
+}
+.forgotPassword {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.gab {
+  height: 10px;
+  margin: 20px 0 25px 0;
+}
+.NewToOmni {
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 15px;
+}
