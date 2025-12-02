@@ -1,0 +1,130 @@
+/* Full-page center layout */
+.auth-body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Logo */
+.auth-logo-container {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* target the logo used in the auth layout (class="logo") */
+.auth-logo-container .logo {
+    width: 160px;
+    max-width: 90%;
+    display: inline-block;
+}
+
+/* ensure inputbox (used in password reset) matches other input styles */
+.inputbox,
+.login input,
+.register-card input,
+.input input {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+/* Auth Card */
+.login, .register-card {
+    background: white;
+    padding: 20px 24px;
+    width: 340px;
+    max-width: 92%;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+/* Headings */
+.signInText, .registerText {
+    color: #0055c0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+/* Inputs */
+.login input, 
+.register-card input {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+/* Buttons */
+.signInButton,
+.registerInButton,
+.continue {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #ccc;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: 0.18s ease-in-out;
+}
+
+.signInButton:hover,
+.registerInButton:hover,
+.continue:hover {
+    background: #0055c0;
+    color: #fff;
+}
+
+/* Footer */
+.auth-footer {
+    text-align: center;
+    padding: 10px 12px;
+    border-top: 3px solid #dfe3e9;
+    width: 100%;
+    margin-top: 24px;
+    color: #555;
+    font-size: 0.88rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-bottom: 14px;
+}
+
+.footer-links a {
+  color: #0055c0;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.footer-links a:hover { text-decoration: underline; }
+
+.copyright { font-size: 16px; color: #333; }
+
+.auth-copy {
+    font-size: 0.8rem;
+    color: #888;
+}
+/* Responsive */
+@media (max-width: 500px) {
+    .login, .register-card {
+        padding: 20px;
+    }
+}

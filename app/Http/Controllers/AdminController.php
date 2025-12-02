@@ -11,4 +11,8 @@ class AdminController extends Controller
         $admin = Admin::find($name);
         return view('/show', array('admin' => $admin));
     }
+
+    public function list() {
+        return view('/list', array('admins'=>Admin::all()));
+    }
 }
