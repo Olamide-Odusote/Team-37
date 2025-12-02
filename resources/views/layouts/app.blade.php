@@ -19,49 +19,63 @@
 <body>
     <!-- NAVIGATION BAR -->
     <nav class="navbar">
-        <div class="nav-left">
-            <img src="{{ asset('images/OmniCart_Logo.png') }}" class="logo">
-        </div>
+  <div class="navbar-top">
+    <div class="nav-left">
+      <img src="{{ asset('images/OmniCart_Logo.png') }}" class="logo" alt="OmniCart logo">
+    </div>
 
-        <div class="nav-center">
+    <div class="nav-center">
+        <div class="category">
             <div class="search-container">
-                <select class="category-select">
-                    <option value="all">V</option>
-                </select>
-                <input type="text" class="search-input" placeholder="Search OmniCart">
-                <button class="search-btn">
-                    <img src="{{ asset('images/search_icon.png') }}" class="search-icon">
-                </button>
-            </div>
-        </div>
+                <select class="category-select" aria-label="Search category">
+          <option value="all">All</option>
+          <option value="computers-and-accessories">Computers & Accessories</option>
+          <option value="wardobe">Wardrobe</option>
+          <option value="sports">Sports</option>
+          <option value="education-and-equipment">Education & Equipment</option>
+          <option value="personal-healthcare">Personal Healthcare</option>
+        </select>
+        <input type="text" class="search-input" placeholder="Search OmniCart" aria-label="Search OmniCart">
+        <button class="search-btn" aria-label="Search">
+          <img src="{{ asset('images/search_icon.png') }}" class="search-icon" alt="">
+        </button>
+      </div>
+      </div>
+    </div>
 
-        <div class="nav-right">
-            @auth
-                <!--User is logged in, show their username-->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        {{ Auth::user()->username }} <!--Show username -->
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <!-- Logout form -->
-                            <form action="{{ route('signout.post') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Sign Out</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            @else
-                <!-- User is not logged in, show Sign In Link -->
-                <li class="nav-item">
-                    <a class="signin" href="{{ route('signin') }}">Sign In</a>
-                </li>
-            @endauth
-            <img src="{{ asset('images/cart.png') }}" class="basket-icon">
-        </div>
-    </nav>
+    <div class="nav-right">
+      @auth
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ Auth::user()->username }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <form action="{{ route('signout.post') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Sign Out</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      @else
+        <li class="nav-item">
+          <a class="signin" href="{{ route('signin') }}">Sign In</a>
+        </li>
+      @endauth
+      <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <ul class="nav-links">
+      <li><a href="{{ route('home') }}">Home</a></li>
+      <li><a href="{{ route('about') }}">About Us</a></li>
+      <li><a href="{{ route('contact') }}">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- MAIN CONTENT -->
 
     <main>
         @yield('content')
