@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\FinalOrder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FinalOrderController extends Controller
 {
-    public function show($id) {
-        $order = FinalOrder::find($id);
-        return view('/show', array('order' => $order));
+    /**
+     * Display a list of previous orders, including items + products.
+     */
+    public function index()
+    {
+        $id = Auth::user()->id; // current logged-in user
+
+        // Load orders with their items and products
+        $orders = FinalOrder::where('Customer_ID', $id)
+            ->with([
+                'items.product'   // eager-load items AND product for each item
+            ])
+            ->orderBy('Date', 'desc')
+            ->get();
+
+        return view('orders.index', compact('orders'));
     }
-
-    public function list() {
-        return view('/list', array('orders'=>FinalOrder::all()));
-    } 
-
 }
