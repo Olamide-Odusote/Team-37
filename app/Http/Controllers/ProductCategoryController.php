@@ -15,4 +15,7 @@ class ProductCategoryController extends Controller
     public function list() {
         return view('/list', array('categories'=>ProductCategory::all()));
     }
+
+    // Other resource methods (index, create, store, edit, update, destroy) can be added here as needed.
+
 }

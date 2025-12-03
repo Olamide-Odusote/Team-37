@@ -15,4 +15,6 @@ class ReturnRequestController extends Controller
     public function list() {
         return view('/list', array('requests'=>ReturnRequest::all()));
     }
+
+    // Other resource methods (index, create, store, edit, update, destroy) can be added here as needed.
 }

@@ -11,4 +11,8 @@ class BasketController extends Controller
         $basket = Basket::find($id);
         return view('/show', array('basket' => $basket));
     }
+
+    public function list() {
+        return view('/list', array('baskets'=>Basket::all()));
+    }
 }
