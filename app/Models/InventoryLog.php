@@ -9,7 +9,7 @@ class InventoryLog extends Model
     protected $fillable = [
         'Product_ID',
         'Admin_ID',
-        'Action-Type',
+        'Action_Type',
         'Quantity_Changed',
     ];
 

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id('Inventory_ID');
-            $table->integer('Quantity');
-            $table->foreignId('Product_ID');
-            $table->string('Threshold');
+            $table->foreignId('Product_ID')->constrained('products', 'Product_ID')->onDelete('cascade');
+            $table->integer('Quantity')->default(0);
+            $table->integer('Threshold')->default(5);
             $table->timestamps();
-        });
+});
+
     }
 
     /**

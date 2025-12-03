@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('customer_payments', function (Blueprint $table) {
             $table->id('CustomerPayment_ID');
-            $table->foreignId('Customer_ID');
-            $table->foreign('Customer_ID')->references('Customer_ID')->on('customers')->onDelete('cascade');
-            $table->date('ExpiryDate');
+            $table->foreignId('Customer_ID')->constrained('customers', 'Customer_ID')->onDelete('cascade');
             $table->string('CardHolder_Name');
-            $table->string('CardNumber');
+            $table->string('MaskedCardNumber');
+            $table->date('ExpiryDate');
             $table->timestamps();
-        });
+});
+
     }
 
     /**

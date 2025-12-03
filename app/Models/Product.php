@@ -9,7 +9,7 @@ class Product extends Model
     protected $fillable = [
         'Name',
         'Description',
-        'Category_ID',
+        'ProductCategory_ID',
         'Inventory_ID',
         'Price',
         'ImageURL',
@@ -23,7 +23,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'Category_ID');
+        return $this->belongsTo(ProductCategory::class, 'ProductCategory_ID');
     }
 
     public function inventory()
