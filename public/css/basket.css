@@ -131,6 +131,22 @@ html {
         text-align: center;
 }
 
+.btn-add {
+    color: black;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    float: left;
+}
+
+.btn-remove {
+    color: black;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    float: right;
+}
+
 .basket > .product > .total {
         flex: 1 0 20%;
         text-align: center;
