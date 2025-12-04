@@ -38,14 +38,14 @@
                     </div>
 
                     <div class="quantity">
-                        <form action="{{ route('basket.add', $item->product->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('basket.remove', $item->product->id) }}" method="POST" style="display:inline;">
                             @csrf
                             <button type="submit" class="btn-remove">-</button>
                         </form>
 
                             <span><?= $basket_product["Quantity"] ?></span>
                             
-                        <form action="{{ route('basket.remove', $item->product->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('basket.add', $item->product->id) }}" method="POST" style="display:inline;">
                             @csrf
                             <button type="submit" class="btn-add">+</button>
                         </form>
