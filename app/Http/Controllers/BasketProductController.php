@@ -7,11 +7,16 @@ use App\Models\BasketProduct;
 
 class BasketProductController extends Controller
 {
+    /**
+     * Display the specified basket product.
+     */
     public function show($id) {
         $basket_product = BasketProduct::find($id);
         return view('/show', array('basket_product' => $basket_product));
     }
-
+    /**
+     * Display a listing of all basket products.
+     */
     public function list() {
         return view('/list', array('basket_products'=>BasketProduct::all()));
     }

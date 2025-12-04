@@ -7,11 +7,17 @@ use App\Models\ProductCategory;
 
 class ProductCategoryController extends Controller
 {
+    /**
+     * Display the specified product category.
+     */
     public function show($id) {
         $category = ProductCategory::find($id);
         return view('/show', array('category' => $category));
     }
 
+    /**
+     * Display a listing of all product categories.
+     */
     public function list() {
         return view('/list', array('categories'=>ProductCategory::all()));
     }

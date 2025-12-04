@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
+/*
+    Main Layout Template
+    Includes navigation bar, footer, and main content area.
+*/
 <head>
     <link rel=preconnect href="https://fonts.googleapis.com">
     <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +28,7 @@
       <img src="{{ asset('images/OmniCart_Logo.png') }}" class="logo" alt="OmniCart logo - online shopping marketplace">
       </a>
     </div>
-
+/* CENTER SEARCH BAR */
     <div class="nav-center">
         <div class="category">
             <div class="search-container">
@@ -48,7 +51,7 @@
       </div>
       </div>
     </div>
-
+/* RIGHT SIGN IN / CART */
     <div class="nav-right">
       @auth
         <li class="nav-item dropdown">
@@ -72,7 +75,7 @@
       <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
     </div>
   </div>
-
+/* BOTTOM NAV LINKS */
   <div class="nav-bottom">
     <ul class="nav-links">
       <li><a href="{{ route('home') }}">Home</a></li>
