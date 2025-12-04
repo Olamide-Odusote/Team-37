@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ asset('css/design1.css') }}">
 @endsection
 
-/* SIGN IN FORM */
+<!-- SIGN IN FORM -->
 
 @section('content')
 <div class="login">
@@ -22,13 +22,13 @@
         <button class="signInButton" type="submit">Sign In</button>
     </form>
     
-     /* Link to Password Reset */
+     <!-- Link to Password Reset -->
 
     <p class="forgotPassword">
         Forgot your password?
         <a href="{{ route('password.reset') }}">Click here ></a>
     </p>
-    /* Link to Registration */
+    <!-- Link to Registration -->
     
     <p class="newToOmni">New to Omni?</p>
     <a href="{{ route('register') }}"><button class="registerInButton">Create account</button></a>

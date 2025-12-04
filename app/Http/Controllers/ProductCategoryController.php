@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
     /**
-     * Display the specified product category.
+     * Show the list of all categories
      */
-    public function show($id) {
-        $category = ProductCategory::find($id);
-        return view('/show', array('category' => $category));
+    public function index()
+    {
+        $categories = ProductCategory::all();
+        return view('categories.index', compact('categories'));
     }
 
     /**
-     * Display a listing of all product categories.
+     * Show category by ID
      */
-    public function list() {
-        return view('/list', array('categories'=>ProductCategory::all()));
+    public function show($id)
+    {
+        $category = ProductCategory::findOrFail($id);
+        return view('categories.show', compact('category'));
     }
-
-    // Other resource methods (index, create, store, edit, update, destroy) can be added here as needed.
-
 }

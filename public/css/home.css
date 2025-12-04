@@ -1,0 +1,118 @@
+.homepage {
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 26px;
+    color: #0055c0;
+    font-weight: 600;
+    text-align: center;
+    margin: 40px 0 20px 0;
+}
+
+/* CATEGORY GRID */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto 60px auto;
+}
+
+.category-card {
+    background: white;
+    border-radius: 25px;
+    border: 2px solid #e5e7eb;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease-in-out;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    border-color: #0055c0;
+}
+
+.cat-img {
+    width: 90%;
+    height: 180px;
+    border-radius: 18px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.cat-title {
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+}
+
+
+/* BEST SELLERS GRID */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto 60px auto;
+}
+
+.product-card {
+    background: white;
+    border-radius: 25px;
+    border: 1px solid #d8d8d8;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 80%;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.p-title {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.p-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0055c0;
+}
+.add-to-cart-btn {
+    background: #0055c0;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 22px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 160ms ease;
+}
+.add-to-cart-btn:hover {
+    background: #0044a0;
+}
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

@@ -33,5 +33,7 @@ class ProductController extends Controller
         return view('products.search_results', ['products' => $products, 'query' => $query]);
     }
 
-    // Other resource methods (index, create, store, edit, update, destroy) can be added here as needed.
+    public static function orderBy($column, $direction) {
+        return Product::orderBy($column, $direction);
+    }
 }
