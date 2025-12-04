@@ -11,7 +11,7 @@ class ContactController extends Controller
         return view('contact.about'); 
     }
 
-     public function contact()
+    public function contact()
     {
         return view('contact.contact'); 
     }
