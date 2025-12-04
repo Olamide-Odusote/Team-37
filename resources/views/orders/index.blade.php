@@ -16,7 +16,7 @@
 </header>
 
 <div class="wrapper">
-    <h1>Order History</h1>
+    <h1>Order History (For all users)</h1>
 
     @foreach ($orders as $order)
     <!-- 
@@ -34,20 +34,17 @@
 
                 <!-- Check the status of the delivery to determine the color of the text -->
                 @switch($order->Status)
-                    @case('Delivered')
-                        <span style="color:#0055C0">{{ $order->Status }}</span>
+                   @case('shipped')
+                        <span style="color:#0055C0">{{ ucfirst($order->Status) }}</span>
                         @break
-                    @case('Shipped')
-                        <span style="color:#228B22">{{ $order->Status }}</span>
+                    @case('pending')
+                        <span style="color:#FFB300">{{ ucfirst($order->Status) }}</span>
                         @break
-                    @case('Processing')
-                        <span style="color:#FFB300">{{ $order->Status }}</span>
-                        @break
-                    @case('Cancelled')
-                        <span style="color:red">{{ $order->Status }}</span>
+                    @case('returned')
+                        <span style="color:red">{{ ucfirst($order->Status) }}</span>
                         @break
                     @default
-                        <span>{{ $order->Status }}</span>
+                        <span>{{ ucfirst($order->Status) }}</span>
                 @endswitch
             </div>
             <div class="date">
