@@ -93,9 +93,7 @@ class AuthController extends Controller
     }
 
 
-    /* ======================================================
-     |  PASSWORD RESET (SIMPLE INTERNAL VERSION)
-     ====================================================== */
+    /* PASSWORD RESET (SIMPLE INTERNAL VERSION) */
 
     public function showPasswordResetForm()
     {

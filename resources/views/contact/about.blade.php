@@ -16,6 +16,8 @@
               <p>At OmniCart, we are always listening to feedback and reviews so we can constantly update our selection of items
                 to meet our customer's needs. We hope this is the start of something big and we're excited to have you with us on this journey.
               </p>
+              
+              /* Team Section */
 
         <h2>Our Team</h2>
         <div class="team">

@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomerAddress extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'Customer_ID',
         'Street',
@@ -13,9 +18,17 @@ class CustomerAddress extends Model
         'PostalCode',
         'Country',
     ];
-
+    /**
+     * Get the customer that owns the address.
+     */
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'Customer_ID');
     }
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
 }
