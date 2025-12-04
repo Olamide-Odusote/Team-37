@@ -1,0 +1,73 @@
+/* 
+order-box fill color: #DFEDFF
+order-box stroke color: #BDCEE3 
+border: 2px solid black;
+*/
+
+
+* {
+    font-family: 'Poppins'
+}
+
+.wrapper > h1 {
+    text-align: center;
+}
+
+.order-box {
+    width: 70%;
+    height: 200px;
+    margin: auto;
+    border: 2px solid #BDCEE3;
+    border-radius: 20px;
+}
+
+.order-box > .order-box-header {
+    height: 35%;
+    background-color: #DFEDFF;
+    border-radius: 18px 18px 0px 0px;
+}
+
+.order-box > .order-box-header > .orderno {
+    height: 20%;
+    font-size: 12px;
+    text-align: center;
+}
+
+.order-box > .order-box-header > .orderno > span{
+    opacity: 0.5;
+}
+
+.order-box > .order-box-header > .status {
+    width: calc(100%/5 - 4px);
+    height: 80%;
+    text-align: center;
+    float: left;
+}
+
+.order-box > .order-box-header > .date {
+    width: calc(100%/(10/6) - 4px);
+    height: 80%;
+    text-align: center;
+    float: left;
+}
+
+.order-box > .order-box-header > .total {
+    width: calc(100%/5 - 4px);
+    height: 80%;
+    text-align: center;
+    float: left;
+}
+
+.order-box > .order-box-main {
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.order-box > .order-box-main > img{
+    max-height: 120px;
+    max-width: 120px;
+    margin: auto 0 auto 2%;
+}
+

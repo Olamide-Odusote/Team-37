@@ -1,0 +1,106 @@
+
+
+* {
+    font-family: 'Poppins'
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, ::before, ::after {
+  box-sizing: inherit;
+}
+
+.basket {
+    width: 90%;
+    height: auto;
+    margin: auto;
+}
+
+.basket > h1 {
+    text-align: center;
+}
+
+.basket > .heading {
+    text-align: center;
+    height: auto;
+    float: left;
+}
+
+.basket > .product {
+    border-top: 1px solid;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+}
+
+.basket > .product > div {
+    margin: auto;
+    float: left;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.basket > .product > div > span {
+    width: 100%;
+}
+
+.basket > .product > .item {
+    width: 30%;
+    overflow: scroll;
+}
+
+.basket > .product > .item > img {
+    margin-right: 20px;
+}
+
+.basket > .product > .item > span {
+    max-width: 80px;
+    align-self: center;
+    text-align: center;
+}
+
+
+.basket > .product > .price {
+    flex: 1 0 20%;
+    text-align: center;
+}
+
+.basket > .product > .quantity {
+    flex: 1 0 30%;
+    text-align: center;
+}
+
+.basket > .product > .total {
+    flex: 1 0 20%;
+    text-align: center;
+}
+
+.checkout-button {
+    background-color: blue;
+    border: none;
+    border-radius: 6px;
+    height: 50px;
+    width: 120px;
+    margin-left: 80%;
+}
+
+.checkout-button > a {
+    color: white;
+    text-decoration: none;;
+    font-size: 15px;
+}
+
+/*
+@media(max-width: 768px){
+    .basket > .product > .item {
+        width: 30%;
+        text-align:unset;
+        overflow: clip;
+    }
+}
+*/
