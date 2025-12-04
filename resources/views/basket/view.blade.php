@@ -27,16 +27,30 @@
 
             @foreach ($products as $product)
                 <div class="product">
+
                     <div class="item">
                         <img src="{{ $product->Image_URL }}" style="max-height:100px; max-width:100px;">
                         <span>{{ $product->Name }}</span>
                     </div>
+
                     <div class="price">
                         <span>£{{ $product->Price }}</span>
                     </div>
+
                     <div class="quantity">
-                        <span>{{ $basket_product->Quantity }}</span>
+                        <form action="{{ route('basket.add', $item->product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn-remove">-</button>
+                        </form>
+
+                            <span><?= $basket_product["Quantity"] ?></span>
+                            
+                        <form action="{{ route('basket.remove', $item->product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn-add">+</button>
+                        </form>
                     </div>
+
                     <div class="total">
                         <span>£{{ $product->Price * $basket_product->Quantity }}</span>
                     </div>
