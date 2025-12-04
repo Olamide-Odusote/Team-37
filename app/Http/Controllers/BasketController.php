@@ -11,44 +11,54 @@ class BasketController extends Controller
 {
 
     public function viewBasket()
-    {
-        $id = Auth::user()->id;
-    
-        // Get current user's basket
-        $basket = Basket::find(['Customer_ID' => $id]);
-
-        if (!$basket) {
-            return view('basket.view', [
-                'basket_size' => 0,
-                'products' => [],
-                'basket_products' => [],
-                'basket' => null
-            ]);
-        }
-
-        // Count the number of product rows in the basket
-        $basket_size = $basket->products()->count();
-
-        // Load products + pivot data
-        $products = $basket->products()
-            ->with('basketProducts')
-            ->get();
-
-        // Load BasketProduct rows with product eager-loaded
-        $basket_products = $basket->basketProducts()
-            ->with('product')
-            ->get();
-
-        return view('basket', compact(
-            'basket',
-            'basket_size',
-            'products',
-            'basket_products'
-        ));
+{
+    // Check if user is NOT logged in
+    if (!Auth::check()) {
+        return view('basket.view', [
+            'basket_size' => 0,
+            'products' => [],
+            'basket_products' => [],
+            'basket' => null,
+            'need_login' => true
+        ]);
     }
+
+    // If logged in, proceed
+    $id = Auth::user()->id;
+
+    $basket = Basket::where('Customer_ID', $id)->first();
+
+    if (!$basket) {
+        return view('basket.view', [
+            'basket_size' => 0,
+            'products' => [],
+            'basket_products' => [],
+            'basket' => null,
+            'need_login' => false
+        ]);
+    }
+
+    $basket_size = $basket->products()->count();
+    $products = $basket->products()->with('basketProducts')->get();
+    $basket_products = $basket->basketProducts()->with('product')->get();
+
+    return view('basket', compact(
+        'basket.view',
+        'basket_size',
+        'products',
+        'basket_products'
+    ) + ['need_login' => false]);
+}
+    /**
+     * Add product to basket or increase quantity
+     */
 
     public function addProduct(Request $request, $productId)
     {
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'You must log in first.');
+        }
+
         $id = Auth::user()->id;
 
         $basket = Basket::findOrFail(['Customer_ID' => $id]); // update as needed
@@ -78,6 +88,10 @@ class BasketController extends Controller
      */
     public function removeProduct(Request $request, $productId)
     {
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'You must log in first.');
+        }
+
         $id = Auth::user()->id;
 
         $basket = Basket::findOrFail($id);

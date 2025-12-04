@@ -60,7 +60,8 @@ Route::resource('products', ProductController::class);
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Route::post('/products/{product}/feedback', [FeedbackController::class, 'submitFeedback'])->name('feedback.submit');
 
-Route::resource('categories', ProductCategoryController::class)->only(['index', 'show']);
+Route::get('/categories/{category}', [ProductCategoryController::class, 'show'])->name('categories.show');
+
 
 
 // --------------------
