@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $primaryKey = 'Product_ID';
+    protected $table = 'products';
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +20,7 @@ class Product extends Model
         'ProductCategory_ID',
         'Inventory_ID',
         'Price',
-        'ImageURL',
+        'Image_URL',
 
     ];
     /**
@@ -48,6 +51,7 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class, 'Product_ID');
     }
+
     /**
      * Get the feedbacks for the product.
      */

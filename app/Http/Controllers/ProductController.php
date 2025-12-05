@@ -8,18 +8,19 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     /**
-     * Display the specified product.
+     * Display a listing of all products.
      */
-    public function show($id) {
-        $product = Product::find($id);
-        return view('/show', array('product' => $product));
+    public function index() {
+        $products = Product::all();
+        return view('products.index', compact('products'));
     }
 
     /**
-     * Display a listing of all products.
+     * Display a specific product.
      */
-    public function list() {
-        return view('/list', array('products'=>Product::all()));
+    public function show($id) {
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -27,13 +28,9 @@ class ProductController extends Controller
      */
     public function search(Request $request) {
         $query = $request->input('query');
-        $products = Product::where('name', 'LIKE', "%$query%")
-                            ->orWhere('description', 'LIKE', "%$query%")
+        $products = Product::where('Name', 'LIKE', "%$query%")
+                            ->orWhere('Description', 'LIKE', "%$query%")
                             ->get();
         return view('products.search_results', ['products' => $products, 'query' => $query]);
-    }
-
-    public static function orderBy($column, $direction) {
-        return Product::orderBy($column, $direction);
     }
 }
