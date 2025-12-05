@@ -1,71 +1,54 @@
 @extends('layouts.app')
 
+@section('title', 'Products')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/products.css') }}">
+@endsection
+
 @section('content')
-<div class="products-page">
+<div class="page">
 
-    {{-- LEFT FILTERS --}}
-    <aside class="filters">
-        <h3>Filters</h3>
+    <div class="products-page-header">
+        <h1>Products</h1>
+    </div>
 
-        <form method="GET" action="{{ route('products.index') }}">
-            <p><strong>Category</strong></p>
-            @foreach($categories as $cat)
-                <div>
-                    <input 
-                        type="checkbox" 
-                        name="category[]" 
-                        value="{{ $cat->id }}"
-                        {{ in_array($cat->id, request('category', [])) ? 'checked' : '' }}>
-                    {{ $cat->name }}
-                </div>
-            @endforeach
+    @if($products->isEmpty())
+        <p class="no-products">No products found.</p>
+    @else
 
-            <hr>
+        <section class="product-grid" role="list" aria-live="polite">
+            @foreach($products as $product)
+            <article class="product-card" role="listitem">
+                
+                <a class="product-media" 
+                   href="{{ route('products.show', $product->Product_ID) }}"
+                   aria-label="{{ $product->Name }}">
+                    <img src="{{ asset('images/products/' . $product->Image_URL) }}" 
+                         alt="{{ $product->Name }}">
+                </a>
 
-            <p><strong>Price</strong></p>
-            <input type="number" name="min_price" placeholder="Min"> -
-            <input type="number" name="max_price" placeholder="Max">
-
-            <button type="submit">Apply</button>
-        </form>
-    </aside>
-
-
-    {{-- RIGHT PRODUCTS LIST --}}
-    <section class="products-list">
-        <h2>{{ $title ?? 'Products' }}</h2>
-
-        @foreach($products as $product)
-            <div class="product-row">
-
-                {{-- LEFT IMAGE --}}
-                <div class="product-img">
-                    <img src="{{ asset($product->Image_URL) }}">
-                </div>
-
-                {{-- CENTER DESCRIPTION --}}
                 <div class="product-info">
-                    <h3>
-                        <a href="{{ route('products.show', $product->id) }}">
-                            {{ $product->Name }}
-                        </a>
-                    </h3>
-                    <p>{{ $product->Description }}</p>
-                    <p><strong>Category:</strong> {{ $product->category->name }}</p>
+                    <h3 class="product-title">{{ $product->Name }}</h3>
+
+                    <p class="product-desc">
+                        {{ Str::limit($product->Description, 110) }}
+                    </p>
+
+                    <div class="product-meta">
+                        <div class="price">£{{ number_format($product->Price, 2) }}</div>
+                    </div>
+
+                    <a class="product-cta"
+                       href="{{ route('products.show', $product->Product_ID) }}">
+                        View product
+                    </a>
                 </div>
+            </article>
+            @endforeach
+        </section>
 
-                {{-- RIGHT PRICE + BUTTON --}}
-                <div class="product-buy">
-                    <p class="price">£{{ number_format($product->Price, 2) }}</p>
+    @endif
 
-                    <form method="POST" action="{{ route('basket.add', $product->id) }}">
-                        @csrf
-                        <button type="submit">Add to Basket</button>
-                    </form>
-                </div>
-
-            </div>
-        @endforeach
-    </section>
 </div>
 @endsection
