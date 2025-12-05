@@ -16,4 +16,11 @@ class HomeController extends Controller
 
         return view('home/home', compact('categories'));
     }
+
+    public function homepage()
+{
+    return view('home.homepage'); // points to resources/views/homepage.blade.php
+}
+
+
 }
