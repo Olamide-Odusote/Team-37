@@ -37,7 +37,7 @@
         
       <div class="product">
             <div class="product-media">
-                <img src="{{ asset('images/bluetoothspeaker.jpeg') }}" alt="">
+                <img src="{{ asset('images/products/bluetoothspeaker.jpeg') }}" alt="">
             </div>
             <div class="product-info">
                 <p></p>
@@ -48,7 +48,7 @@
 
         <div class="product">
             <div class="product-media">
-                <img src="{{ asset('images/football.jpeg') }}" alt="">
+                <img src="{{ asset('images/products/football.jpeg') }}" alt="">
             </div>
             <div class="product-info">
                 <p></p>
@@ -58,7 +58,7 @@
 
         <div class="product">
             <div class="product-media">
-                <img src="{{ asset('images/hoodie.png') }}" alt="">
+                <img src="{{ asset('images/products/hoodie.png') }}" alt="">
             </div>
             <div class="product-info">
                 <p></p>
