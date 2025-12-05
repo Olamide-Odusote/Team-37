@@ -60,8 +60,8 @@ Route::prefix('auth')->group(function () {
 Route::resource('products', ProductController::class);
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Route::post('/products/{product}/feedback', [FeedbackController::class, 'submitFeedback'])->name('feedback.submit');
-Route::get('/products', [ProductController::class, 'products'])->name('products');
-Route::get('/categories/{category}', [ProductCategoryController::class, 'show'])->name('categories.show');
+
+Route::get('/categories/{$id}', [ProductCategoryController::class, 'show'])->name('categories.show');
 
 
 
