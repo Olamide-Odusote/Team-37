@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!--
+    Main Layout Template
+    Includes navigation bar, footer, and main content area.
+-->
 <head>
     <link rel=preconnect href="https://fonts.googleapis.com">
     <link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +29,7 @@
       <img src="{{ asset('images/OmniCart_Logo.png') }}" class="logo" alt="OmniCart logo - online shopping marketplace">
       </a>
     </div>
-
+<!-- CENTER SEARCH BAR -->
     <div class="nav-center">
         <div class="category">
             <div class="search-container">
@@ -50,6 +53,7 @@
       </div>
     </div>
 
+    <!-- RIGHT NAV ITEMS -->
     <div class="nav-right">
       @auth
         <li class="nav-item dropdown">
@@ -70,10 +74,13 @@
           <a class="signin" href="{{ route('signin') }}">Sign In</a>
         </div>
       @endauth
+      <a href="{{ route('basket.view') }}" class="basket-link">
       <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
+      </a>
     </div>
   </div>
 
+  <!-- BOTTOM NAV LINKS -->
   <div class="nav-bottom">
     <ul class="nav-links">
       <li><a href="{{ route('home') }}">Home</a></li>
@@ -85,6 +92,11 @@
     <!-- MAIN CONTENT -->
 
     <main>
+        @if (session('success'))
+            <div class="success-alert" style="max-width: 900px;margin: 20px auto;background-color: #f0f8f3;border: 1px solid #c3e6cb;padding: 12px;border-radius: 6px;color: #155724;font-family: 'Poppins', sans-serif;">
+                {{ session('success') }}
+            </div>
+        @endif
         @yield('content')
     </main>
 

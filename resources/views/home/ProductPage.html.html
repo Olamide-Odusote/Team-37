@@ -1,0 +1,298 @@
+i need a prodiuct page that looks like this to work<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Products — OmniCart</title>
+
+  <style>
+    /* Reset & Basics */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: #ffffff; /* White background */
+      color: #1e3a8a; /* Dark blue text */
+    }
+
+    /* Container */
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header / Nav */
+    header {
+      background: #ffffff;
+      color: #1e3a8a;
+    }
+    .header-top {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo img {
+      height: 60px;
+      width: auto;
+      display: block;
+    }
+    .header-buttons a {
+      margin-left: 10px;
+      text-decoration: none;
+      color: #1e3a8a;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
+    .header-buttons a:hover { color: #3b82f6; }
+
+    nav {
+      background-color: #1e3a8a; /* dark blue */
+      padding: 10px 20px;
+      text-align: center;
+    }
+    nav a {
+      display: inline-block;
+      margin: 0 8px;
+      padding: 8px 18px;
+      color: #ffffff; /* white text */
+      background: #3b82f6; /* light blue button */
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    nav a:hover { background: #60a5fa; } /* lighter blue on hover */
+
+    /* Page heading */
+    .products-page-header h1 {
+      margin: 0;
+      color: #1e3a8a;
+      font-size: 1.6rem;
+    }
+
+
+    /* Product grid: now a vertical list (one-per-row) */
+    .product-grid {
+      display: flex;
+      flex-direction: column; /* stack items vertically */
+      gap: 18px;
+      justify-content: flex-start;
+      align-items: stretch;
+    }
+
+    /* Product card (Horizontal layout – image on left, text on the right) */
+    .product-card {
+      display: flex; /* horizontal layout */
+      gap: 18px;
+      background-color: #f0f5ff; /* very light blue card */
+      padding: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #3b82f6; /* light blue border */
+      box-shadow: 0 6px 18px rgba(59,130,246,0.12);
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Product media */
+    .product-media {
+      width: 200px; /* image column width */
+      height: 150px;
+      overflow: hidden;
+      display: block;
+      flex: 0 0 200px; /* fixed column in horizontal layout */
+      border-radius: 8px;
+      background: #fff;
+    }
+    .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Product info */
+    .product-info {
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+    .product-title {
+      font-size: 1rem;
+      margin: 0 0 6px 0;
+      color: #1e3a8a; /* dark blue title */
+    }
+    .product-desc {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #1e3a8a; /* dark blue text */
+      min-height: 36px;
+    }
+    .product-meta {
+      display: block; /* ensure this stacks under the description */
+      margin-top: 8px;
+    }
+    .price {
+      color: #3b82f6; /* light blue */
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    /* CTA inside card */
+    .product-cta {
+      display: block;
+      margin-top: 10px;
+      background: #3b82f6; /* light blue button */
+      color: #ffffff;
+      text-align: center;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .product-cta:hover { background: #60a5fa; }
+
+    /* Responsive breakpoints */
+    @media (max-width: 1060px) { /* slightly narrower screens */ }
+    @media (max-width: 760px) {
+      .nav { display: none; }
+      /* convert card to stacked layout on small screens */
+      .product-card { flex-direction: column; align-items: stretch; }
+      .product-media { width: 100%; height: 220px; flex: 0 0 auto; }
+      .product-info { padding: 10px; }
+    }
+    @media (max-width: 420px) { .product-media { height: 240px; } }
+
+    /* Hover and focus states */
+    .product-card:focus-within,
+    .product-card:hover {
+      transform: translateY(-6px);
+      transition: transform 0.12s ease;
+    }
+
+    /* Empty state */
+    .no-products {
+      text-align: center;
+      color: #1e3a8a;
+      padding: 48px 0;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #ffffff;
+      color: #1e3a8a;
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid #3b82f6;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .footer-inner p { margin: 0; color: #1e3a8a; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-top page">
+      <div class="logo">
+        <img src="images/Logo.png" alt="Site logo">
+      </div>
+      <div class="header-buttons">
+        <a class="auth-link" href="">Sign In</a>
+        <a class="auth-link" href="">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+    <a href=""></a>
+  </nav>
+
+  <section class="product-grid" role="list" aria-live="polite">
+    <!-- Repeat the `.product-card` element for each product. We'll insert these server-side (PHP) later. -->
+    <!-- Product 1 -->
+    <article class="product-card" role="listitem">
+      <a class="product-media" href="#" aria-label="Product 1 details">
+        <img src="images/placeholder-product-1.svg" alt="Product 1">
+      </a>
+      <div class="product-info">
+        <h3 class="product-title">Zephyr Wireless Gamepad</h3>
+        <p class="product-desc">Precision and comfort in a compact design — long battery life and low latency.</p>
+        <div class="product-meta">
+          <div class="price">$79.99</div>
+        </div>
+        <a class="product-cta" href="#">View product</a>
+      </div>
+    </article>
+
+    <!-- Product 2 -->
+    <article class="product-card" role="listitem">
+      <a class="product-media" href="#" aria-label="Product 2 details">
+        <img src="images/placeholder-product-2.svg" alt="Product 2">
+      </a>
+      <div class="product-info">
+        <h3 class="product-title">WaveSound X Pro Headset</h3>
+        <p class="product-desc">7.1 surround sound, comfortable fit, detachable mic and strong bass reproduction.</p>
+        <div class="product-meta">
+          <div class="price">$119.99</div>
+        </div>
+        <a class="product-cta" href="#">View product</a>
+      </div>
+    </article>
+
+    <!-- Product 3 -->
+    <article class="product-card" role="listitem">
+      <a class="product-media" href="#" aria-label="Product 3 details">
+        <img src="images/placeholder-product-3.svg" alt="Product 3">
+      </a>
+      <div class="product-info">
+        <h3 class="product-title">Pulsar Phantom VR</h3>
+        <p class="product-desc">Immersive VR experience with fast refresh and ergonomic design for long sessions.</p>
+        <div class="product-meta">
+          <div class="price">$149.99</div>
+        </div>
+        <a class="product-cta" href="#">View product</a>
+      </div>
+    </article>
+
+    <!-- Product 4 -->
+    <article class="product-card" role="listitem">
+      <a class="product-media" href="#" aria-label="Product 4 details">
+        <img src="images/placeholder-product-4.svg" alt="Product 4">
+      </a>
+      <div class="product-info">
+        <h3 class="product-title">Glide Pro Mouse</h3>
+        <p class="product-desc">Ultra-smooth tracking, configurable RGB lighting, and a premium sensor for accuracy.</p>
+        <div class="product-meta">
+          <div class="price">$59.99</div>
+        </div>
+        <a class="product-cta" href="#">View product</a>
+      </div>
+    </article>
+
+  </section>
+
+  <footer>
+    <div class="footer-inner page">
+      <p></p>
+    </div>
+  </footer>
+</body>
+</html>
