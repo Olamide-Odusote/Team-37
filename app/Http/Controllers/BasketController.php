@@ -53,7 +53,7 @@ class BasketController extends Controller
      * Add product to basket or increase quantity
      */
 
-    public function addProduct(Request $request, $productId)
+    public function addToBasket(Request $request, $productId)
     {
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'You must log in first.');
@@ -86,7 +86,7 @@ class BasketController extends Controller
     /**
      * Remove or decrease product quantity
      */
-    public function removeProduct(Request $request, $productId)
+    public function removeFromBasket(Request $request, $productId)
     {
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'You must log in first.');
