@@ -23,11 +23,30 @@
 <section class="categories-section">
     <h2>Browse by Category</h2>
     <div class="categories-grid">
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/Laptop.png') }}" alt=""></div><span>Computers & Accessories</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/wardrobe.png') }}" alt=""></div><span>Wardrobe</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/sport.png') }}" alt=""></div><span>Sports</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/education.png') }}" alt=""></div><span>Education & Equipment</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/ph.png') }}" alt=""></div><span>Personal Healthcare</span></a>
+        <a class="cat" href="{{ route('categories.show', 1) }}">
+    <div class="cat-icon"><img src="{{ asset('images/Laptop.png') }}" alt=""></div>
+    <span>Computers & Accessories</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 2) }}">
+    <div class="cat-icon"><img src="{{ asset('images/wardrobe.png') }}" alt=""></div>
+    <span>Wardrobe</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 3) }}">
+    <div class="cat-icon"><img src="{{ asset('images/sport.png') }}" alt=""></div>
+    <span>Sports</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 4) }}">
+    <div class="cat-icon"><img src="{{ asset('images/education.png') }}" alt=""></div>
+    <span>Education & Equipment</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 5) }}">
+    <div class="cat-icon"><img src="{{ asset('images/ph.png') }}" alt=""></div>
+    <span>Personal Healthcare</span>
+</a>
     </div>
 </section>
 

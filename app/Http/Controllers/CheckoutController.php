@@ -6,27 +6,28 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Show the checkout page.
-     */
     public function index()
     {
-        return view('checkout/index');
+        // Checkout page logic here
+        return view('checkout');
     }
 
-    /**
-     * Show the order confirmation page.
-     */
-    public function confirm()
+    public function showCheckoutForm()
     {
-        return view('checkout/confirm');
+        return view('checkout');
+    }   
+
+    public function success()
+    {
+        // Order success page logic here
+        return view('order.success');
     }
 
-    /**
-     * Show the payment page.
-     */
-    public function payment()
+    public function process(Request $request)
     {
-        return view('checkout/payment');
+        // Process checkout logic here
+        // e.g., validate request, create order, process payment, etc.
+
+        return redirect()->route('order.success');
     }
 }
