@@ -16,8 +16,7 @@ class FinalOrderController extends Controller
     public function index()
     {
 
-        $orders = FinalOrder::all()
-            ->with([
+        $orders = FinalOrder::with([
                 'items.product'   
             ])
             ->orderBy('Date', 'desc')

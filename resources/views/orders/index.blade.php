@@ -12,7 +12,7 @@
 
 <header>
     <!-- Insert navbar here -->
-    @include('layouts.navbar') {{-- Assuming you have a navbar layout --}}
+    @include('layouts.app')
 </header>
 
 <div class="wrapper">
