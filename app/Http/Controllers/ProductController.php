@@ -65,44 +65,32 @@ class ProductController extends Controller
     /**
      * Search for products based on a query.
      */
-    public function search(Request $request) {
-        $query = $request->input('query', '');
-        $products = Product::query();
+    public function search(Request $request)
+{
+    $query = trim($request->input('query'));
+    $category = $request->input('category');
 
-        // Search by name or description
-        if (!empty($query)) {
-            $products->where(function($q) use ($query) {
-                $q->where('Name', 'LIKE', "%$query%")
-                  ->orWhere('Description', 'LIKE', "%$query%");
-            });
-        }
-
-        // Category filtering via query string: ?category=ID
-        $categoryFilter = $request->query('category');
-        if ($categoryFilter && is_numeric($categoryFilter)) {
-            $products->where('ProductCategory_ID', (int)$categoryFilter);
-        }
-
-        // Price filtering via query string: ?min=10&max=50
-        $min = $request->query('min');
-        $max = $request->query('max');
-        if ($min !== null && $max !== null) {
-            if (is_numeric($min) && is_numeric($max)) {
-                $products->whereBetween('Price', [(float)$min, (float)$max]);
-            }
-        } elseif ($min !== null) {
-            if (is_numeric($min)) {
-                $products->where('Price', '>=', (float)$min);
-            }
-        } elseif ($max !== null) {
-            if (is_numeric($max)) {
-                $products->where('Price', '<=', (float)$max);
-            }
-        }
-
-        // Paginate results and preserve query string
-        $products = $products->paginate(12)->withQueryString();
-
-        return view('products.search', compact('products', 'query'));
+    // CASE 1: No search text AND no category → go to /products
+    if ($query === '' && empty($category)) {
+        return redirect()->route('products.index');
     }
+
+    // CASE 2: Category only (no text)
+    if ($query === '' && !empty($category)) {
+        return redirect()->route('categories.show', $category);
+    }
+
+    // CASE 3: Search text exists → perform search
+    $products = Product::query()
+        ->when($query, function ($q) use ($query) {
+            $q->where('Name', 'LIKE', "%{$query}%");
+        })
+        ->when($category, function ($q) use ($category) {
+            $q->where('ProductCategory_ID', $category);
+        })
+        ->get();
+
+    return view('products.search', compact('products', 'query'));
+}
+
 }

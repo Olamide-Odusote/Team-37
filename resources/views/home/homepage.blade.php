@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
-<link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+@section('title', 'OmniCart - Home')
 
-<header>
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+@endsection
+
+@section('content')
 
 <section class="hero">
     <div class="hero-inner">
