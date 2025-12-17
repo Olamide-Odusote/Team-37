@@ -58,24 +58,25 @@
     <!-- RIGHT NAV ITEMS -->
     <div class="nav-right">
       @auth
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ Auth::user()->username }}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <form action="{{ route('signout.post') }}" method="POST">
-                @csrf
-                <button type="submit" class="dropdown-item">Sign Out</button>
-              </form>
-            </li>
-          </ul>
-        </li>
-      @else
-        <div class="nav-item">
-          <a class="signin" href="{{ route('signin') }}">Sign In</a>
+      <div class="nav-item user-dropdown">
+        <button class="user-btn">
+          {{ Auth::user()->name }}
+          <span class="caret">▼</span>
+        </button>
+
+        <div class="user-menu">
+          <form action="{{ route('signout.post') }}" method="POST">
+            @csrf
+            <button type="submit" class="dropdown-item">Sign Out</button>
+          </form>
         </div>
+      </div>
+      @else
+      <div class="nav-item">
+        <a class="signin" href="{{ route('signin') }}">Sign In</a>
+      </div>
       @endauth
+
       <a href="{{ route('basket.view') }}" class="basket-link">
       <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
       </a>
@@ -116,6 +117,7 @@
     </footer>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             const categoryBtn = document.getElementById('categoryBtn');
             const categoryDropdown = document.getElementById('categoryDropdown');
