@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Admin extends Authenticatable 
 {
+
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -15,6 +19,11 @@ class Admin extends Model
         'Name',
         'Email',
         'Password',
+    ];
+
+    protected $hidden = [
+        'Password',
+        'remember_token',
     ];
     /**
      * Get the inventory logs for the admin.

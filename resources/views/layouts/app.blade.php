@@ -78,7 +78,13 @@
       @endauth
 
       <a href="{{ route('basket.view') }}" class="basket-link">
-      <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
+        <div class="basket-wrapper">
+            <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
+            <span class="basket-count">
+                {{ session('basket') ? count(session('basket')) : 0 }}
+            </span>
+        </div>
+
       </a>
     </div>
   </div>

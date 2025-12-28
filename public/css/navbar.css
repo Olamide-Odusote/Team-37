@@ -193,6 +193,23 @@
     display: block;
 }
 
+.basket-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.basket-count {
+    position: absolute;
+    top: 61.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    color: #0055c0;
+    font-size: 13px;
+    font-weight: bold;
+    pointer-events: none;
+}
+
 
 body { font-family: 'Poppins', sans-serif; }
 
