@@ -7,48 +7,64 @@
 @endsection
 
 @section('content')
-<div class="page">
+<div class="products-page">
 
-    <div class="products-page-header">
-        <h1>Products</h1>
-    </div>
+    @php
+        $curMin = request()->query('min');
+        $curMax = request()->query('max');
+        $curCategory = request()->query('category');
+    @endphp
 
-    @if($products->isEmpty())
-        <p class="no-products">No products found.</p>
-    @else
+    {{-- LEFT FILTERS --}}
+    @include('partials.filters')
 
-        <section class="product-grid" role="list" aria-live="polite">
+
+    {{-- RIGHT PRODUCT LIST --}}
+    <section class="product-results">
+
+        <h2>Results</h2>
+
+        
+
+        @if($products->isEmpty())
+            <p>No results found.</p>
+        @else
             @foreach($products as $product)
-            <article class="product-card" role="listitem">
-                
-                <a class="product-media" 
-                   href="{{ route('products.show', $product->Product_ID) }}"
-                   aria-label="{{ $product->Name }}">
-                    <img src="{{ asset('images/products/' . $product->Image_URL) }}" 
-                         alt="{{ $product->Name }}">
-                </a>
+                <div class="product-row">
 
-                <div class="product-info">
-                    <h3 class="product-title">{{ $product->Name }}</h3>
-
-                    <p class="product-desc">
-                        {{ Str::limit($product->Description, 110) }}
-                    </p>
-
-                    <div class="product-meta">
-                        <div class="price">£{{ number_format($product->Price, 2) }}</div>
+                    <div class="product-image">
+                        <a href="{{ route('products.show', $product->Product_ID) }}">
+                            <img src="{{ asset('images/products/' . $product->Image_URL) }}" 
+                                 alt="{{ $product->Name }}">
+                        </a>
                     </div>
 
-                    <a class="product-cta"
-                       href="{{ route('products.show', $product->Product_ID) }}">
-                        View product
-                    </a>
-                </div>
-            </article>
-            @endforeach
-        </section>
+                    <div class="product-details">
+                        <h3><a href="{{ route('products.show', $product->Product_ID) }}">{{ $product->Name }}</a></h3>
 
-    @endif
+                        <p class="desc">
+                            {{ Str::limit($product->Description, 85) }}
+                        </p>
+
+                        <p class="price">£{{ number_format($product->Price, 2) }}</p>
+
+                        <div class="meta-row">
+                            <a class="view-btn" href="{{ route('products.show', $product->Product_ID) }}">View product</a>
+                            <form action="{{ route('basket.add', $product->Product_ID) }}" method="POST" style="display:contents;">
+                                @csrf
+                                <button type="submit" class="add-basket">Add to basket</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <div style="text-align: center;">
+                {!! $products->links() !!}
+            </div>
+        @endif
+
+    </section>
 
 </div>
 @endsection

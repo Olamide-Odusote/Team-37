@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
-<link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+@section('title', 'OmniCart - Home')
 
-<header>
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+@endsection
+
+@section('content')
 
 <section class="hero">
     <div class="hero-inner">
@@ -23,11 +25,30 @@
 <section class="categories-section">
     <h2>Browse by Category</h2>
     <div class="categories-grid">
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/Laptop.png') }}" alt=""></div><span>Computers & Accessories</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/wardrobe.png') }}" alt=""></div><span>Wardrobe</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/sport.png') }}" alt=""></div><span>Sports</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/education.png') }}" alt=""></div><span>Education & Equipment</span></a>
-        <a class="cat" href=""><div class="cat-icon"><img src="{{ asset('images/ph.png') }}" alt=""></div><span>Personal Healthcare</span></a>
+        <a class="cat" href="{{ route('categories.show', 1) }}">
+    <div class="cat-icon"><img src="{{ asset('images/Laptop.png') }}" alt=""></div>
+    <span>Computers & Accessories</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 2) }}">
+    <div class="cat-icon"><img src="{{ asset('images/wardrobe.png') }}" alt=""></div>
+    <span>Wardrobe</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 3) }}">
+    <div class="cat-icon"><img src="{{ asset('images/sport.png') }}" alt=""></div>
+    <span>Sports</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 4) }}">
+    <div class="cat-icon"><img src="{{ asset('images/education.png') }}" alt=""></div>
+    <span>Education & Equipment</span>
+</a>
+
+<a class="cat" href="{{ route('categories.show', 5) }}">
+    <div class="cat-icon"><img src="{{ asset('images/ph.png') }}" alt=""></div>
+    <span>Personal Healthcare</span>
+</a>
     </div>
 </section>
 
@@ -41,7 +62,7 @@
             </div>
             <div class="product-info">
                 <p></p>
-                <p class="price">$35</p>
+                <p class="price">£35</p>
             </div>
         </div>
 
@@ -52,7 +73,7 @@
             </div>
             <div class="product-info">
                 <p></p>
-                <p class="price">$20</p>
+                <p class="price">£20</p>
             </div>
         </div>
 
@@ -62,7 +83,7 @@
             </div>
             <div class="product-info">
                 <p></p>
-                <p class="price">$70</p>
+                <p class="price">£70</p>
             </div>
         </div>
     </div>

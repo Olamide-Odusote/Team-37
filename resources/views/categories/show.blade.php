@@ -1,36 +1,58 @@
 @extends('layouts.app')
 
-@section('title', $category->CategoryName)
+@section('title', ($category->Name ?? 'Category'))
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/products.css') }}">
+@endsection
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/product-index.css') }}">
 
-<h1 style="margin: 20px 0; text-align:center;">
-    {{ $category->CategoryName }}
-</h1>
+<div class="products-page">
 
-@if ($products->count() == 0)
-    <p style="text-align:center;">No products found in this category.</p>
-@endif
+{{-- LEFT FILTERS --}}
+@include('partials.filters')
 
-<div class="product-grid">
-    @foreach ($products as $product)
-        <div class="product-card">
-            <a href="{{ route('products.show', $product->Product_ID) }}" class="product-media">
-                <img src="{{ asset('images/products/' . $product->Image_URL) }}" alt="{{ $product->Name }}">
-            </a>
 
-            <div class="product-info">
-                <h3 class="product-title">{{ $product->Name }}</h3>
-                <p class="product-desc">{{ \Illuminate\Support\Str::limit($product->Description, 100) }}</p>
+    {{-- RIGHT: Product list for this category --}}
+    <section class="product-results">
+        <h2>Products in {{ $category->Name }} </h2>
 
-                <div class="price">£{{ number_format($product->Price, 2) }}</div>
+        @if($products->isEmpty())
+            <p>No results found.</p>
+        @else
+            @foreach($products as $product)
+                <div class="product-row">
 
-                <a class="product-cta" href="{{ route('products.show', $product->Product_ID) }}">
-                    View Product
-                </a>
-            </div>
-        </div>
-    @endforeach
+                    <div class="product-image">
+                        <a href="{{ route('products.show', $product->Product_ID) }}">
+                            <img src="{{ asset('images/products/' . $product->Image_URL) }}" alt="{{ $product->Name }}">
+                        </a>
+                    </div>
+
+                    <div class="product-details">
+                        <h3><a href="{{ route('products.show', $product->Product_ID) }}">{{ $product->Name }}</a></h3>
+
+                        <p class="desc">{{ Str::limit($product->Description ?? '', 85) }}</p>
+
+                        <p class="price">£{{ number_format($product->Price, 2) }}</p>
+
+                        <div class="meta-row">
+                            <a class="view-btn" href="{{ route('products.show', $product->Product_ID) }}">View product</a>
+                            <form action="{{ route('basket.add', $product->Product_ID) }}" method="POST" style="display:contents;">
+                                @csrf
+                                <button type="submit" class="add-basket">Add to basket</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <div style="text-align:center;">{!! $products->links() !!}</div>
+        @endif
+
+    </section>
+
 </div>
+
 @endsection
