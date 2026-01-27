@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+
+class Admin extends Authenticatable 
+{
+
+    use Notifiable;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'Name',
+        'Email',
+        'Password',
+    ];
+
+    protected $hidden = [
+        'Password',
+        'remember_token',
+    ];
+    /**
+     * Get the inventory logs for the admin.
+     */
+    public function inventoryLogs()
+    {
+        return $this->hasMany(InventoryLog::class, 'Admin_ID');
+    }
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+}
