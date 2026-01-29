@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,13 +50,14 @@ class BasketController extends Controller
         }
 
         $basket_products = $basket->basketProducts()->with('product')->get();
-        $basket_size = $basket_products->sum('quantity');
+        $basket_size = $basket_products->sum('Quantity');
 
-        return view('basket.view', compact(
-            'basket',
-            'basket_products',
-            'basket_size'
-        ) + ['need_login' => false]);
+        return view('basket.view', [
+            'basket' => $basket,
+            'basket_products' => $basket_products,
+            'basket_size' => $basket_size,
+            'need_login' => false
+        ]);
     }
 
     /**
@@ -71,7 +73,14 @@ class BasketController extends Controller
         $customer = $user->customer;
 
         if (!$customer) {
-            return redirect()->back()->with('error', 'Customer profile not found.');
+            // Create customer record if it doesn't exist
+            $customer = Customer::create([
+                'user_id'   => $user->id,
+                'Name'      => $user->name,
+                'Email'     => $user->email,
+                'Password'  => $user->password,
+                'Mobile Number' => 0,
+            ]);
         }
 
         // Get or create basket
@@ -88,11 +97,11 @@ class BasketController extends Controller
 
         if ($existing) {
             $basket->products()->updateExistingPivot($productId, [
-                'quantity' => $existing->pivot->quantity + $qty
+                'Quantity' => $existing->pivot->Quantity + $qty
             ]);
         } else {
             $basket->products()->attach($productId, [
-                'quantity' => $qty
+                'Quantity' => $qty
             ]);
         }
 
@@ -112,7 +121,14 @@ class BasketController extends Controller
         $customer = $user->customer;
 
         if (!$customer) {
-            return redirect()->back()->with('error', 'Customer profile not found.');
+            // Create customer record if it doesn't exist
+            $customer = Customer::create([
+                'user_id'   => $user->id,
+                'Name'      => $user->name,
+                'Email'     => $user->email,
+                'Password'  => $user->password,
+                'Mobile Number' => 0,
+            ]);
         }
 
         $basket = Basket::where('Customer_ID', $customer->Customer_ID)->first();
@@ -129,13 +145,13 @@ class BasketController extends Controller
             return redirect()->back()->with('warning', 'Product not in basket.');
         }
 
-        $newQty = $product->pivot->quantity - 1;
+        $newQty = $product->pivot->Quantity - 1;
 
         if ($newQty <= 0) {
             $basket->products()->detach($productId);
         } else {
             $basket->products()->updateExistingPivot($productId, [
-                'quantity' => $newQty
+                'Quantity' => $newQty
             ]);
         }
 
