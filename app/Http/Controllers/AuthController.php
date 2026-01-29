@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -60,6 +61,15 @@ class AuthController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+
+        // Create corresponding customer record
+        Customer::create([
+            'user_id'   => $user->id,
+            'Name'      => $request->name,
+            'Email'     => $request->email,
+            'Password'  => Hash::make($request->password),
+            'Mobile Number' => 0,
         ]);
 
         Auth::login($user);

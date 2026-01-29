@@ -81,7 +81,20 @@
         <div class="basket-wrapper">
             <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
             <span class="basket-count">
-                {{ session('basket') ? count(session('basket')) : 0 }}
+                @auth
+                    @php
+                        $basketCount = 0;
+                        if (Auth::user()->customer) {
+                            $basket = \App\Models\Basket::where('Customer_ID', Auth::user()->customer->Customer_ID)->first();
+                            if ($basket) {
+                                $basketCount = $basket->basketProducts()->sum('Quantity');
+                            }
+                        }
+                    @endphp
+                    {{ $basketCount }}
+                @else
+                    0
+                @endauth
             </span>
         </div>
 
