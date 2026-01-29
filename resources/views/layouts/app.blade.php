@@ -12,6 +12,7 @@
      <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('css/about.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    @yield('styles')
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}">
     <!-- bootstrap css -->
     <meta charset="UTF-8">
@@ -38,17 +39,18 @@
                     <span class="category-arrow">▼</span>
                 </button>
                 <div class="category-dropdown" id="categoryDropdown" style="display: none;">
-                    <div class="category-option" data-value="all">All</div>
-                    <div class="category-option" data-value="computers-and-accessories">Computers & Accessories</div>
-                    <div class="category-option" data-value="wardobe">Wardrobe</div>
-                    <div class="category-option" data-value="sports">Sports</div>
-                    <div class="category-option" data-value="education-and-equipment">Education & Equipment</div>
-                    <div class="category-option" data-value="personal-healthcare">Personal Healthcare</div>
+                    <div class="category-option" data-value="all" data-name="All" style="display: block; padding: 10px 15px; text-decoration: none; color: #fff; cursor: pointer; border-bottom: 1px solid #0044aa; background: #0055C0;">All Products</div>
+                    @foreach(\App\Models\ProductCategory::all() as $cat)
+                        <div class="category-option" data-value="{{ $cat->ProductCategory_ID }}" data-name="{{ $cat->Name }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #fff; cursor: pointer; border-bottom: 1px solid #0044aa; background: #0055C0;">{{ $cat->Name }}</div>
+                    @endforeach
                 </div>
-        <input type="text" class="search-input" placeholder="Search OmniCart" aria-label="Search OmniCart">
-        <button class="search-btn" aria-label="Search">
-          <img src="{{ asset('images/search_icon.png') }}" class="search-icon" alt="">
-        </button>
+        <form method="GET" action="{{ route('products.search') }}" style="display: flex; flex: 1; gap: 0;">
+            <input type="text" class="search-input" name="query" placeholder="Search OmniCart" aria-label="Search OmniCart">
+            <input type="hidden" name="category" id="categoryInput" value="">
+            <button type="submit" class="search-btn" aria-label="Search">
+                <img src="{{ asset('images/search_icon.png') }}" class="search-icon" alt="">
+            </button>
+        </form>
       </div>
       </div>
     </div>
@@ -56,26 +58,33 @@
     <!-- RIGHT NAV ITEMS -->
     <div class="nav-right">
       @auth
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ Auth::user()->username }}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <form action="{{ route('signout.post') }}" method="POST">
-                @csrf
-                <button type="submit" class="dropdown-item">Sign Out</button>
-              </form>
-            </li>
-          </ul>
-        </li>
-      @else
-        <div class="nav-item">
-          <a class="signin" href="{{ route('signin') }}">Sign In</a>
+      <div class="nav-item user-dropdown">
+        <button class="user-btn">
+          {{ Auth::user()->name }}
+          <span class="caret">▼</span>
+        </button>
+
+        <div class="user-menu">
+          <form action="{{ route('signout.post') }}" method="POST">
+            @csrf
+            <button type="submit" class="dropdown-item">Sign Out</button>
+          </form>
         </div>
+      </div>
+      @else
+      <div class="nav-item">
+        <a class="signin" href="{{ route('signin') }}">Sign In</a>
+      </div>
       @endauth
+
       <a href="{{ route('basket.view') }}" class="basket-link">
-      <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
+        <div class="basket-wrapper">
+            <img src="{{ asset('images/cart.png') }}" class="basket-icon" alt="Cart">
+            <span class="basket-count">
+                {{ session('basket') ? count(session('basket')) : 0 }}
+            </span>
+        </div>
+
       </a>
     </div>
   </div>
@@ -114,17 +123,13 @@
     </footer>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             const categoryBtn = document.getElementById('categoryBtn');
             const categoryDropdown = document.getElementById('categoryDropdown');
             const categoryOptions = document.querySelectorAll('.category-option');
             const categoryText = document.querySelector('.category-text');
-
-            // Function to adjust button width based on text
-            function adjustButtonWidth() {
-                categoryBtn.style.width = 'auto';
-                categoryBtn.style.minWidth = '70px';
-            }
+            const categoryInput = document.getElementById('categoryInput');
 
             // Toggle dropdown on button click
             categoryBtn.addEventListener('click', function(e) {
@@ -132,18 +137,38 @@
                 categoryDropdown.style.display = categoryDropdown.style.display === 'none' ? 'block' : 'none';
             });
 
-            // Handle option selection
+            // Handle category selection
             categoryOptions.forEach(option => {
                 option.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const value = this.getAttribute('data-value');
-                    const text = this.textContent;
-                    categoryText.textContent = text;
-                    adjustButtonWidth();
+                    const name = this.getAttribute('data-name');
+                    categoryText.textContent = name;
+                    
+                    // Set the hidden form field for search
+                    if (value === 'all') {
+                        categoryInput.value = '';
+                    } else {
+                        categoryInput.value = value;
+                    }
+                    
+                    sessionStorage.setItem('selectedCategory', value);
+                    sessionStorage.setItem('selectedCategoryName', name);
                     categoryDropdown.style.display = 'none';
-                    // Optionally: dispatch a change event or send form data
                 });
             });
+
+            // Restore selected category on page load
+            const savedCategory = sessionStorage.getItem('selectedCategoryName');
+            const savedCategoryId = sessionStorage.getItem('selectedCategory');
+            if (savedCategory) {
+                categoryText.textContent = savedCategory;
+                if (savedCategoryId && savedCategoryId !== 'all') {
+                    categoryInput.value = savedCategoryId;
+                } else {
+                    categoryInput.value = '';
+                }
+            }
 
             // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
@@ -151,9 +176,6 @@
                     categoryDropdown.style.display = 'none';
                 }
             });
-
-            // Initialize button width on load
-            adjustButtonWidth();
         });
     </script>
 

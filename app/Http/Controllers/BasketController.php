@@ -9,74 +9,90 @@ use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
-
-    public function viewBasket()
-{
-    // Check if user is NOT logged in
-    if (!Auth::check()) {
-        return view('basket.view', [
-            'basket_size' => 0,
-            'products' => [],
-            'basket_products' => [],
-            'basket' => null,
-            'need_login' => true
-        ]);
-    }
-
-    // If logged in, proceed
-    $id = Auth::user()->id;
-
-    $basket = Basket::where('Customer_ID', $id)->first();
-
-    if (!$basket) {
-        return view('basket.view', [
-            'basket_size' => 0,
-            'products' => [],
-            'basket_products' => [],
-            'basket' => null,
-            'need_login' => false
-        ]);
-    }
-
-    $basket_size = $basket->products()->count();
-    $products = $basket->products()->with('basketProducts')->get();
-    $basket_products = $basket->basketProducts()->with('product')->get();
-
-    return view('basket', compact(
-        'basket.view',
-        'basket_size',
-        'products',
-        'basket_products'
-    ) + ['need_login' => false]);
-}
     /**
-     * Add product to basket or increase quantity
+     * Show basket page
      */
+    public function viewBasket()
+    {
+        // Not logged in
+        if (!Auth::check()) {
+            return view('basket.view', [
+                'basket' => null,
+                'basket_products' => [],
+                'basket_size' => 0,
+                'need_login' => true
+            ]);
+        }
 
-    public function addProduct(Request $request, $productId)
+        $user = Auth::user();
+        $customer = $user->customer;
+
+        // User exists but no customer profile
+        if (!$customer) {
+            return view('basket.view', [
+                'basket' => null,
+                'basket_products' => [],
+                'basket_size' => 0,
+                'need_login' => false
+            ]);
+        }
+
+        $basket = Basket::where('Customer_ID', $customer->Customer_ID)->first();
+
+        if (!$basket) {
+            return view('basket.view', [
+                'basket' => null,
+                'basket_products' => [],
+                'basket_size' => 0,
+                'need_login' => false
+            ]);
+        }
+
+        $basket_products = $basket->basketProducts()->with('product')->get();
+        $basket_size = $basket_products->sum('quantity');
+
+        return view('basket.view', compact(
+            'basket',
+            'basket_products',
+            'basket_size'
+        ) + ['need_login' => false]);
+    }
+
+    /**
+     * Add product to basket
+     */
+    public function addToBasket(Request $request, $productId)
     {
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'You must log in first.');
         }
 
-        $id = Auth::user()->id;
+        $user = Auth::user();
+        $customer = $user->customer;
 
-        $basket = Basket::findOrFail(['Customer_ID' => $id]); // update as needed
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Customer profile not found.');
+        }
+
+        // Get or create basket
+        $basket = Basket::firstOrCreate([
+            'Customer_ID' => $customer->Customer_ID
+        ]);
+
         $product = Product::findOrFail($productId);
+        $qty = max(1, (int) $request->input('qty', 1));
 
-        $current = $basket->products()
-            ->where('Product_ID', $productId)
+        $existing = $basket->products()
+            ->where('products.Product_ID', $productId)
             ->first();
 
-        if ($current) {
-            // If already in basket, increase quantity
+        if ($existing) {
             $basket->products()->updateExistingPivot($productId, [
-                'quantity' => $current->pivot->quantity + 1,
+                'quantity' => $existing->pivot->quantity + $qty
             ]);
         } else {
-            // If not in basket, create pivot entry
             $basket->products()->attach($productId, [
-                'quantity' => 1,
+                'quantity' => $qty
             ]);
         }
 
@@ -84,39 +100,45 @@ class BasketController extends Controller
     }
 
     /**
-     * Remove or decrease product quantity
+     * Remove or decrease quantity
      */
-    public function removeProduct(Request $request, $productId)
+    public function removeFromBasket($productId)
     {
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'You must log in first.');
         }
 
-        $id = Auth::user()->id;
+        $user = Auth::user();
+        $customer = $user->customer;
 
-        $basket = Basket::findOrFail($id);
-        $product = Product::findOrFail($productId);
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Customer profile not found.');
+        }
 
-        $pivot = $basket->products()
-            ->where('Product_ID', $productId)
+        $basket = Basket::where('Customer_ID', $customer->Customer_ID)->first();
+
+        if (!$basket) {
+            return redirect()->back()->with('warning', 'Basket not found.');
+        }
+
+        $product = $basket->products()
+            ->where('products.Product_ID', $productId)
             ->first();
 
-        if (!$pivot) {
+        if (!$product) {
             return redirect()->back()->with('warning', 'Product not in basket.');
         }
 
-        $newQty = $pivot->pivot->quantity - 1;
+        $newQty = $product->pivot->quantity - 1;
 
         if ($newQty <= 0) {
-            // Remove pivot row entirely
             $basket->products()->detach($productId);
         } else {
-            // Decrease quantity
             $basket->products()->updateExistingPivot($productId, [
-                'quantity' => $newQty,
+                'quantity' => $newQty
             ]);
         }
 
-        return redirect()->back()->with('success', 'Product updated.');
+        return redirect()->back()->with('success', 'Basket updated.');
     }
 }

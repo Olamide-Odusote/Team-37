@@ -2,26 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
-class ProductCategoryController extends Controller
-{
+class ProductCategoryController extends Controller{
+
     /**
-     * Show the list of all categories
+     * Display products under a specific category.
      */
-    public function index()
-    {
+    public function show($id) {
+        
+        $category = ProductCategory::findOrFail($id);
+        
+        $products = Product::where('ProductCategory_ID', $id)->paginate(12);
+        
+        $categories = ProductCategory::all(); 
+        
+        return view('categories.show', compact(
+            'category',
+            'products',
+            'categories'
+        ));
+    }
+
+
+    /**
+     * Display a listing of all categories.
+     */
+    public function index() {
         $categories = ProductCategory::all();
         return view('categories.index', compact('categories'));
     }
 
-    /**
-     * Show category by ID
-     */
-    public function show($id)
-    {
-        $category = ProductCategory::findOrFail($id);
-        return view('categories.show', compact('category'));
-    }
+
 }

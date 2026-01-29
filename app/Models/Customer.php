@@ -6,12 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
+    protected $primayKey = 'Customer_ID';
+
     protected $fillable = [
         'Name',
         'Email',
         'Password',
         'Mobile_Number',
     ];
+
+    /**
+     *  Get the User 
+     */
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     /* Password hash for serialisation */
 
@@ -29,9 +38,9 @@ class Customer extends Model
     /**
      * Get the baskets for the customer.
      */
-    public function baskets()
+    public function basket()
     {
-        return $this->hasMany(Basket::class, 'Customer_ID');
+        return $this->hasOne(Basket::class, 'Customer_ID', 'Customer_ID');
     }
     /**
      * Get the orders for the customer.

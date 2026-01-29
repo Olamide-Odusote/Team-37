@@ -23,7 +23,7 @@ use App\Http\Controllers\ReturnRequestController;
 // --------------------
 // Public Pages
 // --------------------
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'homepage'])->name('home');
 Route::get('/about', [ContactController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
@@ -56,8 +56,8 @@ Route::prefix('auth')->group(function () {
 // --------------------
 // Products & Categories
 // --------------------
-Route::resource('products', ProductController::class);
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+Route::resource('products', ProductController::class);
 Route::post('/products/{product}/feedback', [FeedbackController::class, 'submitFeedback'])->name('feedback.submit');
 
 Route::get('/categories/{category}', [ProductCategoryController::class, 'show'])->name('categories.show');

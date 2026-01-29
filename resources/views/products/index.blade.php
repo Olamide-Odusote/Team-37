@@ -1,71 +1,70 @@
 @extends('layouts.app')
 
+@section('title', 'Products')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/products.css') }}">
+@endsection
+
 @section('content')
 <div class="products-page">
 
-    {{-- LEFT FILTERS --}}
-    <aside class="filters">
-        <h3>Filters</h3>
+    @php
+        $curMin = request()->query('min');
+        $curMax = request()->query('max');
+        $curCategory = request()->query('category');
+    @endphp
 
-        <form method="GET" action="{{ route('products.index') }}">
-            <p><strong>Category</strong></p>
-            @foreach($categories as $cat)
-                <div>
-                    <input 
-                        type="checkbox" 
-                        name="category[]" 
-                        value="{{ $cat->id }}"
-                        {{ in_array($cat->id, request('category', [])) ? 'checked' : '' }}>
-                    {{ $cat->name }}
+    {{-- LEFT FILTERS --}}
+    @include('partials.filters')
+
+
+    {{-- RIGHT PRODUCT LIST --}}
+    <section class="product-results">
+
+        <h2>Results</h2>
+
+        
+
+        @if($products->isEmpty())
+            <p>No results found.</p>
+        @else
+            @foreach($products as $product)
+                <div class="product-row">
+
+                    <div class="product-image">
+                        <a href="{{ route('products.show', $product->Product_ID) }}">
+                            <img src="{{ asset('images/products/' . $product->Image_URL) }}" 
+                                 alt="{{ $product->Name }}">
+                        </a>
+                    </div>
+
+                    <div class="product-details">
+                        <h3><a href="{{ route('products.show', $product->Product_ID) }}">{{ $product->Name }}</a></h3>
+
+                        <p class="desc">
+                            {{ Str::limit($product->Description, 85) }}
+                        </p>
+
+                        <p class="price">£{{ number_format($product->Price, 2) }}</p>
+
+                        <div class="meta-row">
+                            <a class="view-btn" href="{{ route('products.show', $product->Product_ID) }}">View product</a>
+                            <form action="{{ route('basket.add', $product->Product_ID) }}" method="POST" style="display:contents;">
+                                @csrf
+                                <button type="submit" class="add-basket">Add to basket</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             @endforeach
 
-            <hr>
-
-            <p><strong>Price</strong></p>
-            <input type="number" name="min_price" placeholder="Min"> -
-            <input type="number" name="max_price" placeholder="Max">
-
-            <button type="submit">Apply</button>
-        </form>
-    </aside>
-
-
-    {{-- RIGHT PRODUCTS LIST --}}
-    <section class="products-list">
-        <h2>{{ $title ?? 'Products' }}</h2>
-
-        @foreach($products as $product)
-            <div class="product-row">
-
-                {{-- LEFT IMAGE --}}
-                <div class="product-img">
-                    <img src="{{ asset($product->Image_URL) }}">
-                </div>
-
-                {{-- CENTER DESCRIPTION --}}
-                <div class="product-info">
-                    <h3>
-                        <a href="{{ route('products.show', $product->id) }}">
-                            {{ $product->Name }}
-                        </a>
-                    </h3>
-                    <p>{{ $product->Description }}</p>
-                    <p><strong>Category:</strong> {{ $product->category->name }}</p>
-                </div>
-
-                {{-- RIGHT PRICE + BUTTON --}}
-                <div class="product-buy">
-                    <p class="price">£{{ number_format($product->Price, 2) }}</p>
-
-                    <form method="POST" action="{{ route('basket.add', $product->id) }}">
-                        @csrf
-                        <button type="submit">Add to Basket</button>
-                    </form>
-                </div>
-
+            <div style="text-align: center;">
+                {!! $products->links() !!}
             </div>
-        @endforeach
+        @endif
+
     </section>
+
 </div>
 @endsection
