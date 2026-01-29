@@ -62,7 +62,7 @@
             </div>
             <div class="product-info">
                 <p></p>
-                <p class="price">$35</p>
+                <p class="price">£35</p>
             </div>
         </div>
 
@@ -73,7 +73,7 @@
             </div>
             <div class="product-info">
                 <p></p>
-                <p class="price">$20</p>
+                <p class="price">£20</p>
             </div>
         </div>
 
@@ -83,7 +83,7 @@
             </div>
             <div class="product-info">
                 <p></p>
-                <p class="price">$70</p>
+                <p class="price">£70</p>
             </div>
         </div>
     </div>
