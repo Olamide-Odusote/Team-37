@@ -28,13 +28,13 @@ class AuthController extends Controller
         // Attempt customer login
         if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('home'))->with('success', 'You have been signed in successfully.');
         }
 
         // Attempt admin login
         if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/inventory');
+            return redirect()->intended('/admin/inventory')->with('success', 'Welcome back, Admin.');
         }
 
         return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
@@ -74,7 +74,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Account created successfully.');
+        return redirect()->route('home')->with('success', 'Account created successfully. Welcome to OmniCart!');
     }
 
 
@@ -138,12 +138,11 @@ class AuthController extends Controller
     {
         // Log out both guards safely
         Auth::guard('web')->logout();
-
         Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'You have been signed out successfully.');
     }
 }
