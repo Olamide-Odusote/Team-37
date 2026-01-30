@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-    <link rel="stylesheet" href="{{ asset('css/basket.css') }}">
-    <title>Basket</title>
-</head>
+@extends('layouts.app')
+
+@section('title', 'Your Basket')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/basket.css') }}">
+@endsection
+
+@section('content')
 
 <body>
-    <!-- NAVIGATION BAR -->
-    <header>
-        @include('layouts.app')
-    </header>
     <!-- BASKET CONTENT -->
     <div class="wrapper">
         <div class="basket">
@@ -31,43 +27,40 @@
 
             <br/>
             <!-- LOOP THROUGH PRODUCTS IN BASKET -->
-            @foreach ($products as $product)
-                <div class="product">
+            @if($basket_products && count($basket_products) > 0)
+                @foreach ($basket_products as $item)
+            <div class="product">
 
-                <!-- GET QUANTITY OF THIS PRODUCT IN BASKET -->
-                @php $basket_product = $basket->products->where('id', $product->id)->first(); @endphp
-                    <div class="item">
-                        <img src="{{ $product->Image_URL }}" style="max-height:100px; max-width:100px;">
-                        <span>{{ $product->Name }}</span>
-                    </div>
-                    <!-- PRICE PER UNIT -->
+            <div class="item">
+                <img src="{{ asset('images/products/' . $item->product->Image_URL) }}"style="max-height:100px; max-width:100px;">
+                <span>{{ $item->product->Name }}</span>
+            </div>
+            
+            <div class="price">
+                £{{ number_format($item->product->Price, 2) }}
+            </div>
 
-                    <div class="price">
-                        <span>£{{ $product->Price }}</span>
-                    </div>
+            <div class="quantity">
+                {{ $item->Quantity }}
+            </div>
+            
+            <div class="total">
+                £{{ number_format($item->product->Price * $item->Quantity, 2) }}
+            </div>
+            
+            <div style="margin-left: 10px;">
+                <form action="{{ route('basket.remove', $item->Product_ID) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn-remove">Remove</button>
+                </form>
+            </div>
 
-                    <!-- QUANTITY CONTROLS -->
-                    <div class="quantity">
-                        <form action="{{ route('basket.remove', $product->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn-remove">-</button>
-                        </form>
+        </div>
+        @endforeach
+            @else
+                <p>Your basket is empty</p>
+            @endif
 
-                            <span>{{ optional($basket_product)->Quantity ?? ($basket_product['Quantity'] ?? 0) }}</span>
-
-                            <!-- ADD QUANTITY BUTTON -->
-                        <form action="{{ route('basket.add', $product->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn-add">+</button>
-                        </form>
-                    </div>
-
-                    <!-- TOTAL PRICE FOR THIS PRODUCT -->
-                    <div class="total">
-                        <span>£{{ $product->Price * (optional($basket_product)->Quantity ?? ($basket_product['Quantity'] ?? 0)) }}</span>
-                    </div>
-                </div>
-            @endforeach
 
             <div style="border-top:1px solid"></div>
 
@@ -87,4 +80,4 @@
     </div>
     
 </body>
-</html>
+@endsection
