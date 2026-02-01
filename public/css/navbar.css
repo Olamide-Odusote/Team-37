@@ -176,6 +176,25 @@
     z-index: 1000;
 }
 
+.dropdown-item {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    text-align: left;
+    cursor: pointer;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 160ms ease;
+}
+
+.dropdown-item:hover {
+    background: #f2f2f2;
+}
+
 .user-menu form button {
     width: 100%;
     background: none;

@@ -1,63 +1,9 @@
 
-
-/* Basket styles: use flex layout and responsive sizing */
-* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-.basket {
-    width: 95%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.basket > h1 {
-    text-align: center;
-    margin-bottom: 0.75rem;
-}
-
-.basket .heading {
-    display: inline-block;
-    font-weight: 600;
-    color: #333;
-    text-align: center;
-    padding: 0.5rem 0;
-}
-
-.basket .product {
-    border-top: 1px solid #e6e6e6;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 0;
-}
-
-.basket .product .item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 0 0 35%;
-}
-
-.basket .product .item img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-.basket .product .item span {
-    display: block;
-    line-height: 1.2;
-    color: #222;
-}
-
-.basket .product .price,
-/*
-Original basket layout (float-based) — restored per user request
-*/
+/* Basket Styles - Clean, single rule set for basket product rows */
 
 * {
-        font-family: 'Poppins'
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 html {
@@ -69,114 +15,218 @@ html {
 }
 
 .basket {
-        width: 90%;
-        height: auto;
-        margin: auto;
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+    padding: 20px 0;
 }
 
 .basket > h1 {
-        text-align: center;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
-.basket > .heading {
-        text-align: center;
-        height: auto;
-        float: left;
+/* Header row to match product row flex layout */
+.basket-header {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    padding: 1rem 0 !important;
+    gap: 1rem !important;
+    border-bottom: 2px solid #333 !important;
+    font-weight: 600 !important;
+    color: #333 !important;
 }
 
-.basket > .product {
-        border-top: 1px solid;
-        overflow: hidden;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 1rem 0;
+.basket-header > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-.basket > .product > div {
-        margin: auto;
-        float: left;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-
+.header-item {
+    width: 30% !important;
+    justify-content: flex-start !important;
 }
 
-.basket > .product > div > span {
-        width: 100%;
+.header-price {
+    width: 20% !important;
 }
 
-.basket > .product > .item {
-        width: 30%;
-        overflow: scroll;
+.header-quantity {
+    width: 30% !important;
 }
 
-.basket > .product > .item > img {
-        margin-right: 20px;
+.header-total {
+    width: 20% !important;
 }
 
-.basket > .product > .item > span {
-        max-width: 80px;
-        align-self: center;
-        text-align: center;
+/* Subtotal row */
+.basket-subtotal {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    padding: 1.5rem 0 !important;
+    gap: 2rem !important;
+    border-top: 2px solid #ddd !important;
 }
 
-
-.basket > .product > .price {
-        flex: 1 0 20%;
-        text-align: center;
+.subtotal-label {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
 }
 
-.basket > .product > .quantity {
-        flex: 1 0 30%;
-        text-align: center;
+.subtotal-value {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0055c0 !important;
 }
 
-.basket > .product > .quantity > form{
-    width: calc(100%*3/8);
+/* Basket product row container — flex layout */
+.basket > .product,
+.basket > .basket-product {
+    border-top: 1px solid #ddd;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    padding: 1rem 0 !important;
+    gap: 1rem !important;
+    min-height: 100px !important;
 }
 
-.btn-add {
-    color: black;
-    padding: 5px 10px;
-    border-radius: 6px;
-    border: none;
-    float: left;
+/* Actions cell (Remove button) */
+.basket > .product > .actions,
+.basket > .basket-product > .actions {
+    width: auto !important;
+    min-width: 100px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
 }
 
+/* Item cell (product name + image) */
+.basket > .product > .item,
+.basket > .basket-product > .item {
+    width: 30% !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    float: none !important;
+}
+
+.basket > .product > .item > img,
+.basket > .basket-product > .item > img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
+}
+
+.basket > .product > .item > span,
+.basket > .basket-product > .item > span {
+    display: block !important;
+    line-height: 1.2 !important;
+    color: #222 !important;
+}
+
+/* Price cell */
+.basket > .product > .price,
+.basket > .basket-product > .price {
+    width: 20% !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
+}
+
+/* Quantity cell with +/- buttons */
+.basket > .product > .quantity,
+.basket > .basket-product > .quantity {
+    width: 30% !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
+    gap: 8px !important;
+}
+
+.qty-value {
+    display: inline-block !important;
+    min-width: 30px !important;
+    text-align: center !important;
+}
+
+.btn-qty {
+    padding: 4px 10px !important;
+    border: 1px solid #999 !important;
+    background: #f9f9f9 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    min-width: 30px !important;
+}
+
+.btn-qty:hover {
+    background: #e9e9e9 !important;
+}
+
+/* Total cell */
+.basket > .product > .total,
+.basket > .basket-product > .total {
+    width: 20% !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
+}
+
+/* Remove button - styled like Delete button */
 .btn-remove {
-    color: black;
-    padding: 5px 10px;
-    border-radius: 6px;
-    border: none;
-    float: right;
+    color: #0055c0;
+    background-color: white;
+    border: 2px solid #0055c0;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
 }
 
-.basket > .product > .total {
-        flex: 1 0 20%;
-        text-align: center;
+.btn-remove:hover {
+    color: white;
+    background-color: #0055c0;
 }
 
+/* Checkout button - styled like Delete button */
 .checkout-button {
-        background-color: blue;
-        border: none;
-        border-radius: 6px;
-        height: 50px;
-        width: 120px;
-        margin-left: 80%;
+    background-color: white;
+    color: #0055c0;
+    border: 2px solid #0055c0;
+    border-radius: 20px;
+    height: 50px;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 80%;
+}
+
+.checkout-button:hover {
+    background-color: #0055c0;
+    color: white;
 }
 
 .checkout-button > a {
-        color: white;
-        text-decoration: none;;
-        font-size: 15px;
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    line-height: 46px;
 }
-
-/*
-@media(max-width: 768px){
-        .basket > .product > .item {
-                width: 30%;
-                text-align:unset;
-                overflow: clip;
-        }
-}
-*/

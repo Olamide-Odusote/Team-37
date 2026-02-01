@@ -36,6 +36,11 @@ class Basket extends Model
                     ->withPivot('Quantity')
                     ->withTimestamps();
     }
+
+    public function basketProducts()
+    {
+        return $this->hasMany(BasketProduct::class, 'Basket_ID', 'Basket_ID');
+    }
     /**
      * Indicates if the model should be timestamped.
      *

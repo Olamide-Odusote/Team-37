@@ -12,6 +12,14 @@ class BasketProduct extends Model
      * @var string
      */
     protected $table = 'basket_products';
+    
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'BasketProduct_ID';
+    
     /**
      * The attributes that are mass assignable.
      *

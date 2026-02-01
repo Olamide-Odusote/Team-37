@@ -1,186 +1,225 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout Page')
+@section('title', 'Checkout')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+<script>
+var gbpTotal = {{ $basket_products && count($basket_products) > 0 ? $basket_products->sum(function($item) { return $item->product->Price * $item->Quantity; }) : 0 }};
+var usdTotal = (gbpTotal / 0.78).toFixed(2);
+
+function changeCurrency() {
+    var curr = document.getElementById('currency').value;
+    var totalElem = document.getElementById('total-amount');
+    if (curr === 'gbp') {
+        totalElem.textContent = '£' + gbpTotal.toFixed(2);
+    } else {
+        totalElem.textContent = '$' + usdTotal;
+    }
+}
+
+function validatePayment() {
+    var email = document.getElementById('email').value.trim();
+    var card = document.getElementById('cardnum').value.trim();
+    var cardname = document.getElementById('cardname').value.trim();
+    var cvv = document.getElementById('cvv').value.trim();
+    var expm = document.getElementById('exp-month').value;
+    var expy = document.getElementById('exp-year').value;
+    var fname = document.getElementById('fname').value.trim();
+    var lname = document.getElementById('lname').value.trim();
+    var address = document.getElementById('address').value.trim();
+    var city = document.getElementById('city').value.trim();
+    var postcode = document.getElementById('postcode').value.trim();
+    var country = document.getElementById('country').value.trim();
+    
+    if (!email) {
+        alert('Email is required');
+        return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+        alert('Invalid email format');
+        return false;
+    }
+    if (!card || card.length !== 16) {
+        alert('Card number must be 16 digits');
+        return false;
+    }
+    if (!cardname) {
+        alert('Name on card is required');
+        return false;
+    }
+    if (!cvv || cvv.length !== 3) {
+        alert('CVV must be 3 digits');
+        return false;
+    }
+    if (!expm) {
+        alert('Please select expiry month');
+        return false;
+    }
+    if (!expy) {
+        alert('Please select expiry year');
+        return false;
+    }
+    if (!fname) {
+        alert('First name is required');
+        return false;
+    }
+    if (!lname) {
+        alert('Last name is required');
+        return false;
+    }
+    if (!address) {
+        alert('Street address is required');
+        return false;
+    }
+    if (!city) {
+        alert('City is required');
+        return false;
+    }
+    if (!postcode) {
+        alert('Post code is required');
+        return false;
+    }
+    if (!country) {
+        alert('Country is required');
+        return false;
+    }
+    
+    alert('Payment successful! (Demo - no charge)');
+    return true;
+}
+
+function cardFilter(e) {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 16);
+}
+
+function cvvFilter(e) {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 3);
+}
+</script>
+@endsection
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('Checkout.css') }}">
+<div class="checkout-wrapper">
+    <div class="checkout-container">
 
-<div class="top-bar">
-    <img src="{{ asset('ologo.png') }}" class="logo-left" alt="Left Logo">
-    <img src="{{ asset('vlogo.png') }}" class="logo-right" alt="Right Logo">
-</div>
+        <!-- LEFT: PAYMENT FORM -->
+        <form id="checkout-form" method="POST" action="{{ route('checkout.process') }}">
+            @csrf
+            <div class="payment-section">
+            <h2>Payment Method</h2>
 
-<div class="page-wrapper">
-
-    <div class="container">
-
-        <div class="title">Payment Method</div>
-
-        <div class="card-type-selector">
-            <label>
-                <input type="radio" name="cardtype" value="credit" checked>
-                 Credit Card
-            </label>
-            <label>
-                <input type="radio" name="cardtype" value="debit">
-                Debit Card
-            </label>
-        </div>
-
-        <div class="title">Card Information</div>
-
-        <input type="email" class="input-box" id="email" placeholder="Email" required>
-        <input type="text" class="input-box" id="cardnum" placeholder="Card Number" maxlength="16">
-        <input type="text" class="input-box" placeholder="Name on Card">
-
-        <div class="expiry-wrapper">
-            <label class="expiry-label">Expiry Date & CVV</label>
-
-            <div class="expiry-row">
-                <select class="expiry-select" id="exp-month">
-                    <option value="">MM</option>
-                    @for($m = 1; $m <= 12; $m++)
-                        <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">
-                            {{ str_pad($m, 2, '0', STR_PAD_LEFT) }}
-                        </option>
-                    @endfor
-                </select>
-
-                <select class="expiry-select" id="exp-year">
-                    <option value="">YYYY</option>
-                </select>
-
-                <input type="text" class="expiry-select" id="cvv" placeholder="CVV" maxlength="3">
+            <div class="payment-method-selector">
+                <label>
+                    <input type="radio" name="cardtype" value="credit" checked>
+                    Credit Card
+                </label>
+                <label>
+                    <input type="radio" name="cardtype" value="debit">
+                    Debit Card
+                </label>
             </div>
 
-        </div>
+            <h3>Card Information</h3>
 
-        <div class="title">Shipping Address</div>
+            <input type="email" class="input-field" id="email" placeholder="Email" required>
+            <input type="text" class="input-field" id="cardnum" placeholder="Card Number" maxlength="16" oninput="cardFilter(event)">
+            <input type="text" class="input-field" id="cardname" placeholder="Name on Card">
 
-        <input type="text" class="input-box" placeholder="First Name">
-        <input type="text" class="input-box" placeholder="Last Name">
-        <input type="text" class="input-box" placeholder="Street Address">
-        <input type="text" class="input-box" placeholder="City">
-        <input type="text" class="input-box" placeholder="Post Code">
-        <input type="text" class="input-box" placeholder="Country">
+            <div class="expiry-group">
+                <label>Expiry Date & CVV</label>
+                <div class="expiry-row">
+                    <select class="input-field expiry-select" id="exp-month">
+                        <option value="">MM</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
 
-        <div class="button-row">
-            <button class="button back-btn">Back</button>
-            <button class="button next-btn">Pay Now</button>
-        </div>
+                    <select class="input-field expiry-select" id="exp-year">
+                        <option value="">Year</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                        <option value="2035">2035</option>
+                        <option value="2036">2036</option>
+                        <option value="2037">2037</option>
+                    </select>
 
-    </div>
-
-    <!-- ORDER BOX -->
-    <div class="order-box">
-        <h2>Your Order</h2>
-
-        <div id="cart"></div>
-
-        <select id="currency" class="input-box" style="margin-top: 20px;">
-            <option value="usd" selected>USD</option>
-            <option value="gbp">GBP</option>
-        </select>
-
-        <div class="order-total">
-            <span>Total:</span>
-            <strong id="total">$0.00</strong>
-        </div>
-    </div>
-
-</div>
-
-@endsection
-
-@section('scripts')
-
-<script>
-document.getElementById("cardnum").addEventListener("input", function() {
-    this.value = this.value.replace(/\D/g, "").slice(0, 16);
-});
-</script>
-
-<script>
-var items = [
-    { name: "Item A", price: 19.99, qty: 1 },
-    { name: "Item B", price: 9.99, qty: 2 }
-];
-
-var rate = 0.78;
-var currency = "usd";
-
-function updateCart() {
-    var c = document.getElementById("cart");
-    c.innerHTML = "";
-    var total = 0;
-
-    items.forEach((item, i) => {
-        var p = item.price * item.qty;
-        total += p;
-
-        c.innerHTML += `
-            <div style="margin-bottom:10px;">
-                <div>${item.name}</div>
-                <div>
-                    <button onclick="dec(${i})">-</button>
-                    ${item.qty}
-                    <button onclick="inc(${i})">+</button>
-                    <button onclick="rem(${i})">Remove</button>
+                    <input type="text" class="input-field expiry-select" id="cvv" placeholder="CVV" maxlength="3" oninput="cvvFilter(event)">
                 </div>
             </div>
-        `;
-    });
 
-    if (currency === "usd") {
-        total = "$" + total.toFixed(2);
-    } else {
-        total = "£" + (total * rate).toFixed(2);
-    }
+            <h3>Shipping Address</h3>
 
-    document.getElementById("total").textContent = total;
-}
+            <input type="text" class="input-field" id="fname" placeholder="First Name">
+            <input type="text" class="input-field" id="lname" placeholder="Last Name">
+            <input type="text" class="input-field" id="address" placeholder="Street Address">
+            <input type="text" class="input-field" id="city" placeholder="City">
+            <input type="text" class="input-field" id="postcode" placeholder="Post Code">
+            <input type="text" class="input-field" id="country" placeholder="Country">
 
-function inc(i) { items[i].qty++; updateCart(); }
-function dec(i) { if (items[i].qty > 1) items[i].qty--; updateCart(); }
-function rem(i) { items.splice(i, 1); updateCart(); }
+            <div class="button-group">
+                <a href="{{ route('basket.view') }}" class="btn-back">Back</a>
+                <button type="button" class="btn-pay" onclick="if (validatePayment()) { document.getElementById('checkout-form').submit(); }">Pay Now</button>
+            </div>
+            </div>
+        </form>
+        </div>
 
-document.getElementById("currency").addEventListener("change", function() {
-    currency = this.value;
-    updateCart();
-});
+        <!-- RIGHT: ORDER SUMMARY -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
 
-updateCart();
-</script>
+            <div class="summary-items">
+                @if($basket_products && count($basket_products) > 0)
+                    @foreach($basket_products as $item)
+                    <div class="summary-item">
+                        <div class="item-details">
+                            <div class="item-name">{{ $item->product->Name }}</div>
+                            <div class="item-meta">{{ $item->Quantity }} × £{{ number_format($item->product->Price, 2) }}</div>
+                        </div>
+                        <div class="item-price">£{{ number_format($item->product->Price * $item->Quantity, 2) }}</div>
+                    </div>
+                    @endforeach
+                @else
+                    <p style="text-align: center; color: #999;">No items in basket</p>
+                @endif
+            </div>
 
-<script>
-var email = document.getElementById("email");
-var pay = document.querySelector(".next-btn");
-var card = document.getElementById("cardnum");
-var cvv = document.getElementById("cvv");
-var expm = document.getElementById("exp-month");
-var expy = document.getElementById("exp-year");
+            <div class="summary-divider"></div>
 
-var current = new Date().getFullYear();
-for (var i = 0; i < 12; i++) {
-    var op = document.createElement("option");
-    op.value = current + i;
-    op.textContent = current + i;
-    expy.appendChild(op);
-}
+            <div class="summary-currency">
+                <label>Currency:</label>
+                <select id="currency" class="input-field" onchange="changeCurrency()">
+                    <option value="gbp" selected>GBP (£)</option>
+                    <option value="usd">USD ($)</option>
+                </select>
+            </div>
 
-pay.addEventListener("click", function(e) {
-    var valid =
-        /\S+@\S+\.\S+/.test(email.value) &&
-        card.value.length === 16 &&
-        cvv.value.length === 3 &&
-        expm.value &&
-        expy.value;
+            <div class="summary-total">
+                <span>Total:</span>
+                <strong id="total-amount">£{{ number_format($basket_products && count($basket_products) > 0 ? $basket_products->sum(function($item) { return $item->product->Price * $item->Quantity; }) : 0, 2) }}</strong>
+            </div>
+        </div>
 
-    if (!valid) {
-        e.preventDefault();
-    }
-});
-</script>
+    </div>
+</div>
 
 @endsection

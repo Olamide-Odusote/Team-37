@@ -6,20 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $primayKey = 'Customer_ID';
+    protected $primaryKey = 'Customer_ID';
+    protected $table = 'customers';
 
     protected $fillable = [
+        'user_id',
         'Name',
         'Email',
         'Password',
-        'Mobile_Number',
+        'Mobile Number',
     ];
 
     /**
      *  Get the User 
      */
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /* Password hash for serialisation */

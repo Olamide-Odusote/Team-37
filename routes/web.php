@@ -71,6 +71,7 @@ Route::prefix('basket')->group(function () {
     Route::get('/', [BasketController::class, 'viewBasket'])->name('basket.view');
     Route::post('/add/{product}', [BasketController::class, 'addToBasket'])->name('basket.add');
     Route::post('/remove/{product}', [BasketController::class, 'removeFromBasket'])->name('basket.remove');
+    Route::post('/adjust/{product}/{action}', [BasketController::class, 'adjustQuantity'])->name('basket.adjust');
 });
 
 
@@ -79,8 +80,12 @@ Route::prefix('basket')->group(function () {
 // --------------------
 Route::resource('orders', FinalOrderController::class)->only(['index', 'show']);
 
-Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout');
-Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.checkout');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Account / Profile
+Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index');
 
 
 // --------------------
