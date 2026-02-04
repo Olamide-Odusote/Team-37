@@ -1,4 +1,4 @@
- body {
+ body {     /* TrueCSS */
         margin: 0;
         font-family: 'Inter', sans-serif;
         background-color: #0f172a;
@@ -12,6 +12,7 @@
         background-color: #0b63d8; /* brighter blue to match reference */
         padding: 36px 0 48px; /* larger vertical padding for hero area */
         color: white;
+        border-radius: 20px;
     }
 
     /* centered inner container so hero content lines up like the reference */
@@ -31,6 +32,7 @@
         padding: 24px 24px 24px 40px; /* spacious left padding similar to the reference */
         align-self: center; /* center text vertically in hero */
     }
+
 
     .hero-text h1 {
         font-size: 2.6rem; /* larger heading similar to reference */
@@ -76,29 +78,66 @@
         text-decoration: none;
     }
 
-    .hero-image {
-        flex: 1 1 44%;
-        min-width: 240px; /* smaller min-width so image can shrink */
-        text-align: center;
-        padding: 12px 40px 12px 24px; /* provide some right-side spacing */
-    }
+   .hero-image {
+    flex: 1 1 44%;
+    min-width: 200px; /* valid min-width */
+    text-align: center;
+    padding: 12px 40px 12px 24px;
+    position: relative; /* needed for absolute positioning of carousel images */
+    height: 300px; /* fixed height so images don't collapse */
+}
 
-    .hero-image img {
-        width: 100%;
-        max-width: 380px; /* increased by 20px to reduce squishing */
-        max-height: 260px; /* keep image height in check */
-        height: auto;
-        border-radius: 6px;
-        box-shadow: 0 8px 20px rgba(2,6,23,0.28);
-    }
+/* Optional: constrain max-width of images inside hero */
+.hero-image img {
+    width: 100%;
+    max-width: 380px;
+    max-height: 260px;
+    height: 100%; /* fill container */
+    object-fit: cover; /* scale image without distortion */
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(2,6,23,0.28);
+     margin-left: 100px; /* shift right by 20px */
+}
 
-    /* Categories Section */
-    .categories-section {
-        background-color: white; /* white banner */
-        padding: 26px 16px; /* reduce padding so this section is shorter */
-        color: black; /* text color inside white banner */
-        text-align: center;
-    }
+/* Categories Section */
+.categories-section {
+    background-color: white;
+    padding: 26px 16px;
+    color: black;
+    text-align: center;
+}
+
+/* Hero image carousel */
+.hero-image .carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hero-image .carousel img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 1s ease, transform 1s ease;
+    z-index: 0; /* default */
+}
+
+.hero-image .carousel img.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 2;
+}
+
+.hero-image .carousel img.leave-left {
+    opacity: 0;
+    transform: translateX(-100%);
+    z-index: 1;
+}
 
     .categories-section h2 {
         color: #1e3a8a; /* title color */

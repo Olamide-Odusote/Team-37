@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app') <!-- TRUE HOMEPGE -->
 
 @section('title', 'OmniCart - Home')
 
@@ -8,19 +8,46 @@
 
 @section('content')
 
+{{-- HERO SECTION --}} 
 <section class="hero">
     <div class="hero-inner">
         <div class="hero-text">
-        <h1>Smart Shopping, Smarter Living</h1>
-        Discover a wide range of electronics and everyday essentials that fit your lifestyle and budget.
-        <p></p>
-        <a class="hero-cta" href="">Learn More</a> 
+            <h1>Smart Shopping, Smarter Living</h1>
+            <p>Discover a wide range of electronics and everyday essentials that fit your lifestyle and budget.</p>
+            <a class="hero-cta" href="{{ route('products.index') }}">Browse Products</a>
         </div>
+
         <div class="hero-image">
-        <img src="{{ asset('images/hero.jpg') }}" alt="Gaming Gear">
+            <div class="carousel" id="hero-carousel">
+                <img src="{{ asset('images/hero.jpg') }}" class="active" alt="Hero Image 1">
+                <img src="{{ asset('images/hero2.png') }}" alt="Hero Image 2">
+                <img src="{{ asset('images/hero3.png') }}" alt="Hero Image 3">
+                <img src="{{ asset('images/hero4.png') }}" alt="Hero Image 4">
+                <img src="{{ asset('images/hero5.jpg') }}" alt="Hero Image 5">
+            </div>
         </div>
     </div>
 </section>
+
+{{-- Carousel JS --}}
+<script>
+    const heroImages = document.querySelectorAll('#hero-carousel img');
+    let currentHero = 0;
+
+    function nextHeroImage() {
+        heroImages[currentHero].classList.remove('active');
+        heroImages[currentHero].classList.add('leave-left');
+
+        currentHero = (currentHero + 1) % heroImages.length;
+
+        heroImages[currentHero].classList.remove('leave-left');
+        heroImages[currentHero].classList.add('active');
+    }
+
+    setInterval(nextHeroImage, 5000); // 5 seconds per image
+</script>
+
+
 
 <section class="categories-section">
     <h2>Browse by Category</h2>
