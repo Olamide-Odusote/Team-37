@@ -11,6 +11,12 @@ class InventoryLog extends Model
      *
      * @var array
      */
+
+    protected $table = 'inventory_logs';
+    protected $primaryKey = 'InventoryLog_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'Product_ID',
         'Admin_ID',
@@ -36,4 +42,5 @@ class InventoryLog extends Model
      *
      * @var bool
      */    public $timestamps = true;
+
 }

@@ -55,6 +55,10 @@
 
             <!-- RIGHT NAV ITEMS -->
             <div class="nav-right">
+                @if(Auth::guard('admin')->check())
+                    <a href="{{ route('admin.inventory.index') }}" style="color:#0055c0;text-decoration:none;font-weight:600;font-size:15px;">Admin</a>
+                @endif
+                
                 @auth
                     <div class="nav-item user-dropdown">
                         <button class="user-btn">
@@ -72,7 +76,7 @@
                     </div>
                 @else
                     <div class="nav-item">
-                        <a class="signin" href="{{ route('signin') }}">Sign In</a>
+                        <a class="signin" href="{{ route('auth.login') }}">Sign In</a>
                     </div>
                 @endauth
 

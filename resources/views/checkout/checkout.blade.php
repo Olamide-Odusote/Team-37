@@ -85,7 +85,6 @@ function validatePayment() {
         return false;
     }
     
-    alert('Payment successful! (Demo - no charge)');
     return true;
 }
 
@@ -123,14 +122,14 @@ function cvvFilter(e) {
 
             <h3>Card Information</h3>
 
-            <input type="email" class="input-field" id="email" placeholder="Email" required>
-            <input type="text" class="input-field" id="cardnum" placeholder="Card Number" maxlength="16" oninput="cardFilter(event)">
-            <input type="text" class="input-field" id="cardname" placeholder="Name on Card">
+            <input type="email" class="input-field" id="email" name="email" placeholder="Email" required>
+            <input type="text" class="input-field" id="cardnum" name="cardnum" placeholder="Card Number" maxlength="16" oninput="cardFilter(event)">
+            <input type="text" class="input-field" id="cardname" name="cardname" placeholder="Name on Card">
 
             <div class="expiry-group">
                 <label>Expiry Date & CVV</label>
                 <div class="expiry-row">
-                    <select class="input-field expiry-select" id="exp-month">
+                    <select class="input-field expiry-select" id="exp-month" name="exp-month">
                         <option value="">MM</option>
                         <option value="01">01</option>
                         <option value="02">02</option>
@@ -146,7 +145,7 @@ function cvvFilter(e) {
                         <option value="12">12</option>
                     </select>
 
-                    <select class="input-field expiry-select" id="exp-year">
+                    <select class="input-field expiry-select" id="exp-year" name="exp-year">
                         <option value="">Year</option>
                         <option value="2026">2026</option>
                         <option value="2027">2027</option>
@@ -162,18 +161,18 @@ function cvvFilter(e) {
                         <option value="2037">2037</option>
                     </select>
 
-                    <input type="text" class="input-field expiry-select" id="cvv" placeholder="CVV" maxlength="3" oninput="cvvFilter(event)">
+                    <input type="text" class="input-field expiry-select" id="cvv" name="cvv" placeholder="CVV" maxlength="3" oninput="cvvFilter(event)">
                 </div>
             </div>
 
             <h3>Shipping Address</h3>
 
-            <input type="text" class="input-field" id="fname" placeholder="First Name">
-            <input type="text" class="input-field" id="lname" placeholder="Last Name">
-            <input type="text" class="input-field" id="address" placeholder="Street Address">
-            <input type="text" class="input-field" id="city" placeholder="City">
-            <input type="text" class="input-field" id="postcode" placeholder="Post Code">
-            <input type="text" class="input-field" id="country" placeholder="Country">
+            <input type="text" class="input-field" id="fname" name="fname" placeholder="First Name">
+            <input type="text" class="input-field" id="lname" name="lname" placeholder="Last Name">
+            <input type="text" class="input-field" id="address" name="address" placeholder="Street Address">
+            <input type="text" class="input-field" id="city" name="city" placeholder="City">
+            <input type="text" class="input-field" id="postcode" name="postcode" placeholder="Post Code">
+            <input type="text" class="input-field" id="country" name="country" placeholder="Country">
 
             <div class="button-group">
                 <a href="{{ route('basket.view') }}" class="btn-back">Back</a>
