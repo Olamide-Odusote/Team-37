@@ -79,6 +79,32 @@
     </div>
 </section>
 
+
+
+
+
+<section class="products-section">
+    <h2>Most Bought Products</h2>
+    <div class="product-grid">
+        @foreach($topProducts as $product)
+            <div class="product">
+                <div class="product-media">
+                    <img src="{{ asset('images/products/' . $product->Image_URL) }}" alt="{{ $product->Name }}">
+                </div>
+                <div class="product-info">
+                    <p>{{ $product->Name }}</p>
+                    <p class="price">£{{ $product->Price }} ({{ $product->total_sold }} sold)</p>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+
+
+
+ <!--the org code beofre change  
 <section class="products-section">
     <h2>Top Rated Products</h2>
     <div class="product-grid">
@@ -115,6 +141,9 @@
         </div>
     </div>
 </section>
+-->
+
+
 
 <section class="features-section">
     <div class="features-grid">
