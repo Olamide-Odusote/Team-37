@@ -22,10 +22,11 @@
 
         <p class="product-description">{{ $product->Description }}</p>
 
+        @php $available = $product->inventory ? (int)$product->inventory->Quantity : 0; @endphp
         <ul class="product-meta">
             <li>✔️ <strong>FREE Returns</strong></li>
             <li>🚚 <strong>Fast Delivery Available</strong></li>
-            <li>📦 <strong>In Stock</strong></li>
+            <li>📦 <strong>{{ $available > 0 ? $available . ' in stock' : 'Out of stock' }}</strong></li>
         </ul>
     </div>
 
@@ -37,13 +38,14 @@
             <form action="{{ route('basket.add', $product->Product_ID) }}" method="POST">
                 @csrf
                 <label for="qty">Quantity:</label>
-                <select name="qty" id="qty" class="qty-select">
-                    @for ($i = 1; $i <= 10; $i++)
+                @php $maxQty = min(10, $available); @endphp
+                <select name="qty" id="qty" class="qty-select" {{ $available <= 0 ? 'disabled' : '' }}>
+                    @for ($i = 1; $i <= $maxQty; $i++)
                         <option value="{{ $i }}">{{ $i }}</option>
                     @endfor
                 </select>
 
-                <button type="submit" class="btn-add">Add to Basket</button>
+                <button type="submit" class="btn-add" {{ $available <= 0 ? 'disabled' : '' }}>{{ $available > 0 ? 'Add to Basket' : 'Out of stock' }}</button>
             </form>
 
             <div class="extra-info">
