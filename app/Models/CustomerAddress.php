@@ -11,11 +11,15 @@ class CustomerAddress extends Model
      *
      * @var array
      */
+    protected $primaryKey = 'CustomerAddress_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'Customer_ID',
         'Street',
         'City',
-        'PostalCode',
+        'Post_Code',
         'Country',
     ];
     /**

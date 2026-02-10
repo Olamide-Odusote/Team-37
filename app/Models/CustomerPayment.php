@@ -11,10 +11,14 @@ class CustomerPayment extends Model
      *
      * @var array
      */
+    protected $primaryKey = 'CustomerPayment_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'Customer_ID',
         'CardHolder_Name',
-        'CardNumber',
+        'MaskedCardNumber',
         'ExpiryDate',
     ];
     /**
