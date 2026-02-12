@@ -15,13 +15,23 @@ class FinalOrderController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
 
-        $orders = FinalOrder::all()
-            ->with([
-                'items.product'   
-            ])
-            ->orderBy('Date', 'desc')
-            ->get();
+        // If admin guard is used, show all orders to admins
+        if (auth()->guard('admin')->check()) {
+            $orders = FinalOrder::with('items.product')
+                ->orderBy('OrderDate', 'desc')
+                ->get();
+        } else {
+            // show only current user's orders
+            if (!$user) {
+                return redirect()->route('signin')->with('error', 'You must log in first.');
+            }
+            $orders = FinalOrder::where('Customer_ID', $user->Customer_ID)
+                ->with('items.product')
+                ->orderBy('OrderDate', 'desc')
+                ->get();
+        }
 
         return view('orders.index', compact('orders'));
     }
@@ -30,17 +40,19 @@ class FinalOrderController extends Controller
      * Display a list of previous orders for one user
      */
 
-    public function show() {
-        $id = Auth::user()->id; // current logged-in user
+    public function show($id)
+    {
+        $user = Auth::user();
 
-        // Load orders with their items and products
-        $orders = FinalOrder::where('Customer_ID', $id)
-            ->with([
-                'items.product'   // eager-load items AND product for each item
-            ])
-            ->orderBy('Date', 'desc')
-            ->get();
+        $order = FinalOrder::with('items.product.inventory', 'items.return')->findOrFail($id);
 
-        return view('orders.index', compact('orders'));
+        // Ensure user is allowed to view this order (owner or admin)
+        if (!auth()->guard('admin')->check()) {
+            if (!$user || $order->Customer_ID != $user->Customer_ID) {
+                return redirect()->route('orders.index')->with('error', 'Order not found or access denied.');
+            }
+        }
+
+        return view('orders.show', compact('order'));
     }
 }

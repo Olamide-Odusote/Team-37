@@ -11,6 +11,10 @@ class FinalOrder extends Model
      *
      * @var array
      */
+    protected $primaryKey = 'FinalOrder_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'Customer_ID',
         'CustomerAddress_ID',

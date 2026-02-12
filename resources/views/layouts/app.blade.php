@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" /> 
 
     <link rel="stylesheet" href="{{ asset('css/alerts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
@@ -55,6 +56,13 @@
 
             <!-- RIGHT NAV ITEMS -->
             <div class="nav-right">
+                @if(Auth::guard('admin')->check())
+                    <a href="{{ route('admin.inventory.index') }}" style="color:#0055c0;text-decoration:none;font-weight:600;font-size:15px;">Admin</a>
+                @endif
+                 <!-- DARK MODE BUTTON -->
+                  <button id="darkModeToggle" class="darkmode-btn" aria-label="Toggle Dark Mode">
+                  <i class="fas fa-moon"></i> <!-- initial icon -->
+                  </button>
                 @auth
                     <div class="nav-item user-dropdown">
                         <button class="user-btn">
@@ -72,9 +80,10 @@
                     </div>
                 @else
                     <div class="nav-item">
-                        <a class="signin" href="{{ route('signin') }}">Sign In</a>
+                        <a href="{{ route('auth.login') }}" class="signin-btn">Sign In</a>
                     </div>
                 @endauth
+            
 
                 <a href="{{ route('basket.view') }}" class="basket-link">
                     <div class="basket-wrapper">
@@ -156,62 +165,62 @@
         </p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryBtn = document.getElementById('categoryBtn');
-            const categoryDropdown = document.getElementById('categoryDropdown');
-            const categoryOptions = document.querySelectorAll('.category-option');
-            const categoryText = document.querySelector('.category-text');
-            const categoryInput = document.getElementById('categoryInput');
+      <script>
+document.addEventListener('DOMContentLoaded', function() {
 
-            // Toggle dropdown on button click
-            categoryBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                categoryDropdown.style.display = categoryDropdown.style.display === 'none' ? 'block' : 'none';
-            });
+    // CATEGORY DROPDOWN (keep your existing code)
+    const categoryBtn = document.getElementById('categoryBtn');
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const categoryOptions = document.querySelectorAll('.category-option');
+    const categoryText = document.querySelector('.category-text');
+    const categoryInput = document.getElementById('categoryInput');
 
-            // Handle category selection
-            categoryOptions.forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const value = this.getAttribute('data-value');
-                    const name = this.getAttribute('data-name');
-                    categoryText.textContent = name;
+    categoryBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        categoryDropdown.style.display =
+            categoryDropdown.style.display === 'none' ? 'block' : 'none';
+    });
 
-                    // Set the hidden form field for search
-                    if (value === 'all') {
-                        categoryInput.value = '';
-                    } else {
-                        categoryInput.value = value;
-                    }
+    categoryOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.getAttribute('data-value');
+            const name = this.getAttribute('data-name');
+            categoryText.textContent = name;
+            categoryInput.value = (value === 'all') ? '' : value;
 
-                    sessionStorage.setItem('selectedCategory', value);
-                    sessionStorage.setItem('selectedCategoryName', name);
-                    categoryDropdown.style.display = 'none';
-                });
-            });
-
-            // Restore selected category on page load
-            const savedCategory = sessionStorage.getItem('selectedCategoryName');
-            const savedCategoryId = sessionStorage.getItem('selectedCategory');
-            if (savedCategory) {
-                categoryText.textContent = savedCategory;
-                if (savedCategoryId && savedCategoryId !== 'all') {
-                    categoryInput.value = savedCategoryId;
-                } else {
-                    categoryInput.value = '';
-                }
-            }
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!document.querySelector('.category').contains(e.target)) {
-                    categoryDropdown.style.display = 'none';
-                }
-            });
+            sessionStorage.setItem('selectedCategory', value);
+            sessionStorage.setItem('selectedCategoryName', name);
+            categoryDropdown.style.display = 'none';
         });
-    </script>
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!document.querySelector('.category').contains(e.target)) {
+            categoryDropdown.style.display = 'none';
+        }
+    });
+
+    // DARK MODE
+    const toggleBtn = document.getElementById('darkModeToggle');
+    if (!toggleBtn) return;
+
+    // Load dark mode preference
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    // Toggle dark mode
+    toggleBtn.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+        toggleBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    });
+
+});
+</script>
 
 </body>
-
 </html>
