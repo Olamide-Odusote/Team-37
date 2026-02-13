@@ -11,6 +11,7 @@ class FinalOrder extends Model
      *
      * @var array
      */
+    protected $table = 'final_orders';
     protected $primaryKey = 'FinalOrder_ID';
     public $incrementing = true;
     protected $keyType = 'int';

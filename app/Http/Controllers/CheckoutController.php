@@ -17,48 +17,65 @@ use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
+    // Show checkout page with basket items
     public function index()
     {
+        // Ensure user is logged in
         if (!Auth::check()) {
             return redirect()->route('signin')->with('error', 'You must log in first.');
-        }
+            }
+        
+            // Get current user's basket and products
+            $user = Auth::user();
+            $customer = $user->customer;
 
+            // Ensure customer profile exists
+            if (!$customer) {
+                return redirect()->route('basket.view')->with('error', 'Customer profile not found.');
+                }
+
+            // Get basket and products
+            $basket = Basket::where('Customer_ID', $customer->Customer_ID)->first();
+
+            // Ensure basket exists and has products
+            if (!$basket) {
+                return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
+                }
+
+            // Eager load products for efficiency
+            $basket_products = $basket->basketProducts()->with('product')->get();
+
+            // Ensure basket has products
+            if (count($basket_products) === 0) {
+                return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
+                }
+
+            // Show checkout page with basket products
+            return view('checkout.checkout', [
+                'basket_products' => $basket_products,
+                'basket' => $basket
+                ]);
+   }
+
+                // Show checkout form (same as index for now)
+                public function showCheckoutForm()
+                {
+                    return $this->index();
+                    }
+
+    // Show order success page    
+    public function orderSuccess(){
+        return view('checkout.success');
+    }
+
+    // Show order success page with order details
+    public function success(FinalOrder $order)
+    {
         $user = Auth::user();
         $customer = $user->customer;
-
-        if (!$customer) {
-            return redirect()->route('basket.view')->with('error', 'Customer profile not found.');
-        }
-
-        $basket = Basket::where('Customer_ID', $customer->Customer_ID)->first();
-
-        if (!$basket) {
-            return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
-        }
-
-        $basket_products = $basket->basketProducts()->with('product')->get();
-
-        if (count($basket_products) === 0) {
-            return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
-        }
-
-        return view('checkout.checkout', [
-            'basket_products' => $basket_products,
-            'basket' => $basket
-        ]);
-    }
-
-    public function showCheckoutForm()
-    {
-        return $this->index();
-    }
-
-   public function success(FinalOrder $order)
-{
-    // Security: ensure customer owns this order
-    $user = Auth::user();
-
-    if (!$user || $order->Customer_ID !== $user->Customer_ID) {
+    
+    // Ensure the order belongs to the logged-in customer
+    if (!$customer || $order->Customer_ID !== $customer->Customer_ID) {
         return redirect()->route('orders.index')
             ->with('error', 'Access denied.');
     }
@@ -69,6 +86,7 @@ class CheckoutController extends Controller
 }
 
 
+// Process checkout form submission
     public function process(Request $request)
 {
     if (!Auth::check()) {
@@ -82,16 +100,18 @@ class CheckoutController extends Controller
         return redirect()->route('basket.view')->with('error', 'Customer profile not found.');
     }
 
+    // Get basket and products
     $basket = Basket::where('Customer_ID', $customer->Customer_ID)->first();
     if (!$basket) {
         return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
     }
 
     $basket_products = $basket->basketProducts()->with('product')->get();
-    if ($basket_products->isEmpty()) {
+    if (count($basket_products) === 0) {
         return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
     }
 
+    // Validate form input
     $data = $request->validate([
         'email' => 'required|email',
         'cardnum' => 'required',
@@ -179,6 +199,7 @@ class CheckoutController extends Controller
         DB::commit();
 
         // Store last order ID in session for success page
+        session(['last_order_id' => $order->FinalOrder_ID]);
         Mail::to($customer->Email)->send(new OrderConfirmation($order));
         return redirect()->route('checkout.success', ['order' => $order->FinalOrder_ID])
             ->with('success', 'Order placed successfully!');

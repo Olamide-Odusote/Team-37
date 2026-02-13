@@ -7,6 +7,11 @@ use App\Models\Product;
 
 class ProductCategory extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $primaryKey = 'ProductCategory_ID';
     protected $table = 'product_categories';
     /**
