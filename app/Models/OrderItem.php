@@ -11,6 +11,7 @@ class OrderItem extends Model
      *
      * @var array
      */
+    protected $table = 'order_items';
     protected $primaryKey = 'OrderItem_ID';
     public $incrementing = true;
     protected $keyType = 'int';

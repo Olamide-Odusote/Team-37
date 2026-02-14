@@ -11,6 +11,7 @@ class CustomerPayment extends Model
      *
      * @var array
      */
+    protected $table = 'customer_payments';
     protected $primaryKey = 'CustomerPayment_ID';
     public $incrementing = true;
     protected $keyType = 'int';
