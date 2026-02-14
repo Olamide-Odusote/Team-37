@@ -15,18 +15,20 @@ class FinalOrderController extends Controller
 
     public function index()
     {
+        // Admin sees all orders, users see only their own
         if (auth('admin')->check()) {
             $orders = FinalOrder::with('items.product')
             ->orderBy('OrderDate', 'desc')
             ->get();
             } else {
                 $user = auth()->guard('web')->user();
-                
+                // Ensure user is logged in
                 if (!$user) {
                     return redirect()->route('signin')
                     ->with('error', 'You must log in first.');
                     }
 
+                    // Get only orders for the logged-in user
                     $orders = FinalOrder::where('Customer_ID', $user->Customer_ID)
                     ->with('items.product')
                     ->orderBy('OrderDate', 'desc')

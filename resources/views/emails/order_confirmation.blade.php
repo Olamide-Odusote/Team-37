@@ -22,7 +22,7 @@ Thank you for your purchase! Your order has been received and will be processed 
 ## Shipping Address
 
 {{ $order->address->Street }}  
-{{ $order->address->City }}, {{ $order->address->PostalCode }}  
+{{ $order->address->City }}, {{ $order->address->Post_Code }}  
 {{ $order->address->Country }}
 
 We'll send you a tracking number once your order ships. If you have any questions, please contact our support team.
