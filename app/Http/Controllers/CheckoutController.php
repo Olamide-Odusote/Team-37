@@ -46,7 +46,7 @@ class CheckoutController extends Controller
             $basket_products = $basket->basketProducts()->with('product')->get();
 
             // Ensure basket has products
-            if (count($basket_products) === 0) {
+            if ($basket_products->isEmpty()) {
                 return redirect()->route('basket.view')->with('warning', 'Basket is empty.');
                 }
 
@@ -69,26 +69,18 @@ class CheckoutController extends Controller
     }
 
     // Show order success page with order details
-    public function success(FinalOrder $order)
-    {
-        $user = Auth::user();
-        $customer = $user->customer;
-    
-    // Ensure the order belongs to the logged-in customer
-    if (!$customer || $order->Customer_ID !== $customer->Customer_ID) {
-        return redirect()->route('orders.index')
-            ->with('error', 'Access denied.');
-    }
-
-    $order->load('items.product');
-
-    return view('checkout.success', compact('order'));
+public function success(FinalOrder $orderId)
+{
+    return view('checkout.success', compact('orderId'));
 }
+
+
 
 
 // Process checkout form submission
     public function process(Request $request)
 {
+
     if (!Auth::check()) {
         return redirect()->route('signin')->with('error', 'You must log in first.');
     }
@@ -169,7 +161,7 @@ class CheckoutController extends Controller
             'Customer_ID' => $customer->Customer_ID,
             'CustomerAddress_ID' => $address->CustomerAddress_ID,
             'CustomerPayment_ID' => $payment->CustomerPayment_ID,
-            'OrderDate' => now()->toDateString(),
+            'OrderDate' => now(),
             'Total_Price' => $total,
             'Status' => 'pending',
         ]);
@@ -198,15 +190,20 @@ class CheckoutController extends Controller
 
         DB::commit();
 
-        // Store last order ID in session for success page
-        session(['last_order_id' => $order->FinalOrder_ID]);
-        Mail::to($customer->Email)->send(new OrderConfirmation($order));
-        return redirect()->route('checkout.success', ['order' => $order->FinalOrder_ID])
-            ->with('success', 'Order placed successfully!');
-        
+        // Send confirmation email
+
+        try {
+            Mail::to($customer->Email)->send(new OrderConfirmation($order));
         } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Could not create order: ' . $e->getMessage());
+            // Log email failure but don't fail the order
+            \Log::error('Failed to send order confirmation email: ' . $e->getMessage());
+        }
+
+        return redirect()->route('checkout.success', $order->FinalOrder_ID)
+            ->with('success', 'Order placed successfully!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Failed to process order: ' . $e->getMessage());
             }
             }
             }
