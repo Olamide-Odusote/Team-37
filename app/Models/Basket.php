@@ -11,6 +11,12 @@ class Basket extends Model
      *
      * @var array<int, string>
      */
+    
+    protected $table = 'baskets';
+    protected $primaryKey = 'Basket_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'Customer_ID',
     ];
@@ -30,6 +36,11 @@ class Basket extends Model
         return $this->belongsToMany(Product::class, 'basket_products', 'Basket_ID', 'Product_ID')
                     ->withPivot('Quantity')
                     ->withTimestamps();
+    }
+
+    public function basketProducts()
+    {
+        return $this->hasMany(BasketProduct::class, 'Basket_ID', 'Basket_ID');
     }
     /**
      * Indicates if the model should be timestamped.

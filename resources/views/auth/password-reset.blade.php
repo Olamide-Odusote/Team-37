@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-/* PASSWORD RESET FORM */
+<!-- PASSWORD RESET FORM -->
 
 <div class="login">
     <div class="signInText">Change Password</div>
@@ -43,7 +43,7 @@
             required
         >
 
-        /* New Password Fields */
+        <!-- New Password Field -->
         <div class="text">New Password</div>
         <input 
             type="password" 
@@ -52,7 +52,7 @@
             placeholder="Enter new password"
             required
         >
-        /* Confirm New Password Field */
+        <!-- Confirm New Password Field -->
         <div class="text">Re-enter Password</div>
         <input 
             type="password" 
@@ -64,7 +64,7 @@
 
         <button type="submit" class="continue">Continue</button>
     </form>
-    /* Link to Sign In */
+    <!-- Link to Sign In -->
     <p class="already">
         Already have an account? 
         <a href="{{ route('signin') }}">Sign in ></a>

@@ -17,7 +17,7 @@
                 to meet our customer's needs. We hope this is the start of something big and we're excited to have you with us on this journey.
               </p>
               
-              /* Team Section */
+              <!-- Team Section 1-->
 
         <h2>Our Team</h2>
         <div class="team">

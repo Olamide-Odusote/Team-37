@@ -3,18 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class ProductCategory extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
+     */
+    protected $primaryKey = 'ProductCategory_ID';
+    protected $table = 'product_categories';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
      */
     protected $fillable = [
         'Name',
         'Description',
+        'ImageURL',
     ];
+
     /**
      * Get the products for the category.
      */
@@ -22,9 +32,6 @@ class ProductCategory extends Model
     {
         return $this->hasMany(Product::class, 'ProductCategory_ID');
     }
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */    public $timestamps = true;
+// Enable timestamps
+    public $timestamps = true;
 }

@@ -6,12 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $primaryKey = 'Customer_ID';
+    protected $table = 'customers';
+
     protected $fillable = [
+        'user_id',
         'Name',
         'Email',
         'Password',
-        'Mobile_Number',
+        'Mobile Number',
     ];
+
+    /**
+     *  Get the User 
+     */
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     /* Password hash for serialisation */
 
@@ -29,9 +45,9 @@ class Customer extends Model
     /**
      * Get the baskets for the customer.
      */
-    public function baskets()
+    public function basket()
     {
-        return $this->hasMany(Basket::class, 'Customer_ID');
+        return $this->hasOne(Basket::class, 'Customer_ID', 'Customer_ID');
     }
     /**
      * Get the orders for the customer.

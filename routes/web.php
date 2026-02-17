@@ -23,7 +23,7 @@ use App\Http\Controllers\ReturnRequestController;
 // --------------------
 // Public Pages
 // --------------------
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'homepage'])->name('home');
 Route::get('/about', [ContactController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
@@ -33,6 +33,9 @@ Route::post('/contact/submit', [ContactController::class, 'submit'])->name('cont
 // Authentication
 // --------------------
 Route::prefix('auth')->group(function () {
+
+    // Auth hub (login/register options)
+    Route::get('/login', function() { return view('auth.login'); })->name('auth.login');
 
     // Customer registration
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
@@ -44,6 +47,7 @@ Route::prefix('auth')->group(function () {
 
     // Sign-in/out
     Route::get('/signin', [AuthController::class, 'showSigninForm'])->name('signin');
+    Route::get('/admin/signin', [AuthController::class, 'showAdminSigninForm'])->name('admin.signin');
     Route::post('/signin', [AuthController::class, 'signin'])->name('signin.post');
     Route::post('/signout', [AuthController::class, 'signout'])->name('signout.post');
 
@@ -56,11 +60,12 @@ Route::prefix('auth')->group(function () {
 // --------------------
 // Products & Categories
 // --------------------
-Route::resource('products', ProductController::class);
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+Route::resource('products', ProductController::class);
 Route::post('/products/{product}/feedback', [FeedbackController::class, 'submitFeedback'])->name('feedback.submit');
 
-Route::resource('categories', ProductCategoryController::class)->only(['index', 'show']);
+Route::get('/categories/{category}', [ProductCategoryController::class, 'show'])->name('categories.show');
+
 
 
 // --------------------
@@ -70,6 +75,7 @@ Route::prefix('basket')->group(function () {
     Route::get('/', [BasketController::class, 'viewBasket'])->name('basket.view');
     Route::post('/add/{product}', [BasketController::class, 'addToBasket'])->name('basket.add');
     Route::post('/remove/{product}', [BasketController::class, 'removeFromBasket'])->name('basket.remove');
+    Route::post('/adjust/{product}/{action}', [BasketController::class, 'adjustQuantity'])->name('basket.adjust');
 });
 
 
@@ -78,8 +84,12 @@ Route::prefix('basket')->group(function () {
 // --------------------
 Route::resource('orders', FinalOrderController::class)->only(['index', 'show']);
 
-Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout');
-Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.checkout');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Account / Profile
+Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index');
 
 
 // --------------------
@@ -95,9 +105,11 @@ Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'subm
 Route::middleware(['auth:admin'])
     ->prefix('admin')
     ->group(function () {
-
-        Route::resource('inventory', InventoryController::class)
-            ->only(['index', 'store', 'update', 'destroy']);
+        // Dashboard
+        Route::get('/inventory', [App\Http\Controllers\AdminDashboardController::class, 'inventoryIndex'])->name('admin.inventory.index');
+        Route::post('/inventory/report', [App\Http\Controllers\AdminDashboardController::class, 'generateReport'])->name('admin.inventory.report');
+        Route::post('/inventory/{id}/restock', [App\Http\Controllers\AdminDashboardController::class, 'restock'])->name('admin.inventory.restock');
+        Route::delete('/inventory/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroy'])->name('admin.inventory.delete');
 
         Route::resource('inventory-logs', InventoryLogController::class)
             ->only(['index']);
