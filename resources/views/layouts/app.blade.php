@@ -56,33 +56,55 @@
 
             <!-- RIGHT NAV ITEMS -->
             <div class="nav-right">
+                {{-- If ADMIN is logged in --}}
                 @if(Auth::guard('admin')->check())
-                    <a href="{{ route('admin.inventory.index') }}" style="color:#0055c0;text-decoration:none;font-weight:600;font-size:15px;">Admin</a>
+                <div class="nav-item user-dropdown">
+                    <button class="user-btn">
+                        Admin
+                        <span class="caret">▼</span>
+                    </button>
+                    
+                    <div class="user-menu">
+                        <a href="{{ route('admin.inventory.index') }}" class="dropdown-item">Dashboard</a>
+                        
+                        <form action="{{ route('signout.post') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Sign Out</button>
+                        </form>
+                    </div>
+                </div>
                 @endif
+                
+                {{-- If CUSTOMER is logged in --}}
+                @if(Auth::check() && !Auth::guard('admin')->check())
+                <div class="nav-item user-dropdown">
+                    <button class="user-btn">
+                        {{ Auth::user()->name }}
+                        <span class="caret">▼</span>
+                    </button>
+
+            <div class="user-menu">
+                <a href="{{ route('account.index') }}" class="dropdown-item">Profile</a>
+
+                <form action="{{ route('signout.post') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Sign Out</button>
+                </form>
+            </div>
+        </div>
+    @endif
+
+
+    {{-- If NO ONE is logged in --}}
+    @if(!Auth::check() && !Auth::guard('admin')->check())
+        <div class="nav-item">
+            <a href="{{ route('auth.login') }}" class="signin-btn">Sign In</a>
+        </div>
+    @endif
                  <!-- DARK MODE BUTTON -->
                   <button id="darkModeToggle" class="darkmode-btn" aria-label="Toggle Dark Mode">
                   <i class="fas fa-moon"></i> <!-- initial icon -->
                   </button>
-                @auth
-                    <div class="nav-item user-dropdown">
-                        <button class="user-btn">
-                            {{ Auth::user()->name }}
-                            <span class="caret">▼</span>
-                        </button>
-
-                        <div class="user-menu">
-                            <a href="{{ route('account.index') }}" class="dropdown-item">Profile</a>
-                            <form action="{{ route('signout.post') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Sign Out</button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <div class="nav-item">
-                        <a href="{{ route('auth.login') }}" class="signin-btn">Sign In</a>
-                    </div>
-                @endauth
             
 
                 <a href="{{ route('basket.view') }}" class="basket-link">
@@ -108,6 +130,7 @@
                 </a>
             </div>
         </div>
+    </div> <!-- END NAVBAR TOP -->
 
         <!-- BOTTOM NAV LINKS -->
         <div class="nav-bottom">
@@ -115,6 +138,9 @@
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('about') }}">About Us</a></li>
                 <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                @if (Auth::guard('admin')->check())
+                    <li><a href="{{ route('admin.inventory.index') }}">Admin Dashboard</a></li>
+                @endif
             </ul>
         </div>
     </nav>

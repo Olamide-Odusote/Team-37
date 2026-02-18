@@ -12,7 +12,7 @@
 
     @include('components.errors')
 
-    <form method="POST" action="{{ route('signin.post') }}">
+    <form method="POST" action="{{ route('admin.signin.post') }}">
         @csrf
         <input type="text" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>

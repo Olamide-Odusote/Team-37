@@ -45,10 +45,13 @@ Route::prefix('auth')->group(function () {
     Route::get('/admin/register', [AuthController::class, 'showAdminRegistrationForm'])->name('admin.register');
     Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('admin.register.post');
 
-    // Sign-in/out
+    // Customer Sign In / Out
     Route::get('/signin', [AuthController::class, 'showSigninForm'])->name('signin');
+    Route::post('/signin', [AuthController::class, 'signinCustomer'])->name('signin.post');
+
+    // Admin Sign In / Out
     Route::get('/admin/signin', [AuthController::class, 'showAdminSigninForm'])->name('admin.signin');
-    Route::post('/signin', [AuthController::class, 'signin'])->name('signin.post');
+    Route::post('/admin/signin', [AuthController::class, 'signinAdmin'])->name('admin.signin.post');
     Route::post('/signout', [AuthController::class, 'signout'])->name('signout.post');
 
     // Password reset
