@@ -18,28 +18,42 @@ class AuthController extends Controller
         return view('auth.signin');
     }
 
+    /* SIGN IN (ADMIN) */
+
     public function showAdminSigninForm()
     {
         return view('auth.admin-signin');
     }
 
-    public function signin(Request $request)
+    /* SIGN IN (CUSTOMER) */
+
+    public function signinCustomer(Request $request)
     {
         $request->validate([
             'email'    => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string',
         ]);
 
-        // Attempt customer login
         if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'))->with('success', 'You have been signed in successfully.');
+            return redirect()->intended(route('home'))->with('success', 'Signed in successfully!');
         }
 
-        // Attempt admin login using Email column
-        if (Auth::guard('admin')->attempt(['Email' => $request->email, 'password' => $request->password])) {
+        return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
+    }
+
+    /* SIGN IN (ADMIN) */
+
+    public function signinAdmin(Request $request)
+    {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.inventory.index'))->with('success', 'Welcome back, Admin.');
+            return redirect()->intended(route('admin.inventory.index'))->with('success', 'Admin signed in successfully!');
         }
 
         return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();

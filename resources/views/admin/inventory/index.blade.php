@@ -22,13 +22,18 @@
     <!-- Inventory Management Section -->
     <div class="inventory-section">
         <div class="section-header">
+            <div class='admin-actions'>
             <h2>Inventory Management</h2>
+            <div class="admin-buttons">
             <form action="{{ route('admin.inventory.report') }}" method="POST" style="display:inline;">
                 @csrf
-                <button type="submit" class="btn-report">Generate Report</button>
+                <button type="submit" class="btn-admin">Generate Report</button>
             </form>
-        </div>
 
+                <a href="{{ route('admin.orders.index') }}" class="btn-admin">View Orders</a>
+                </div>
+            </div>
+        </div>
         <!-- Inventory Table -->
         <div class="table-wrapper">
             <table class="inventory-table">

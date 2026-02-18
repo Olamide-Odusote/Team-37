@@ -9,7 +9,14 @@
 @section('content')
 
 <div class="admin-container">
-    <h1>Orders</h1>
+    <div class='orders-header'>
+            <h1>Orders</h1>
+            <div class="admin-buttons">
+                <a href="{{ route('admin.inventory.index') }}" class="btn-back">
+                    ← Back to Inventory
+                </a>
+            </div>
+        </div>
 
     @if (session('success'))
         <div class="alert alert-success">

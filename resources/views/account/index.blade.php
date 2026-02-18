@@ -13,10 +13,8 @@
             <div style="padding:12px;">
                 <form method="POST" action="#">
                     @csrf
-                    <label>First Name*</label>
-                    <input type="text" name="first_name" value="{{ optional($user)->name ?? '' }}" class="form-control" />
-                    <label style="margin-top:8px;">Last Name*</label>
-                    <input type="text" name="last_name" value="" class="form-control" />
+                    <label>Name*</label>
+                    <input type="text" name="first_name" value="{{ optional($customer)->Name ?? '' }}" class="form-control" />
                     <div style="margin-top:12px;display:flex;gap:8px;">
                         <button class="btn btn-outline-secondary" type="button">Cancel</button>
                         <button class="btn btn-primary" type="submit">Save Changes</button>
