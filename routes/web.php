@@ -110,6 +110,9 @@ Route::middleware(['auth:admin'])
         Route::post('/inventory/report', [App\Http\Controllers\AdminDashboardController::class, 'generateReport'])->name('admin.inventory.report');
         Route::post('/inventory/{id}/restock', [App\Http\Controllers\AdminDashboardController::class, 'restock'])->name('admin.inventory.restock');
         Route::delete('/inventory/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroy'])->name('admin.inventory.delete');
+        Route::get('/orders', [FinalOrderController::class, 'adminIndex'])->name('admin.orders.index');
+        Route::get('/orders/{order}', [FinalOrderController::class, 'adminShow'])->name('admin.orders.show');
+        Route::post('/orders/{order}/update-status', [FinalOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 
         Route::resource('inventory-logs', InventoryLogController::class)
             ->only(['index']);

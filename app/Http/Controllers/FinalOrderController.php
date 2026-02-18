@@ -57,4 +57,34 @@ class FinalOrderController extends Controller
 
         return view('orders.show', compact('order'));
     }
+
+    // Admin view of all orders
+    public function adminIndex()
+    {
+        $orders = FinalOrder::with('items.product')
+            ->orderBy('OrderDate', 'desc')
+            ->paginate(10);
+
+        return view('admin.orders.index', compact('orders'));
+    }
+
+    // Admin view of a single order
+    public function adminShow(FinalOrder $order)
+    {
+        $order->load('items.product.inventory', 'items.return');
+
+        return view('admin.orders.show', compact('order'));
+    }
+
+    // Admin update order status
+    public function updateStatus(Request $request, FinalOrder $order)
+    {        $request->validate([
+            'status' => 'required|in:pending,shipped,delivered,returned',
+        ]);
+
+        $order->Status = $request->input('status');
+        $order->save();
+
+        return redirect()->route('admin.orders.show', $order)->with('success', 'Order status updated successfully.');
+    }
 }
