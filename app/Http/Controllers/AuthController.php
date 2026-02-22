@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,23 +18,42 @@ class AuthController extends Controller
         return view('auth.signin');
     }
 
-    public function signin(Request $request)
+    /* SIGN IN (ADMIN) */
+
+    public function showAdminSigninForm()
+    {
+        return view('auth.admin-signin');
+    }
+
+    /* SIGN IN (CUSTOMER) */
+
+    public function signinCustomer(Request $request)
     {
         $request->validate([
             'email'    => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string',
         ]);
 
-        // Attempt customer login
         if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('home'))->with('success', 'Signed in successfully!');
         }
 
-        // Attempt admin login
+        return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
+    }
+
+    /* SIGN IN (ADMIN) */
+
+    public function signinAdmin(Request $request)
+    {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
+
         if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/inventory');
+            return redirect()->intended(route('admin.inventory.index'))->with('success', 'Admin signed in successfully!');
         }
 
         return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
@@ -62,9 +82,18 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Create corresponding customer record
+        Customer::create([
+            'user_id'   => $user->id,
+            'Name'      => $request->name,
+            'Email'     => $request->email,
+            'Password'  => Hash::make($request->password),
+            'Mobile Number' => 0,
+        ]);
+
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Account created successfully.');
+        return redirect()->route('home')->with('success', 'Account created successfully. Welcome to OmniCart!');
     }
 
 
@@ -79,23 +108,21 @@ class AuthController extends Controller
     {
         $request->validate([
             'name'                  => 'required|string|max:255',
-            'email'                 => 'required|email|unique:admins,email',
+            'email'                 => 'required|email|unique:admins,Email',
             'password'              => 'required|string|min:6|confirmed',
         ]);
 
         Admin::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'Name'     => $request->name,
+            'Email'    => $request->email,
+            'Password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('signin')->with('success', 'Admin account created successfully.');
+        return redirect()->route('admin.signin')->with('success', 'Admin account created successfully. Please sign in.');
     }
 
 
-    /* ======================================================
-     |  PASSWORD RESET (SIMPLE INTERNAL VERSION)
-     ====================================================== */
+    /* PASSWORD RESET (SIMPLE INTERNAL VERSION) */
 
     public function showPasswordResetForm()
     {
@@ -135,6 +162,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'You have been signed out successfully.');
     }
 }

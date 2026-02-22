@@ -1,0 +1,82 @@
+/* Contact Form Container */
+.contact-form-container {
+    max-width: 900px;
+    margin: 60px auto;
+    text-align: left;
+}
+
+    /* Form Headings & Description */
+    .contact-form-container h1 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .contact-form-container p {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+/* Inputs and Textarea */
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #cdd5df;
+    border-radius: 20px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Error & Success Messages */
+.error-alert, .success-alert {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 12px 0;
+}
+
+.error-alert {
+    background-color: #fff3f3;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.error-alert ul {
+    margin: 8px 0 0 20px;
+}
+
+.error-alert li {
+    margin: 4px 0;
+}
+
+.error-alert span {
+    display: block;
+    color: #721c24;
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.success-alert {
+    background-color: #f0f8f3;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #0055C0;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+    .submit-button:hover {
+        background-color: #004AA8;
+    }

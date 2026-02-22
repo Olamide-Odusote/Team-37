@@ -1,0 +1,256 @@
+/* ===========================
+   HERO SECTION
+=========================== */
+.hero {
+    background-color: #0b63d8;
+    color: white;
+    padding: 40px 0 55px;
+}
+
+.hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.hero-text {
+    flex: 1 1 48%;
+    min-width: 320px;
+    padding: 24px;
+}
+
+.hero-text h1 {
+    font-size: 2.7rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hero-text p {
+    font-size: 1.05rem;
+    margin-bottom: 22px;
+    max-width: 520px;
+    line-height: 1.45;
+}
+
+.hero-cta {
+    display: inline-block;
+    padding: 12px 22px;
+    background-color: #f3f4f6;
+    color: #0b63d8;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.hero-cta:hover {
+    background-color: white;
+}
+
+/* IMAGE RIGHT */
+.hero-image {
+    flex: 1 1 44%;
+    text-align: center;
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 380px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(2,6,23,0.28);
+}
+
+/* ===========================
+   CATEGORY SECTION
+=========================== */
+.categories-section {
+    background: white;
+    text-align: center;
+    padding: 35px 16px;
+}
+
+.categories-section h2 {
+    color: #1e3a8a;
+    font-size: 1.9rem;
+    margin-bottom: 35px;
+}
+
+.categories-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px 80px;
+}
+
+.cat {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cat-icon {
+    width: 88px;
+    height: 88px;
+    background-color: #1e3a8a;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.12s ease;
+}
+
+.cat-icon img {
+    width: 48px;
+    height: 48px;
+}
+
+.cat:hover .cat-icon {
+    transform: translateY(-6px);
+}
+
+.cat span {
+    margin-top: 8px;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* ===========================
+   PRODUCT PREVIEW SECTION
+=========================== */
+.products-section {
+    text-align: center;
+    padding: 40px 16px;
+    background-color: #0f172a;
+}
+
+.products-section h2 {
+    font-size: 2rem;
+    color: #3b82f6;
+    margin-bottom: 20px;
+}
+
+.product-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 22px;
+}
+
+.product {
+    background-color: rgba(15,23,42,0.6);
+    width: 230px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(59,130,246,0.15);
+    text-decoration: none;
+    color: white;
+    transition: 0.13s ease;
+}
+
+.product:hover {
+    border-color: rgba(59,130,246,0.3);
+    transform: translateY(-4px);
+}
+
+.product-media {
+    width: 100%;
+    height: 160px;
+    background-color: rgba(30,58,138,0.06);
+    overflow: hidden;
+}
+
+.product-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 12px 14px;
+}
+
+.product p {
+    margin: 5px 0;
+}
+
+.price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #3b82f6;
+}
+
+/* ===========================
+   FEATURES SECTION
+=========================== */
+.features-section {
+    padding: 34px 16px;
+    background-color: #0f172a;
+    text-align: center;
+}
+
+.features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    width: 170px;
+    text-align: center;
+}
+
+.feature-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background-color: rgba(59,130,246,0.06);
+    border: 2px solid rgba(59,130,246,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px;
+}
+
+.feature-icon img {
+    width: 36px;
+    height: 36px;
+}
+
+.feature h3 {
+    font-size: 1rem;
+    margin: 8px 0 5px;
+}
+
+.feature p {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+    .hero-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        padding: 0;
+    }
+
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .product {
+        width: 100%;
+        max-width: 260px;
+    }
+}
