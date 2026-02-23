@@ -59,10 +59,63 @@ class AdminDashboardController extends Controller
     /* Show single customer details */
     public function viewCustomer($id)
     {
-        $customer = \App\Models\Customer::with('user')->findOrFail($id);
+        $customer = Customer::with('user')->findOrFail($id);
 
         return view('admin.customers.show', compact('customer'));
     }
+
+    public function editCustomer($id)
+    {
+        $customer = Customer::with('user')->findOrFail($id);
+
+        return view('admin.customers.edit', compact('customer'));
+    }
+    
+    /* Update customer details and associated user email */
+    public function updateCustomer(Request $request, $id)
+    
+    {
+        $customer = Customer::with('user')->findOrFail($id);
+        $user = $customer->user;
+
+        $validated = $request->validate([
+            'Name' => 'required|string|max:255',
+            'Email' => 'required|email|unique:users,email,' . $user->id,
+            'Mobile Number' => 'required|string|max:20',
+            ]);
+            
+            DB::transaction(function () use ($validated, $customer, $user) {
+
+            // Update login email
+            $user->update([
+            'email' => $validated['Email'],
+            ]);
+
+            // Update profile
+            $customer->update([
+                'Name' => $validated['Name'],
+                'Email' => $validated['Email'],
+                'Mobile Number' => $validated['Mobile Number'],
+                ]);
+                });
+                
+                return redirect()->route('admin.customers.index')
+                ->with('success', 'Customer updated successfully.');
+                }
+
+                public function destroyCustomer($id)
+                {
+                    $customer = Customer::with('user')->findOrFail($id);
+                    
+                    DB::transaction(function () use ($customer) {
+                        $customer->user->delete();   // deletes login
+                        $customer->delete();         // deletes profile
+                    });
+                    
+                    return redirect()->route('admin.customers.index')
+                    ->with('success', 'Customer deleted successfully.');
+                    }
+
 
     /* Inventory report with total products, total stock, and low stock count */
     public function generateReport()
@@ -215,40 +268,43 @@ class AdminDashboardController extends Controller
 
     DB::transaction(function () use ($validated, $request, $inventory, $product) {
 
-        $oldQuantity = $inventory->Quantity;
+    $oldQuantity = $inventory->Quantity;
 
-        // Handle image replacement
-        if ($request->hasFile('image')) {
-            if ($product->Image_URL) {
-                Storage::disk('public')->delete($product->Image_URL);
-            }
-            $product->Image_URL = $request->file('image')->store('products', 'public');
+    $imagePath = $product->Image_URL;
+
+    if ($request->hasFile('image')) {
+        if ($product->Image_URL) {
+            Storage::disk('public')->delete($product->Image_URL);
         }
 
-        // Update product
-        $product->update([
-            'Name' => $validated['name'],
-            'Description' => $validated['description'],
-            'Price' => $validated['price'],
-            'ProductCategory_ID' => $validated['category_id'],
-        ]);
+        $imagePath = $request->file('image')->move(
+    public_path('images/products'),
+    time().'_'.$request->file('image')->getClientOriginalName()
+);
+    }
 
-        // Update inventory
-        $inventory->update([
-            'Quantity' => $validated['quantity'],
-            'Threshold' => $validated['threshold'],
-        ]);
+    $product->update([
+        'Name' => $validated['name'],
+        'Description' => $validated['description'],
+        'Price' => $validated['price'],
+        'ProductCategory_ID' => $validated['category_id'],
+        'Image_URL' => $imagePath,
+    ]);
 
-        // Log quantity change
-        $quantityChange = $validated['quantity'] - $oldQuantity;
+    $inventory->update([
+        'Quantity' => $validated['quantity'],
+        'Threshold' => $validated['threshold'],
+    ]);
 
-        InventoryLog::create([
-            'Product_ID' => $product->Product_ID,
-            'Admin_ID' => Auth::guard('admin')->id(),
-            'Action_Type' => 'adjustment',
-            'Quantity_Changed' => $quantityChange,
-        ]);
-    });
+    $quantityChange = $validated['quantity'] - $oldQuantity;
+
+    InventoryLog::create([
+        'Product_ID' => $product->Product_ID,
+        'Admin_ID' => Auth::guard('admin')->id(),
+        'Action_Type' => 'adjustment',
+        'Quantity_Changed' => $quantityChange,
+    ]);
+});
 
     return redirect()->route('admin.inventory.index')
         ->with('success', 'Product and inventory updated successfully.');

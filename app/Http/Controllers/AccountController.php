@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 use App\Models\Customer;
 
 class AccountController extends Controller
@@ -47,18 +48,21 @@ class AccountController extends Controller
         $request->validate([
             'Name' => 'required|string|max:255',
             'Email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'Mobile Number' => 'nullable|string|max:20',
+            'Mobile_Number' => 'required|string|max:20',
             ]);
             
             // Update users table (for login)
-            $user->email = $request->Email;
-            $user->save();
+            $user->update([
+                'name' => $request->Name,
+                'email' => $request->Email,
+                'Mobile Number' => $request->Mobile_Number,
+            ]);
 
             // Update customers table (profile data)
             $customer->update([
             'Name' => $request->Name,
             'Email' => $request->Email,
-            'Mobile Number' => $request->input('Mobile_Number'),
+            'Mobile Number' => $request->Mobile_Number,
             ]);
 
             return redirect()->route('account.index')

@@ -55,7 +55,7 @@ class FinalOrderController extends Controller
 
         // Query fresh each time to get latest return relationships
         $order = FinalOrder::query()
-            ->with('items.product.inventory', 'items.return')
+            ->with('items.product.inventory', 'items.returnRequest')
             ->findOrFail($id);
 
         // Ensure user is allowed to view this order (owner or admin)
@@ -86,7 +86,7 @@ class FinalOrderController extends Controller
     // Admin view of a single order
     public function adminShow(FinalOrder $order)
     {
-        $order->load('items.product.inventory', 'items.return');
+        $order->load('items.product.inventory', 'items.returnRequest');
 
         return view('admin.orders.show', compact('order'));
     }

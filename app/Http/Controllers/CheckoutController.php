@@ -187,7 +187,7 @@ class CheckoutController extends Controller
             InventoryLog::create([
                 'Product_ID' => $bp->Product_ID,
                 'Admin_ID' => null,
-                'Action_Type' => 'sale',
+                'Action_Type' => 'adjustment',
                 'Quantity_Changed' => -$bp->Quantity,
             ]);
 

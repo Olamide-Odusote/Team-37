@@ -55,17 +55,23 @@ input {
     margin-top: 15px;
 }
 
-.btn-primary {
-    background-color: #1f3c88;
-    color: #fff;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 6px;
+.btn-action {
+    padding: 6px 14px;
+    border: 2px solid #0055c0;
+    background: #fff;
+    color: #0055c0;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 160ms ease;
 }
 
-.btn-primary:hover {
-    background-color: #162c63;
+.btn-action:hover {
+    background: #0055c0;
+    color: #fff;
 }
 
 .account-danger {

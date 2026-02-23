@@ -57,12 +57,12 @@
 
                 <div class="form-group">
                     <label>Mobile Number</label>
-                    <input type="text" name="Mobile Number"
+                    <input type="text" name="Mobile_Number"
                            value="{{ old('Mobile Number', $customer->{'Mobile Number'} ?? '') }}">
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn-action">
                         Save Changes
                     </button>
                 </div>
@@ -75,7 +75,7 @@
 
             <form method="POST" action="{{ route('account.change-password') }}">
                 @csrf
-
+                @method('PUT')
                 <div class="account-grid">
 
                     <div class="form-group">
@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn-action">
                         Update Password
                     </button>
                 </div>

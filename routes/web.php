@@ -108,8 +108,7 @@ Route::put('/account/password', [AccountController::class, 'changePassword'])->n
 // Returns
 // --------------------
 Route::get('/orders/{order}/return', [FinalOrderController::class, 'showReturnForm'])->name('orders.return');
-Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'submitReturnRequest'])
-    ->name('return.submit');
+Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'submitReturnRequest'])->name('return.submit');
 
 
 // --------------------
@@ -122,7 +121,13 @@ Route::middleware(['auth:admin'])
         // Dashboard
         Route::get('/inventory', [App\Http\Controllers\AdminDashboardController::class, 'inventoryIndex'])->name('inventory.index');
         Route::post('/inventory/report', [App\Http\Controllers\AdminDashboardController::class, 'generateReport'])->name('inventory.report');
-        Route::get('/inventory/customers', [App\Http\Controllers\AdminDashboardController::class, 'showCustomers'])->name('customers.index');
+        Route::get('/admin/change-password', [AdminController::class, 'showChangePasswordForm'])->name('change-password.form');
+        Route::put('/admin/change-password', [AdminController::class, 'changePassword'])->name('change-password');
+        Route::get('/customers', [App\Http\Controllers\AdminDashboardController::class, 'showCustomers'])->name('customers.index');
+        Route::get('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'viewCustomer'])->name('customers.show');
+        Route::get('/customers/{id}/edit', [App\Http\Controllers\AdminDashboardController::class, 'editCustomer'])->name('customers.edit');
+        Route::put('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'updateCustomer'])->name('customers.update');
+        Route::delete('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroyCustomer'])->name('customers.destroy');
         Route::post('/inventory/{id}/restock', [App\Http\Controllers\AdminDashboardController::class, 'restock'])->name('inventory.restock');
         Route::delete('/inventory/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroy'])->name('inventory.delete');
         Route::get('/inventory/create', [App\Http\Controllers\AdminDashboardController::class, 'createProduct'])->name('inventory.create');
