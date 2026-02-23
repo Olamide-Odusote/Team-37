@@ -32,6 +32,8 @@
 
                 <a href="{{ route('admin.orders.index') }}" class="btn-admin">View Orders</a>
 
+                <a href="{{ route('admin.customers.index') }}" class="btn-admin">View Customers</a>
+
                 <a href="{{ route('admin.inventory.create') }}" class="btn-admin">Add Product</a>
                 </div>
             </div>

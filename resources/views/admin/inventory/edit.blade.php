@@ -58,6 +58,10 @@
 
                     <div class="form-group">
                         <label>Image</label>
+                        @if($inventory->product->Image_URL)
+                        <p>{{ $inventory->product->Image_URL }}</p>
+                        <img src="{{ asset('storage/' . $inventory->product->Image_URL) }}" width="120">
+                        @endif
                         <input type="file" name="image">
                     </div>
                 </div>

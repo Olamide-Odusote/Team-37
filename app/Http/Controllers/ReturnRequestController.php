@@ -38,7 +38,7 @@ class ReturnRequestController extends Controller
         }
 
         $validated = $request->validate([
-            'reason' => 'required|string|min:10|max:500',
+            'reason' => 'required|string|min:5|max:500',
         ]);
 
         ReturnRequest::create([
@@ -47,8 +47,8 @@ class ReturnRequestController extends Controller
             'Status' => 'pending',
         ]);
 
-        return redirect()->route('orders.show', $orderItem->FinalOrder_ID)
-            ->with('success', 'Return request submitted successfully. We will review it shortly.');
+       return redirect()->route('orders.show', $orderItem->FinalOrder_ID)
+       ->with('success', 'Return request submitted successfully. We will review it shortly.');
     }
 
     /**

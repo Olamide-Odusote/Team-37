@@ -7,6 +7,34 @@
 
 <div class="order-details-container">
     <h1 style="font-size:32px;color:#333;margin-bottom:24px;font-weight:700;">Order #{{ $order->FinalOrder_ID ?? $order->id }}</h1>
+    @if($errors->any())
+    <div class="account-error" style="margin-bottom:20px;">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+    {{-- Flash Messages --}}
+@if(session('success'))
+    <div class="account-success" style="margin-bottom:20px;">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="account-error" style="margin-bottom:20px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if(session('warning'))
+    <div class="account-error" style="margin-bottom:20px;">
+        {{ session('warning') }}
+    </div>
+@endif
 
     <!-- Order Information Box -->
     <div class="order-info-box">
@@ -54,7 +82,7 @@
                     @foreach($order->items as $item)
                         @php 
                             $p = $item->product;
-                            $return = $item->return;
+                            $return = $item->returnRequest;
                         @endphp
                         <tr>
                             <td>

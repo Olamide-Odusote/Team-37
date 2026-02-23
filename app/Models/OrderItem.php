@@ -39,7 +39,7 @@ class OrderItem extends Model
     /**
      * Get the return request associated with the order item.
      */
-    public function return()
+    public function returnRequest()
     {
         return $this->hasOne(ReturnRequest::class, 'OrderItem_ID');
     }
