@@ -14,7 +14,7 @@
         <h1>Smart Shopping, Smarter Living</h1>
         Discover a wide range of electronics and everyday essentials that fit your lifestyle and budget.
         <p></p>
-        <a class="hero-cta" href="">Learn More</a> 
+        <a class="hero-cta" href="{{ route('about') }}">Learn More</a> 
         </div>
         <div class="hero-image">
         <img src="{{ asset('images/hero.jpg') }}" alt="Gaming Gear">
