@@ -179,17 +179,48 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="#">Conditions Of Use & Sale</a>
-            <a href="#">Privacy Notice</a>
-            <a href="#">Cookies Notice</a>
+ <footer class="footer">
+    <div class="footer-container">
+        
+        <!-- Left side (brand text) -->
+        <div class="footer-brand">
+            <img src="{{ asset('images/Logo.png') }}" alt="Logo">
+            <p>
+              Smart Shopping, Smarter Living.
+            </p>
         </div>
 
-        <p class="copyright">
-            © 2025– , OmniCart.Co.Uk
-        </p>
-    </footer>
+        <!-- Right side (links) -->
+      <div class="footer-links">
+
+    <div class="footer-column">
+        <h4>Shop</h4>
+        <a href="{{ route('products.index') }}">All Products</a>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+    </div>
+
+    <div class="footer-column">
+        <h4>Support</h4>
+        <a href="{{ route('about') }}">About Us</a>
+        <a href="{{ route('contact') }}">Contact</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+
+    <div class="footer-column">
+        <h4>Account</h4>
+        <a href="{{ route('auth.login') }}">Sign In</a>
+        <a href="{{ route('auth.login') }}">Register</a>
+        <a href="#">Orders</a>
+    </div>
+
+</div>
+
+        <div class="footer-bottom">
+        © 2025 OmniCart. All rights reserved.
+    </div>
+
+</footer>
 
       <script>
 document.addEventListener('DOMContentLoaded', function() {
