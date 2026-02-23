@@ -28,8 +28,15 @@ class FinalOrderController extends Controller
                     ->with('error', 'You must log in first.');
                     }
 
+                    // Get the customer record for this user
+                    $customer = $user->customer;
+                    if (!$customer) {
+                        return redirect()->route('products.index')
+                        ->with('error', 'Customer profile not found.');
+                    }
+
                     // Get only orders for the logged-in user
-                    $orders = FinalOrder::where('Customer_ID', $user->Customer_ID)
+                    $orders = FinalOrder::where('Customer_ID', $customer->Customer_ID)
                     ->with('items.product')
                     ->orderBy('OrderDate', 'desc')
                     ->get();
@@ -46,11 +53,19 @@ class FinalOrderController extends Controller
     {
         $user = Auth::user();
 
-        $order = FinalOrder::with('items.product.inventory', 'items.return')->findOrFail($id);
+        // Query fresh each time to get latest return relationships
+        $order = FinalOrder::query()
+            ->with('items.product.inventory', 'items.return')
+            ->findOrFail($id);
 
         // Ensure user is allowed to view this order (owner or admin)
         if (!auth()->guard('admin')->check()) {
-            if (!$user || $order->Customer_ID != $user->Customer_ID) {
+            if (!$user) {
+                return redirect()->route('signin')->with('error', 'You must be logged in.');
+            }
+            
+            $customer = $user->customer;
+            if (!$customer || $order->Customer_ID != $customer->Customer_ID) {
                 return redirect()->route('orders.index')->with('error', 'Order not found or access denied.');
             }
         }

@@ -69,10 +69,10 @@ class CheckoutController extends Controller
     }
 
     // Show order success page with order details
-public function success(FinalOrder $orderId)
-{
-    return view('checkout.success', compact('orderId'));
-}
+    public function success(FinalOrder $order)
+    {
+        return view('checkout.success', compact('order'));
+    }
 
 
 
@@ -175,13 +175,19 @@ public function success(FinalOrder $orderId)
                 'Unit_Price' => $bp->product->Price,
             ]);
 
-            Inventory::where('Product_ID', $bp->Product_ID)
-                ->decrement('Quantity', $bp->Quantity);
+            Inventory::where('Product_ID', $bp->Product_ID)->lockforUpdate()->first();
+
+            if($inventory->Quantity < $bp->Quantity) {
+                throw new \Exception('Insufficient stock for ' . $bp->product->Name);
+            }
+
+            $inventory->Quantity -= $bp->Quantity;
+            $inventory->save();
 
             InventoryLog::create([
                 'Product_ID' => $bp->Product_ID,
                 'Admin_ID' => null,
-                'Action_Type' => 'adjustment',
+                'Action_Type' => 'sale',
                 'Quantity_Changed' => -$bp->Quantity,
             ]);
 

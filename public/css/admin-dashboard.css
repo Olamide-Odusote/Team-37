@@ -1,4 +1,4 @@
-/* ADMIN DASHBOARD */
+/* Admin Dashboard */
 
 .admin-container {
     max-width: 1200px;
@@ -100,6 +100,14 @@
 
 .inventory-table tbody tr:hover {
     background: #f9f9f9;
+}
+
+/* Image */
+.product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
 /* Stock Badge */
