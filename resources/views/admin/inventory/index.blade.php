@@ -31,17 +31,40 @@
             </form>
 
                 <a href="{{ route('admin.orders.index') }}" class="btn-admin">View Orders</a>
+
+                <a href="{{ route('admin.inventory.create') }}" class="btn-admin">Add Product</a>
                 </div>
             </div>
         </div>
+
+        <form method="GET" action="{{ route('admin.inventory.index') }}" class="filter-form">
+
+    <input type="text" 
+           name="search" 
+           placeholder="Search product name or description"
+           value="{{ request('search') }}">
+
+    <select name="category_id">
+        <option value="">All Categories</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->ProductCategory_ID }}"
+                {{ request('category_id') == $category->ProductCategory_ID ? 'selected' : '' }}>
+                {{ $category->Name }}
+            </option>
+        @endforeach
+    </select>
+
+    <button type="submit" class="btn-admin">Filter</button>
+</form>
         <!-- Inventory Table -->
         <div class="table-wrapper">
             <table class="inventory-table">
                 <thead>
                     <tr>
-                        <th>Product_ID</th>
+                        <th>Product ID</th>
                         <th>Name</th>
-                        <th>Stock_Level</th>
+                        <th>Image</th>
+                        <th>Stock Level</th>
                         <th>Category</th>
                         <th>Price</th>
                         <th>Actions</th>
@@ -52,32 +75,46 @@
                     <tr>
                         <td>{{ $item->product->Product_ID }}</td>
                         <td>{{ $item->product->Name }}</td>
-                        <td>
-                            <span class="stock-badge {{ $item->Quantity <= $item->Threshold ? 'low' : 'normal' }}">
-                                {{ $item->Quantity }}
-                            </span>
-                        </td>
-                        <td>{{ $item->product->category->Name ?? 'N/A' }}</td>
-                        <td>£{{ number_format($item->product->Price, 2) }}</td>
-                        <td class="actions-cell">
-                            @if($item->Quantity <= $item->Threshold)
-                                <button class="btn-action btn-restock" onclick="openRestockModal({{ $item->Inventory_ID }}, '{{ $item->product->Name }}')">Restock</button>
+                        <td>@if($item->product->Image_URL)
+                            <img src="{{ asset('images/products/' . $item->product->Image_URL) }}" alt="{{ $item->product->Name }}" class="product-image">
                             @else
-                                <a href="#" class="btn-action btn-edit">Edit</a>
+                            N/A
                             @endif
-                            <form action="{{ route('admin.inventory.delete', $item->Inventory_ID) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-action btn-delete">Delete</button>
-                            </form>
                         </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                        <td>
+                            <span class="stock-badge 
+                            @if($item->Quantity == 0) out
+                            @elseif($item->Quantity <= $item->Threshold) low
+                            @else normal
+                            @endif">
+                            {{ $item->Quantity }}
+                            @if($item->Quantity == 0)
+                            (Out of Stock)
+                            @elseif($item->Quantity <= $item->Threshold)
+                            (Low)
+                            @endif
+                        </span>
+                    </td>
+                    <td>{{ $item->product->category->Name ?? 'N/A' }}</td>
+                    <td>£{{ number_format($item->product->Price, 2) }}</td>
+                    <td class="actions-cell">
+                        @if($item->Quantity <= $item->Threshold)
+                        <button class="btn-action btn-restock" onclick="openRestockModal({{ $item->Inventory_ID }}, '{{ $item->product->Name }}')">Restock</button>
+                        @else
+                        <a href="{{ route('admin.inventory.edit', $item->Inventory_ID) }}" class="btn-action btn-edit">Edit</a>
+                        @endif
+                        <form action="{{ route('admin.inventory.delete', $item->Inventory_ID) }}" method="POST" style="display:inline;" onsubmit="return confirm('This will permanently delete the product and all inventory logs');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-action btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-
+</div>
 </div>
 
 <!-- Restock Modal -->

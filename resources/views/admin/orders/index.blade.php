@@ -12,7 +12,7 @@
     <div class='orders-header'>
             <h1>Orders</h1>
             <div class="admin-buttons">
-                <a href="{{ route('admin.inventory.index') }}" class="btn-back">
+                <a href="{{ route('admin.inventory.index') }}" class="btn-action">
                     ← Back to Inventory
                 </a>
             </div>

@@ -30,10 +30,11 @@ class ReturnRequestController extends Controller
             return redirect()->route('orders.index')->with('error', 'Unauthorized.');
         }
 
-        // Check if return already exists
+        // Check if return already exists - prevent duplicate submissions
         $existing = ReturnRequest::where('OrderItem_ID', $orderItemId)->first();
         if ($existing) {
-            return redirect()->route('orders.show', $orderItem->FinalOrder_ID)->with('warning', 'Return request already submitted for this item.');
+            return redirect()->route('orders.show', $orderItem->FinalOrder_ID)
+                ->with('warning', 'Return request already submitted for this item. Status: ' . ucfirst($existing->Status));
         }
 
         $validated = $request->validate([
@@ -46,7 +47,8 @@ class ReturnRequestController extends Controller
             'Status' => 'pending',
         ]);
 
-        return redirect()->route('orders.show', $orderItem->FinalOrder_ID)->with('success', 'Return request submitted. We will review it shortly.');
+        return redirect()->route('orders.show', $orderItem->FinalOrder_ID)
+            ->with('success', 'Return request submitted successfully. We will review it shortly.');
     }
 
     /**
