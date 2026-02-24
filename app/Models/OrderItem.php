@@ -11,6 +11,11 @@ class OrderItem extends Model
      *
      * @var array
      */
+    protected $table = 'order_items';
+    protected $primaryKey = 'OrderItem_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'FinalOrder_ID',
         'Product_ID',
@@ -34,7 +39,7 @@ class OrderItem extends Model
     /**
      * Get the return request associated with the order item.
      */
-    public function returnRequest()
+    public function return()
     {
         return $this->hasOne(ReturnRequest::class, 'OrderItem_ID');
     }

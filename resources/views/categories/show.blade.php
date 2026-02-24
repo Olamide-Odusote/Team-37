@@ -37,11 +37,13 @@
 
                         <p class="price">£{{ number_format($product->Price, 2) }}</p>
 
+                        @php $available = $product->inventory ? (int)$product->inventory->Quantity : 0; @endphp
                         <div class="meta-row">
                             <a class="view-btn" href="{{ route('products.show', $product->Product_ID) }}">View product</a>
                             <form action="{{ route('basket.add', $product->Product_ID) }}" method="POST" style="display:contents;">
                                 @csrf
-                                <button type="submit" class="add-basket">Add to basket</button>
+                                <input type="hidden" name="qty" value="1">
+                                <button type="submit" class="add-basket" {{ $available <= 0 ? 'disabled' : '' }}>{{ $available > 0 ? 'Add to basket' : 'Out of stock' }}</button>
                             </form>
                         </div>
                     </div>

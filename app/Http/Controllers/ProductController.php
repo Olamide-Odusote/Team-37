@@ -66,31 +66,31 @@ class ProductController extends Controller
      * Search for products based on a query.
      */
     public function search(Request $request)
-{
-    $query = trim($request->input('query'));
-    $category = $request->input('category');
+    {
+        $query = trim($request->input('query'));
+        $category = $request->input('category');
 
-    // CASE 1: No search text AND no category → go to /products
-    if ($query === '' && empty($category)) {
-        return redirect()->route('products.index');
+        // CASE 1: No search text AND no category → go to /products
+        if ($query === '' && empty($category)) {
+            return redirect()->route('products.index');
+        }
+
+        // CASE 2: Category only (no text)
+        if ($query === '' && !empty($category)) {
+            return redirect()->route('categories.show', $category);
+        }
+
+        // CASE 3: Search text exists → perform search
+        $products = Product::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where('Name', 'LIKE', "%{$query}%");
+            })
+            ->when($category, function ($q) use ($category) {
+                $q->where('ProductCategory_ID', $category);
+            })
+            ->get();
+
+        return view('products.search', compact('products', 'query'));
     }
-
-    // CASE 2: Category only (no text)
-    if ($query === '' && !empty($category)) {
-        return redirect()->route('categories.show', $category);
-    }
-
-    // CASE 3: Search text exists → perform search
-    $products = Product::query()
-        ->when($query, function ($q) use ($query) {
-            $q->where('Name', 'LIKE', "%{$query}%");
-        })
-        ->when($category, function ($q) use ($category) {
-            $q->where('ProductCategory_ID', $category);
-        })
-        ->get();
-
-    return view('products.search', compact('products', 'query'));
-}
 
 }

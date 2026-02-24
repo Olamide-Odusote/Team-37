@@ -11,7 +11,8 @@ class Basket extends Model
      *
      * @var array<int, string>
      */
-
+    
+    protected $table = 'baskets';
     protected $primaryKey = 'Basket_ID';
     public $incrementing = true;
     protected $keyType = 'int';

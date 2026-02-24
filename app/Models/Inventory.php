@@ -11,6 +11,11 @@ class Inventory extends Model
      *
      * @var array
      */
+    protected $table = 'inventories';
+    protected $primaryKey = 'Inventory_ID';
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'Product_ID',
         'Quantity',
@@ -36,3 +41,4 @@ class Inventory extends Model
      * @var bool
      */    public $timestamps = true;
 }
+

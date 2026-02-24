@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use App\Models\Customer;
 use App\Models\Product;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -95,9 +96,23 @@ class BasketController extends Controller
             ->where('products.Product_ID', $productId)
             ->first();
 
+        $inventory = Inventory::where('Product_ID', $productId)->first();
+        $available = $inventory ? (int)$inventory->Quantity : 0;
+
+        $existingQty = $existing ? (int)$existing->pivot->Quantity : 0;
+        $newTotal = $existingQty + $qty;
+
+        if ($available <= 0) {
+            return redirect()->back()->with('error', 'Sorry, ' . $product->Name . ' is out of stock.');
+        }
+
+        if ($newTotal > $available) {
+            return redirect()->back()->with('error', 'Only ' . $available . ' unit(s) of ' . $product->Name . ' are available.');
+        }
+
         if ($existing) {
             $basket->products()->updateExistingPivot($productId, [
-                'Quantity' => $existing->pivot->Quantity + $qty
+                'Quantity' => $newTotal
             ]);
         } else {
             $basket->products()->attach($productId, [
@@ -195,6 +210,11 @@ class BasketController extends Controller
 
         if ($action === 'inc') {
             $newQty = $currentQty + 1;
+            $inventory = Inventory::where('Product_ID', $productId)->first();
+            $available = $inventory ? (int)$inventory->Quantity : 0;
+            if ($newQty > $available) {
+                return redirect()->back()->with('error', 'Only ' . $available . ' unit(s) of ' . $productName . ' are available.');
+            }
         } elseif ($action === 'dec') {
             $newQty = $currentQty - 1;
         }
