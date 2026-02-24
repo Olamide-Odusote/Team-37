@@ -87,7 +87,8 @@
 }
 
 .btn-add:hover {
-    background-color: #4e88cf;
+    background-color: #0055c0;
+    color:#fff;
 }
 
 .extra-info p {
