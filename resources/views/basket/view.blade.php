@@ -11,6 +11,14 @@
 <body>
     <!-- BASKET CONTENT -->
     <div class="wrapper">
+        <!-- ORDER HISTORY BUTTON -->
+        @guest
+        <!-- Not visible until the user signs in -->
+        @else
+            <button class="checkout-button">
+                <a href="{{ route('orders.index') }}">Order History</a>
+            </button>
+        @endguest
         <div class="basket">
                 <h1>Your Cart ({{ $basket_size }})</h1>
 
