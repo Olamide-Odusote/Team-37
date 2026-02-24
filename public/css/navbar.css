@@ -286,15 +286,16 @@ body { font-family: 'Poppins', sans-serif; }
 }
 .footer-brand {
     max-width: 300px;
+    margin-top: 20px;
 }
 
 .footer-brand img {
-    height: 60px;   
+    height: 40px;   
     width: auto;   
 }
 
 .footer-brand p {
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1.6;
     color: #ffffff;
 }
