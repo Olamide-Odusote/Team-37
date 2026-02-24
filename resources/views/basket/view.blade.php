@@ -11,6 +11,7 @@
 <body>
     <!-- BASKET CONTENT -->
     <div class="wrapper">
+        <br/>
         <!-- ORDER HISTORY BUTTON -->
         @guest
         <!-- Not visible until the user signs in -->
