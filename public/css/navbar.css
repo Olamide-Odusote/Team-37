@@ -284,48 +284,86 @@ body { font-family: 'Poppins', sans-serif; }
     justify-content: space-between;
     align-items: flex-start;
 }
-
 .footer-brand {
     max-width: 300px;
+    margin-top: 20px;
 }
 
 .footer-brand img {
-    height: 80px;   
+    height: 40px;   
     width: auto;   
 }
 
 .footer-brand p {
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1.6;
     color: #ffffff;
+}
+
+.footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+   
+}
+
+.footer-social h4 {
+    color: white;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 18px;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: white;
+    color: #0055c0;
 }
 
 .footer-links {
     display: grid;
     grid-template-columns: repeat(3, auto);
-    gap: 60px;
+    gap: 100px;
 }   
 
 .footer-column h4 {
     color: white;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 18px;
     letter-spacing: 1px;
     min-width: 120px;  
+    
 }
 
 .footer-column a {
     display: block;
-    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    color: #ebebeb;
     text-decoration: none;
-    margin-bottom: 12px;
-    font-size: 14px;
+    margin-bottom: 18px;
+    font-size: 13px;
     transition: 0.3s ease;
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.08); /* faint line */
-    margin-top: 50px;   /* pushes it lower */
+    border-top: 1px solid rgba(255, 255, 255, 0.08); 
+    margin-top: 70px;   /* pushes it lower */
     padding-top: 25px;  /* space between line and text */
     text-align: center;
 }
@@ -353,7 +391,36 @@ body { font-family: 'Poppins', sans-serif; }
   .nav-right { justify-content: center; }
   .search-container { max-width: 100%; }
   .nav-links { gap: 20px; flex-wrap: wrap; }
+/* Footer (max 768px)*/
+ .footer {
+        padding: 40px 6%;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .footer-brand {
+        max-width: 100%;
+    }
+
+    .footer-links {
+        grid-template-columns: 1fr; /* stack columns */
+        gap: 30px;
+    }
+
+    .footer-social {
+        margin: 0;
+    }
+
+    .footer-bottom {
+        margin-top: 40px;
+        text-align: center;
+    }
 }
+
+
   /* DARK MODE */
 body.dark-mode {
     background-color: #020020;
