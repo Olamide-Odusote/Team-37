@@ -29,6 +29,12 @@ Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
 
+Route::post('/products/{id}/feedback',
+    [App\Http\Controllers\ProductController::class, 'storeFeedback']
+)->middleware('auth')->name('feedback.store');
+
+
+
 // --------------------
 // Authentication
 // --------------------

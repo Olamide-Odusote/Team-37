@@ -28,7 +28,7 @@ class HomeController extends Controller
    *      ->select('p.Product_ID', 'p.Name', 'p.Image_URL', 'p.Price', DB::raw('SUM(oi.Quantity) as total_sold'))
    *      ->groupBy('p.Product_ID', 'p.Name', 'p.Image_URL', 'p.Price')
   *       ->orderByDesc('total_sold')
-   *      ->limit(3)   show top 3 
+   *      ->limit(4)   show top 3 
    *      ->get();*
 */
  
@@ -48,13 +48,26 @@ class HomeController extends Controller
             'Price' => 14.99,
             'total_sold' => 75
         ],
+
+
         (object)[
             'Product_ID' => 3,
             'Name' => 'Running Shoes',
             'Image_URL' => 'sportsshoes.jpeg',
             'Price' => 59.99,
             'total_sold' => 50
-        ]
+        ],
+
+ 
+        (object)[
+            'Product_ID' => 4,
+            'Name' => 'Smartphone',
+            'Image_URL' => 'smartphone.jpeg',
+            'Price' => 499.99,
+            'total_sold' => 120
+        ],
+
+
     ];
 
 
