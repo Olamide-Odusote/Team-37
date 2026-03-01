@@ -92,7 +92,7 @@ class AccountController extends Controller
         'new_password' => 'required|min:8|confirmed',
     ]);
 
-    $user = auth()->user();
+    $user = Auth::user();
 
     if (!Hash::check($request->current_password, $user->password)) {
         throw ValidationException::withMessages([
@@ -100,8 +100,18 @@ class AccountController extends Controller
         ]);
     }
 
-    $user->password = Hash::make($request->new_password);
+    $hashedPassword = Hash::make($request->new_password);
+
+    // Update users table
+    $user->password = $hashedPassword;
     $user->save();
+
+    // If admin is logged in, update admins table too
+    if (Auth::guard('admin')->check()) {
+        $admin = Auth::guard('admin')->user();
+        $admin->Password = $hashedPassword;
+        $admin->save();
+    }
 
     return back()->with('success', 'Password updated successfully.');
 }
