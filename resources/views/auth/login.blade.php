@@ -29,7 +29,7 @@
 .auth-card {
     background: #fff;
     border: 2px solid #0055c0;
-    border-radius: 8px;
+    border-radius: 20px;
     padding: 30px 20px;
     text-align: center;
     text-decoration: none;
@@ -125,7 +125,7 @@
     <!-- Create Account -->
     <div style="text-align:center;">
         <p style="margin-bottom:16px;color:#666;font-size:15px;">New to OmniCart?</p>
-        <a href="{{ route('register') }}" style="display:inline-block;padding:12px 30px;background:#0055c0;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;margin-bottom:12px;">Create Customer Account</a>
+        <a href="{{ route('register') }}" style="display:inline-block;padding:12px 30px;background:#0055c0;color:#fff;text-decoration:none;border-radius:20px;font-weight:600;margin-bottom:12px;">Create Customer Account</a>
         <p style="margin:16px 0 0 0;color:#666;font-size:13px;">or <a href="{{ route('admin.register') }}" style="color:#0055c0;text-decoration:none;font-weight:600;">register as admin</a></p>
     </div>
 </div>

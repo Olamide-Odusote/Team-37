@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
@@ -45,10 +47,15 @@ Route::prefix('auth')->group(function () {
     Route::get('/admin/register', [AuthController::class, 'showAdminRegistrationForm'])->name('admin.register');
     Route::post('/admin/register', [AuthController::class, 'registerAdmin'])->name('admin.register.post');
 
-    // Sign-in/out
+    // Customer Sign In
     Route::get('/signin', [AuthController::class, 'showSigninForm'])->name('signin');
+    Route::post('/signin', [AuthController::class, 'signinCustomer'])->name('signin.post');
+
+    // Admin Sign In
     Route::get('/admin/signin', [AuthController::class, 'showAdminSigninForm'])->name('admin.signin');
-    Route::post('/signin', [AuthController::class, 'signin'])->name('signin.post');
+    Route::post('/admin/signin', [AuthController::class, 'signinAdmin'])->name('admin.signin.post');
+
+    // Sign Out (both guards)
     Route::post('/signout', [AuthController::class, 'signout'])->name('signout.post');
 
     // Password reset
@@ -89,14 +96,19 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 // Account / Profile
-Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index');
+Route::middleware('auth')->group(function () {
+Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+Route::put('/account/update', [AccountController::class, 'update'])->name('account.update');
+Route::delete('/account/delete', [AccountController::class, 'destroy'])->name('account.delete');
+Route::put('/account/password', [AccountController::class, 'changePassword'])->name('account.change-password');
+});
 
 
 // --------------------
 // Returns
 // --------------------
-Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'submitReturnRequest'])
-    ->name('return.submit');
+Route::get('/orders/{order}/return', [FinalOrderController::class, 'showReturnForm'])->name('orders.return');
+Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'submitReturnRequest'])->name('return.submit');
 
 
 // --------------------
@@ -104,13 +116,25 @@ Route::post('/orders/{orderItem}/return', [ReturnRequestController::class, 'subm
 // --------------------
 Route::middleware(['auth:admin'])
     ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
         // Dashboard
-        Route::get('/inventory', [App\Http\Controllers\AdminDashboardController::class, 'inventoryIndex'])->name('admin.inventory.index');
-        Route::post('/inventory/report', [App\Http\Controllers\AdminDashboardController::class, 'generateReport'])->name('admin.inventory.report');
-        Route::post('/inventory/{id}/restock', [App\Http\Controllers\AdminDashboardController::class, 'restock'])->name('admin.inventory.restock');
-        Route::delete('/inventory/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroy'])->name('admin.inventory.delete');
-
-        Route::resource('inventory-logs', InventoryLogController::class)
-            ->only(['index']);
+        Route::get('/inventory', [App\Http\Controllers\AdminDashboardController::class, 'inventoryIndex'])->name('inventory.index');
+        Route::post('/inventory/report', [App\Http\Controllers\AdminDashboardController::class, 'generateReport'])->name('inventory.report');
+        Route::get('/admin/change-password', [AdminController::class, 'showChangePasswordForm'])->name('change-password.form');
+        Route::put('/admin/change-password', [AdminController::class, 'changePassword'])->name('change-password');
+        Route::get('/customers', [App\Http\Controllers\AdminDashboardController::class, 'showCustomers'])->name('customers.index');
+        Route::get('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'viewCustomer'])->name('customers.show');
+        Route::get('/customers/{id}/edit', [App\Http\Controllers\AdminDashboardController::class, 'editCustomer'])->name('customers.edit');
+        Route::put('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'updateCustomer'])->name('customers.update');
+        Route::delete('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroyCustomer'])->name('customers.destroy');
+        Route::post('/inventory/{id}/restock', [App\Http\Controllers\AdminDashboardController::class, 'restock'])->name('inventory.restock');
+        Route::delete('/inventory/{id}', [App\Http\Controllers\AdminDashboardController::class, 'destroy'])->name('inventory.delete');
+        Route::get('/inventory/create', [App\Http\Controllers\AdminDashboardController::class, 'createProduct'])->name('inventory.create');
+        Route::post('/inventory', [App\Http\Controllers\AdminDashboardController::class, 'storeProduct'])->name('inventory.store');
+        Route::get('/inventory/{id}/edit', [App\Http\Controllers\AdminDashboardController::class, 'editProduct'])->name('inventory.edit');
+        Route::put('/inventory/{id}', [App\Http\Controllers\AdminDashboardController::class, 'updateProduct'])->name('inventory.update');
+        Route::get('/orders', [FinalOrderController::class, 'adminIndex'])->name('orders.index');
+        Route::get('/orders/{order}', [FinalOrderController::class, 'adminShow'])->name('orders.show');
+        Route::post('/orders/{order}/update-status', [FinalOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     });

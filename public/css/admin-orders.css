@@ -1,0 +1,233 @@
+/* Container */
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-container h1 {
+    font-size: 28px;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Alerts */
+.alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.alert-warning {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    background: #fff;
+}
+
+/* Orders Table */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table thead {
+    background: #f0f0f0;
+}
+
+.orders-table th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+}
+
+.orders-table td {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+.orders-table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+/* Status Badge (Custom, matching inventory style) */
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Status Colors */
+.status-pending {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.status-shipped {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.status-delivered {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-returned {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Actions */
+.actions-cell {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-action {
+    padding: 6px 16px;
+    border: 2px solid #0055c0;
+    background: #fff;
+    color: #0055c0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 160ms ease;
+}
+
+.btn-action:hover {
+    background: #0055c0;
+    color: #fff;
+}
+
+.btn-action.btn-delete {
+    border-color: #d32f2f;
+    color: #d32f2f;
+}
+
+.btn-action.btn-delete:hover {
+    background: #d32f2f;
+    color: #fff;
+}
+
+.btn-action.btn-update {
+    border-color: #f57c00;
+    color: #f57c00;
+}
+
+.btn-action.btn-update:hover {
+    background: #f57c00;
+    color: #fff;
+}
+
+.pagmination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.pagination li span,
+.pagination li a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.pagination li a:hover {
+    background: #f0f0f0;
+}
+
+.pagination li.active span {
+    background: #0055c0;
+    color: #fff;
+    border-color: #0055c0;
+}
+
+.pagination li.disabled span {
+    background: #eee;
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination li.disabled span:hover {
+    background: #eee;
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+/* Admin Card */
+.admin-card {
+    background: #f9f9f9;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 2px solid #ddd;
+}
+
+.admin-card h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    font-size: 15px;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+
+

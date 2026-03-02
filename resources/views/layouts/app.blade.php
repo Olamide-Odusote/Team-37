@@ -7,7 +7,9 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" /> 
 
     <link rel="stylesheet" href="{{ asset('css/alerts.css') }}">
@@ -56,33 +58,55 @@
 
             <!-- RIGHT NAV ITEMS -->
             <div class="nav-right">
+                {{-- If ADMIN is logged in --}}
                 @if(Auth::guard('admin')->check())
-                    <a href="{{ route('admin.inventory.index') }}" style="color:#0055c0;text-decoration:none;font-weight:600;font-size:15px;">Admin</a>
+                <div class="nav-item user-dropdown">
+                    <button class="user-btn">
+                        Admin
+                        <span class="caret">▼</span>
+                    </button>
+                    
+                    <div class="user-menu">
+                        <a href="{{ route('admin.change-password') }}" class="dropdown-item">Change Password</a>
+                        
+                        <form action="{{ route('signout.post') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Sign Out</button>
+                        </form>
+                    </div>
+                </div>
                 @endif
+                
+                {{-- If CUSTOMER is logged in --}}
+                @if(Auth::check() && !Auth::guard('admin')->check())
+                <div class="nav-item user-dropdown">
+                    <button class="user-btn">
+                        {{ Auth::user()->name }}
+                        <span class="caret">▼</span>
+                    </button>
+
+            <div class="user-menu">
+                <a href="{{ route('account.index') }}" class="dropdown-item">Profile</a>
+
+                <form action="{{ route('signout.post') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Sign Out</button>
+                </form>
+            </div>
+        </div>
+    @endif
+
+
+    {{-- If NO ONE is logged in --}}
+    @if(!Auth::check() && !Auth::guard('admin')->check())
+        <div class="nav-item">
+            <a href="{{ route('auth.login') }}" class="signin-btn">Sign In</a>
+        </div>
+    @endif
                  <!-- DARK MODE BUTTON -->
                   <button id="darkModeToggle" class="darkmode-btn" aria-label="Toggle Dark Mode">
                   <i class="fas fa-moon"></i> <!-- initial icon -->
                   </button>
-                @auth
-                    <div class="nav-item user-dropdown">
-                        <button class="user-btn">
-                            {{ Auth::user()->name }}
-                            <span class="caret">▼</span>
-                        </button>
-
-                        <div class="user-menu">
-                            <a href="{{ route('account.index') }}" class="dropdown-item">Profile</a>
-                            <form action="{{ route('signout.post') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item">Sign Out</button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <div class="nav-item">
-                        <a href="{{ route('auth.login') }}" class="signin-btn">Sign In</a>
-                    </div>
-                @endauth
             
 
                 <a href="{{ route('basket.view') }}" class="basket-link">
@@ -108,6 +132,7 @@
                 </a>
             </div>
         </div>
+    </div> <!-- END NAVBAR TOP -->
 
         <!-- BOTTOM NAV LINKS -->
         <div class="nav-bottom">
@@ -115,6 +140,9 @@
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('about') }}">About Us</a></li>
                 <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                @if (Auth::guard('admin')->check())
+                    <li><a href="{{ route('admin.inventory.index') }}">Admin Dashboard</a></li>
+                @endif
             </ul>
         </div>
     </nav>
@@ -153,17 +181,64 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="#">Conditions Of Use & Sale</a>
-            <a href="#">Privacy Notice</a>
-            <a href="#">Cookies Notice</a>
+ <footer class="footer">
+    <div class="footer-container">
+        
+        <!-- Left side (brand text) -->
+        <div class="footer-brand">
+            <img src="{{ asset('images/Logo.png') }}" alt="Logo">
+            <p>
+              Smart Shopping, Smarter Living.
+            </p>
         </div>
+        <!--  Middle (Social Media text) -->
+        <div class="footer-social">
+        <h4>Find us on social media</h4>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/omnicart37?igsh=MWQyd3Zlc3k4bm5tbA==" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://x.com/omnicart37?s=21&t=PF41_ct7WyI-zDHik7YRHw" target="_blank" aria-label="Twitter">
+                <i class="fab fa-x"></i>
+            </a>
+            <a href="#" target="_blank" aria-label="Facebook">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+    </div>
 
-        <p class="copyright">
-            © 2025– , OmniCart.Co.Uk
-        </p>
-    </footer>
+        <!-- Right side (links) -->
+      <div class="footer-links">
+
+    <div class="footer-column">
+        <h4>Shop</h4>
+        <a href="{{ route('products.index') }}">All Products</a>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+    </div>
+
+    <div class="footer-column">
+        <h4>Support</h4>
+        <a href="{{ route('about') }}">About Us</a>
+        <a href="{{ route('contact') }}">Contact</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+
+    <div class="footer-column">
+        <h4>Account</h4>
+        <a href="{{ route('auth.login') }}">Sign In</a>
+        <a href="{{ route('auth.login') }}">Register</a>
+        <a href="#">Orders</a>
+    </div>
+ </div>
+
+</div>
+
+        <div class="footer-bottom">
+        © 2025 OmniCart. All rights reserved.
+    </div>
+
+</footer>
 
       <script>
 document.addEventListener('DOMContentLoaded', function() {
