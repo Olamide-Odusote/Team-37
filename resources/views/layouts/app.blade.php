@@ -67,7 +67,8 @@
                     </button>
                     
                     <div class="user-menu">
-                        <a href="{{ route('admin.change-password') }}" class="dropdown-item">Change Password</a>
+                        <a href="{{ route('account.index') }}" class="dropdown-item">Profile</a>
+                        <a href="{{ route('admin.inventory.index') }}" class="dropdown-item">Dashboard</a>
                         
                         <form action="{{ route('signout.post') }}" method="POST">
                             @csrf
@@ -186,7 +187,7 @@
         
         <!-- Left side (brand text) -->
         <div class="footer-brand">
-            <img src="{{ asset('images/Logo.png') }}" alt="Logo">
+            <img src="{{ asset('images/footer_logo.png') }}" alt="Logo">
             <p>
               Smart Shopping, Smarter Living.
             </p>

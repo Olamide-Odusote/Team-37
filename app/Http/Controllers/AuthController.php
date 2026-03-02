@@ -51,10 +51,25 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('admin.inventory.index'))->with('success', 'Admin signed in successfully!');
-        }
+       if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
+
+    $request->session()->regenerate();
+
+    $admin = Auth::guard('admin')->user();
+
+    $user = User::firstOrCreate(
+    ['email' => $admin->Email],
+    [
+        'name' => $admin->Name,
+        'password' => $admin->Password,
+    ]
+);
+
+Auth::guard('web')->login($user);
+
+    return redirect()->intended(route('admin.inventory.index'))
+        ->with('success', 'Admin signed in successfully!');
+}
 
         return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
     }
@@ -105,21 +120,39 @@ class AuthController extends Controller
     }
 
     public function registerAdmin(Request $request)
-    {
-        $request->validate([
-            'name'                  => 'required|string|max:255',
-            'email'                 => 'required|email|unique:admins,Email',
-            'password'              => 'required|string|min:6|confirmed',
-        ]);
+{
+    $request->validate([
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email|unique:admins,Email',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
 
-        Admin::create([
-            'Name'     => $request->name,
-            'Email'    => $request->email,
-            'Password' => Hash::make($request->password),
-        ]);
+    // Create admin record
+    $admin = Admin::create([
+        'Name'     => $request->name,
+        'Email'    => $request->email,
+        'Password' => Hash::make($request->password),
+    ]);
 
-        return redirect()->route('admin.signin')->with('success', 'Admin account created successfully. Please sign in.');
-    }
+    // ALSO create a user record
+    $user = User::create([
+        'name'     => $request->name,
+        'email'    => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    // ALSO create a customer record
+    Customer::create([
+        'user_id'  => $user->id,
+        'Name'     => $request->name,
+        'Email'    => $request->email,
+        'Password' => Hash::make($request->password),
+        'Mobile Number' => 0,
+    ]);
+
+    return redirect()->route('admin.signin')
+        ->with('success', 'Admin account created successfully.');
+}
 
 
     /* PASSWORD RESET (SIMPLE INTERNAL VERSION) */
