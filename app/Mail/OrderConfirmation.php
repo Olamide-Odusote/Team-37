@@ -45,6 +45,12 @@ class OrderConfirmation extends Mailable
         );
     }
 
+    public function build()
+    {
+        return $this->subject('Order Confirmation #' . $this->order->FinalOrder_ID)
+                    ->markdown('emails.order_confirmation');
+    }
+
     /**
      * Get the attachments for the message.
      *

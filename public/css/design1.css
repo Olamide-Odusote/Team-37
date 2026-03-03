@@ -52,16 +52,23 @@
   outline: none;
   text-align: left;
 }
+/* Update this in design1.css */
 .signInButton {
-  background-color: white;
-  color: #333;
+ background-color: white; 
+  color: #0055c0;              
   padding: 10px;
   width: 100%;
-  border: 2px solid #ccc;
+  border: 2px solid #0055c0 ;             
   border-radius: 20px;
   font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
   transition: background-color 0.2s;
   margin-bottom: 12px;
+}
+
+.signInButton:hover {
+  background-color: #004499; 
 }
 .forgotPassword {
   font-size: 0.88em;
@@ -83,4 +90,39 @@
   font-size: 0.88em;
   color: #555;
   margin-top: 18px;
+}
+.registerInButton { 
+background-color: white; 
+  color: #0055c0;              
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #0055c0 ;             
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.registerInButton:hover {
+  background-color: #004499; 
+}
+
+.continue {
+ background-color: white; 
+  color: #0055c0;              
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #0055c0 ;             
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.continue:hover {
+  background-color: #004499; 
 }

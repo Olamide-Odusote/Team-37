@@ -11,6 +11,7 @@ class CustomerAddress extends Model
      *
      * @var array
      */
+    protected $table = 'customer_addresses';
     protected $primaryKey = 'CustomerAddress_ID';
     public $incrementing = true;
     protected $keyType = 'int';

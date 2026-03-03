@@ -7,7 +7,9 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" /> 
 
     <link rel="stylesheet" href="{{ asset('css/alerts.css') }}">
@@ -65,8 +67,8 @@
                     </button>
                     
                     <div class="user-menu">
-                        <a href="{{ route('admin.inventory.index') }}" class="dropdown-item">Dashboard</a>
-                        
+
+                        <a href="{{ route('admin.inventory.index') }}" class="dropdown-item">Dashboard</a>           
                         <form action="{{ route('signout.post') }}" method="POST">
                             @csrf
                             <button type="submit" class="dropdown-item">Sign Out</button>
@@ -179,17 +181,64 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="#">Conditions Of Use & Sale</a>
-            <a href="#">Privacy Notice</a>
-            <a href="#">Cookies Notice</a>
+ <footer class="footer">
+    <div class="footer-container">
+        
+        <!-- Left side (brand text) -->
+        <div class="footer-brand">
+            <img src="{{ asset('images/footer_logo.png') }}" alt="Logo">
+            <p>
+              Smart Shopping, Smarter Living.
+            </p>
         </div>
+        <!--  Middle (Social Media text) -->
+        <div class="footer-social">
+        <h4>Find us on social media</h4>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/omnicart37?igsh=MWQyd3Zlc3k4bm5tbA==" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://x.com/omnicart37?s=21&t=PF41_ct7WyI-zDHik7YRHw" target="_blank" aria-label="Twitter">
+                <i class="fab fa-x"></i>
+            </a>
+            <a href="#" target="_blank" aria-label="Facebook">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+    </div>
 
-        <p class="copyright">
-            © 2025– , OmniCart.Co.Uk
-        </p>
-    </footer>
+        <!-- Right side (links) -->
+      <div class="footer-links">
+
+    <div class="footer-column">
+        <h4>Shop</h4>
+        <a href="{{ route('products.index') }}">All Products</a>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+    </div>
+
+    <div class="footer-column">
+        <h4>Support</h4>
+        <a href="{{ route('about') }}">About Us</a>
+        <a href="{{ route('contact') }}">Contact</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+
+    <div class="footer-column">
+        <h4>Account</h4>
+        <a href="{{ route('auth.login') }}">Sign In</a>
+        <a href="{{ route('auth.login') }}">Register</a>
+        <a href="#">Orders</a>
+    </div>
+ </div>
+
+</div>
+
+        <div class="footer-bottom">
+        © 2025 OmniCart. All rights reserved.
+    </div>
+
+</footer>
 
       <script>
 document.addEventListener('DOMContentLoaded', function() {

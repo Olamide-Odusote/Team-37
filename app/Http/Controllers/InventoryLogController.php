@@ -7,17 +7,15 @@ use App\Models\InventoryLog;
 
 class InventoryLogController extends Controller
 {
-    /**
-     * Display the specified inventory log.
-     */
-    public function show($id) {
-        $log = InventoryLog::find($id);
-        return view('/show', array('log' => $log));
+    public function index()
+    {
+        $logs = InventoryLog::latest()->get();
+        return view('admin.inventory-logs.index', compact('logs'));
     }
-    /**
-     * Display a listing of all inventory logs.
-     */
-    public function list() {
-        return view('/list', array('logs'=>InventoryLog::all()));
+
+    public function show($id)
+    {
+        $log = InventoryLog::findOrFail($id);
+        return view('admin.inventory-logs.show', compact('log'));
     }
 }

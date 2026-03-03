@@ -2,53 +2,127 @@
 
 @section('title', 'Account Settings')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/account.css') }}">
+@endsection
+
 @section('content')
-<div class="container" style="padding:30px 0;">
-    <h2 style="margin-bottom:16px;">Account Settings</h2>
 
-    <div class="account-accordion" style="max-width:760px;margin:0 auto;">
+<div class="account-container">
+    <div class="account-card">
 
-        <details open style="margin-bottom:12px;border-radius:8px;padding:12px;background:#f7f7f7;">
-            <summary style="font-weight:600;cursor:pointer;padding:8px;">Personal Details</summary>
-            <div style="padding:12px;">
-                <form method="POST" action="#">
-                    @csrf
-                    <label>First Name*</label>
-                    <input type="text" name="first_name" value="{{ optional($user)->name ?? '' }}" class="form-control" />
-                    <label style="margin-top:8px;">Last Name*</label>
-                    <input type="text" name="last_name" value="" class="form-control" />
-                    <div style="margin-top:12px;display:flex;gap:8px;">
-                        <button class="btn btn-outline-secondary" type="button">Cancel</button>
-                        <button class="btn btn-primary" type="submit">Save Changes</button>
+        <h2 class="account-title">Account Settings</h2>
+
+        {{-- Success Message --}}
+        @if(session('success'))
+            <div class="account-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Validation Errors --}}
+        @if($errors->any())
+            <div class="account-error">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {{-- Personal Details --}}
+        <div class="account-section">
+            <h3>Personal Details</h3>
+
+            <form method="POST" action="{{ route('account.update') }}">
+                @csrf
+                @method('PUT')
+
+                <div class="account-grid">
+
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" name="Name"
+                               value="{{ old('Name', $customer->Name ?? '') }}">
                     </div>
-                </form>
-            </div>
-        </details>
 
-        <details style="margin-bottom:12px;border-radius:8px;padding:12px;background:#f7f7f7;">
-            <summary style="font-weight:600;cursor:pointer;padding:8px;">Sign In Details</summary>
-            <div style="padding:12px;">
-                <p>Change your email or password here.</p>
-                <a href="#" class="btn btn-primary">Update Sign In</a>
-            </div>
-        </details>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="Email"
+                               value="{{ old('Email', $customer->Email ?? '') }}">
+                    </div>
 
-        <details style="margin-bottom:12px;border-radius:8px;padding:12px;background:#f7f7f7;">
-            <summary style="font-weight:600;cursor:pointer;padding:8px;">Address & Telephone</summary>
-            <div style="padding:12px;">
-                <p>Manage your saved addresses and contact numbers.</p>
-                <a href="#" class="btn btn-primary">Manage Addresses</a>
-            </div>
-        </details>
+                </div>
 
-        <details style="margin-bottom:12px;border-radius:8px;padding:12px;background:#f7f7f7;">
-            <summary style="font-weight:600;cursor:pointer;padding:8px;">Payment Details</summary>
-            <div style="padding:12px;">
-                <p>Manage stored cards and payment preferences.</p>
-                <a href="#" class="btn btn-primary">Manage Payments</a>
-            </div>
-        </details>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" name="Mobile_Number"
+                           value="{{ old('Mobile Number', $customer->{'Mobile Number'} ?? '') }}">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-action">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {{-- Change Password --}}
+        <div class="account-section">
+            <h3>Change Password</h3>
+
+            <form method="POST" action="{{ route('account.change-password') }}">
+                @csrf
+                @method('PUT')
+                <div class="account-grid">
+
+                    <div class="form-group">
+                        <label>Current Password *</label>
+                        <input type="password" name="current_password">
+                    </div>
+
+                    <div class="form-group">
+                        <label>New Password *</label>
+                        <input type="password" name="new_password">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm New Password *</label>
+                    <input type="password" name="new_password_confirmation">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-action">
+                        Update Password
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {{-- Deactivate Account --}}
+        <div class="account-section account-danger">
+            <h3>Deactivate Account</h3>
+
+            <p class="danger-text">
+                Deactivating your account will disable access. 
+                You can contact support to reactivate it.
+            </p>
+
+            <form method="POST" action="{{ route('account.delete') }}">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn-danger">
+                    Deactivate Account
+                </button>
+            </form>
+        </div>
 
     </div>
 </div>
+
 @endsection

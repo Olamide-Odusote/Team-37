@@ -29,6 +29,7 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     top: 90px;
 }
 
+/* Filter section titles */
 .filters h3 {
     font-size: 17px;
     font-weight: 600;
@@ -36,11 +37,11 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     border-bottom: 1px solid var(--border);
     padding-bottom: 8px;
 }
-
+/* Individual filter groups */
 .filter-group {
     margin-bottom: 18px;
 }
-
+/* Filter group titles */
 .filter-group h4 {
     font-size: 13px;
     font-weight: 600;
@@ -49,27 +50,27 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
+/* Filter options */
 .filters ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
+/* Individual filter items */
 .filters ul li {
     margin-bottom: 6px;
 }
-
+/* Filter links */
 .filters a {
     color: var(--accent);
     text-decoration: none;
     font-size: 14px;
 }
-
+/* Hover and active states for filter links */
 .filters a:hover {
     text-decoration: underline;
 }
-
+/* Active filter state */
 .filters a.active {
     font-weight: 700;
     color: var(--accent);
@@ -77,7 +78,7 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     padding: 3px 6px;
     border-radius: 4px;
 }
-
+/* Category dropdown styles */
 .cat-checkbox {
     margin-bottom: 8px;
 }
@@ -93,7 +94,7 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     margin-right: 8px;
     cursor: pointer;
 }
-
+/* Filter action buttons */
 .apply-filters {
     background: var(--accent);
     color: #fff;
@@ -131,7 +132,7 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     color: #111;
 }
 
-/* PRODUCT CARD - HORIZONTAL ROW (Amazon style) */
+/* PRODUCT CARD - HORIZONTAL ROW (Amazon like) */
 .product-row {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -170,6 +171,7 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     font-size: 14px;
 }
 
+/* Price and buttons row */
 .product-details .price {
     font-size: 1.3rem;
     color: #e67e00;
@@ -184,29 +186,42 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
 }
 
 .view-btn {
-    background: #eee;
-    color: var(--accent);
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 6px 14px;
+    border: 2px solid #0055c0;
+    background: #fff;
+    color: #0055c0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
     text-decoration: none;
-    font-size: 14px;
+    display: inline-block;
+    transition: all 160ms ease;
 }
 
 .view-btn:hover {
-    background: #e0e0e0;
+    background: #0055c0;
+    color: #fff;
 }
 
+/* Add to basket button */
 .add-basket {
-    background: #ffcf66;
-    color: #111;
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 6px 14px;
+    border: 2px solid #0055c0;
+    background: #0055C0;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
     text-decoration: none;
-    font-size: 14px;
+    display: inline-block;
+    transition: all 160ms ease;
 }
 
 .add-basket:hover {
-    background: #ffc24d;
+    background: #fff;
+    color: #0055C0;
 }
 
 /* PAGINATION */

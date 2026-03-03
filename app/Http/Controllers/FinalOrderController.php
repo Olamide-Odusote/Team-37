@@ -15,26 +15,35 @@ class FinalOrderController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-
-        // If admin guard is used, show all orders to admins
-        if (auth()->guard('admin')->check()) {
+        // Admin sees all orders, users see only their own
+        if (auth('admin')->check()) {
             $orders = FinalOrder::with('items.product')
-                ->orderBy('OrderDate', 'desc')
-                ->get();
-        } else {
-            // show only current user's orders
-            if (!$user) {
-                return redirect()->route('signin')->with('error', 'You must log in first.');
-            }
-            $orders = FinalOrder::where('Customer_ID', $user->Customer_ID)
-                ->with('items.product')
-                ->orderBy('OrderDate', 'desc')
-                ->get();
-        }
+            ->orderBy('OrderDate', 'desc')
+            ->get();
+            } else {
+                $user = auth()->guard('web')->user();
+                // Ensure user is logged in
+                if (!$user) {
+                    return redirect()->route('signin')
+                    ->with('error', 'You must log in first.');
+                    }
 
-        return view('orders.index', compact('orders'));
-    }
+                    // Get the customer record for this user
+                    $customer = $user->customer;
+                    if (!$customer) {
+                        return redirect()->route('products.index')
+                        ->with('error', 'Customer profile not found.');
+                    }
+
+                    // Get only orders for the logged-in user
+                    $orders = FinalOrder::where('Customer_ID', $customer->Customer_ID)
+                    ->with('items.product')
+                    ->orderBy('OrderDate', 'desc')
+                    ->get();
+                    }
+                    return view('orders.index', compact('orders'));
+   }
+
 
      /**
      * Display a list of previous orders for one user
@@ -44,15 +53,53 @@ class FinalOrderController extends Controller
     {
         $user = Auth::user();
 
-        $order = FinalOrder::with('items.product.inventory', 'items.return')->findOrFail($id);
+        // Query fresh each time to get latest return relationships
+        $order = FinalOrder::query()
+            ->with('items.product.inventory', 'items.returnRequest')
+            ->findOrFail($id);
 
         // Ensure user is allowed to view this order (owner or admin)
         if (!auth()->guard('admin')->check()) {
-            if (!$user || $order->Customer_ID != $user->Customer_ID) {
+            if (!$user) {
+                return redirect()->route('signin')->with('error', 'You must be logged in.');
+            }
+            
+            $customer = $user->customer;
+            if (!$customer || $order->Customer_ID != $customer->Customer_ID) {
                 return redirect()->route('orders.index')->with('error', 'Order not found or access denied.');
             }
         }
 
         return view('orders.show', compact('order'));
+    }
+
+    // Admin view of all orders
+    public function adminIndex()
+    {
+        $orders = FinalOrder::with('items.product')
+            ->orderBy('OrderDate', 'desc')
+            ->paginate(10);
+
+        return view('admin.orders.index', compact('orders'));
+    }
+
+    // Admin view of a single order
+    public function adminShow(FinalOrder $order)
+    {
+        $order->load('items.product.inventory', 'items.returnRequest');
+
+        return view('admin.orders.show', compact('order'));
+    }
+
+    // Admin update order status
+    public function updateStatus(Request $request, FinalOrder $order)
+    {        $request->validate([
+            'status' => 'required|in:pending,shipped,delivered,returned',
+        ]);
+
+        $order->Status = $request->input('status');
+        $order->save();
+
+        return redirect()->route('admin.orders.show', $order)->with('success', 'Order status updated successfully.');
     }
 }

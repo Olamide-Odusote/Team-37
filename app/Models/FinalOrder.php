@@ -11,9 +11,17 @@ class FinalOrder extends Model
      *
      * @var array
      */
+    protected $table = 'final_orders';
+
     protected $primaryKey = 'FinalOrder_ID';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
+
+    protected $casts = [
+        'OrderDate' => 'date',
+    ];
     
     protected $fillable = [
         'Customer_ID',
@@ -51,6 +59,26 @@ class FinalOrder extends Model
     {
         return $this->hasMany(OrderItem::class, 'FinalOrder_ID');
     }
+
+    /**
+     * Get the return requests for the order.
+    */
+
+    public function returnRequests()
+    {
+        return $this->hasMany(ReturnRequest::class, 'FinalOrder_ID');
+    }
+    
+    /**
+    * Get the route key for the model.
+    *
+    * @return string
+    */
+    public function getRouteKeyName()
+    {
+        return 'FinalOrder_ID';
+    }
+
     /**
      * Indicates if the model should be timestamped.
      *
