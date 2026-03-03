@@ -62,9 +62,9 @@ class HomeController extends Controller
         (object)[
             'Product_ID' => 4,
             'Name' => 'Smartphone',
-            'Image_URL' => 'smartphone.jpeg',
+            'Image_URL' => 'football.jpeg',
             'Price' => 499.99,
-            'total_sold' => 120
+            'total_sold' => 25
         ],
 
 
