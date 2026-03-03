@@ -31,9 +31,7 @@ Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
 
-Route::post('/products/{id}/feedback',
-    [App\Http\Controllers\ProductController::class, 'storeFeedback']
-)->middleware('auth')->name('feedback.store');
+// Feedback route handled below (keep single definition)
 
 
 
@@ -75,7 +73,7 @@ Route::prefix('auth')->group(function () {
 // --------------------
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Route::resource('products', ProductController::class);
-Route::post('/products/{product}/feedback', [FeedbackController::class, 'submitFeedback'])->name('feedback.submit');
+Route::post('/products/{product}/feedback', [ProductController::class, 'storeFeedback'])->middleware('auth')->name('feedback.store');
 
 Route::get('/categories/{category}', [ProductCategoryController::class, 'show'])->name('categories.show');
 
