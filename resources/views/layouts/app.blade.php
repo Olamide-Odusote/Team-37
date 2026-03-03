@@ -67,7 +67,7 @@
                     </button>
                     
                     <div class="user-menu">
-
+                        <a href="{{ route('account.index') }}" class="dropdown-item">Profile</a>
                         <a href="{{ route('admin.inventory.index') }}" class="dropdown-item">Dashboard</a>           
                         <form action="{{ route('signout.post') }}" method="POST">
                             @csrf
