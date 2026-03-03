@@ -11,6 +11,7 @@
 <body>
     <!-- BASKET CONTENT -->
     <div class="wrapper">
+        <br/>
         <!-- ORDER HISTORY BUTTON -->
         @guest
         <!-- Not visible until the user signs in -->
@@ -98,6 +99,7 @@
             <button class="checkout-button">
                 <a href="{{ route('checkout.checkout') }}">Checkout</a>
             </button>
+            <br/>
         @endguest
 
     </div>
