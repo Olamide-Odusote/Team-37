@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductCategory;
-
+use App\Models\Feedback;
 class ProductController extends Controller
 {
     /**
@@ -54,11 +54,40 @@ class ProductController extends Controller
     }
 
 
+public function storeFeedback(Request $request, $id)
+{
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+        'review' => 'required|string|max:1000',
+    ]);
+
+    $customer = \App\Models\Customer::where('user_id', auth()->id())->first();
+
+    if (!$customer) {
+        return back()->with('error', 'Customer record not found.');
+    }
+
+    \App\Models\Feedback::create([
+        'Product_ID' => $id,
+        'Customer_ID' => $customer->Customer_ID,
+        'Rating' => $request->rating,
+        'Comments' => $request->review,
+    ]);
+
+    return back()->with('success', 'Review added successfully!');
+}
+
+    
+
+
+
     /**
      * Display a specific product.
      */
     public function show($id) {
-        $product = Product::findOrFail($id);
+         // Load the product along with feedbacks and the user who wrote them, plus inventory
+    $product = Product::with(['feedbacks.customer', 'inventory'])->findOrFail($id);
+        
         return view('products.show', compact('product'));
     }
 
@@ -92,5 +121,5 @@ class ProductController extends Controller
 
         return view('products.search', compact('products', 'query'));
     }
-
 }
+

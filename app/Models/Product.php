@@ -3,6 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Feedback;
+use App\Models\BasketProduct;
+use App\Models\ProductCategory;
+use App\Models\Inventory;
+use App\Models\OrderItem;
 
 class Product extends Model
 {
