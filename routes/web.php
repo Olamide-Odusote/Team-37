@@ -127,8 +127,6 @@ Route::middleware(['auth:admin'])
         // Dashboard
         Route::get('/inventory', [App\Http\Controllers\AdminDashboardController::class, 'inventoryIndex'])->name('inventory.index');
         Route::post('/inventory/report', [App\Http\Controllers\AdminDashboardController::class, 'generateReport'])->name('inventory.report');
-        Route::get('/admin/change-password', [AdminController::class, 'showChangePasswordForm'])->name('change-password.form');
-        Route::put('/admin/change-password', [AdminController::class, 'changePassword'])->name('change-password');
         Route::get('/customers', [App\Http\Controllers\AdminDashboardController::class, 'showCustomers'])->name('customers.index');
         Route::get('/customers/{id}', [App\Http\Controllers\AdminDashboardController::class, 'viewCustomer'])->name('customers.show');
         Route::get('/customers/{id}/edit', [App\Http\Controllers\AdminDashboardController::class, 'editCustomer'])->name('customers.edit');

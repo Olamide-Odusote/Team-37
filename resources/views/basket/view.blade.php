@@ -99,6 +99,7 @@
             <button class="checkout-button">
                 <a href="{{ route('checkout.checkout') }}">Checkout</a>
             </button>
+            <br/>
         @endguest
 
     </div>
