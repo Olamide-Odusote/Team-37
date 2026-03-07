@@ -181,7 +181,7 @@ class AdminDashboardController extends Controller
         InventoryLog::create([
             'Product_ID' => $inventory->Product_ID,
             'Admin_ID' => $adminId,
-            'Action_Type' => 'delete',
+            'Action_Type' => 'adjustment',
             'Quantity_Changed' => -$inventory->Quantity,
         ]);
 
@@ -242,7 +242,7 @@ class AdminDashboardController extends Controller
     InventoryLog::create([
         'Product_ID' => $product->Product_ID,
         'Admin_ID' => Auth::guard('admin')->id(),
-        'Action_Type' => 'create',
+        'Action_Type' => 'adjustment',
         'Quantity_Changed' => $validated['quantity'],
     ]);
 
