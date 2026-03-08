@@ -186,7 +186,7 @@
         
         <!-- Left side (brand text) -->
         <div class="footer-brand">
-            <img src="{{ asset('images/footer_logo.png') }}" alt="Logo">
+            <img src="{{ asset('images/footer_logo2.png') }}" alt="Logo">
             <p>
               Smart Shopping, Smarter Living.
             </p>

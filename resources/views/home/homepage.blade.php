@@ -36,8 +36,8 @@
                 </div>
                 <div class="text-item">
                     <h1>Customer Support</h1>
-                    <p>Need help? Email us at support.monicart@gmail.com and our team will get back to you as soon as possible.</p>
-                    <a class="hero-cta" href="{{ route('products.index') }}">Join Free</a>
+                    <p>Need help? Email us at omnicart37@gmail.com and our team will get back to you as soon as possible.</p>
+                    <a class="hero-cta" href="{{ route('contact') }}">Support</a>
                 </div>
             </div>
         </div>
