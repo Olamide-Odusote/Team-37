@@ -28,7 +28,7 @@ class InventoryLog extends Model
      */
     public function product()
     {
-        return $this->belongsTo(Product::class, 'Product_ID');
+        return $this->belongsTo(Product::class, 'Product_ID', 'Product_ID');
     }
     /**
      * Get the admin that performed the action.
