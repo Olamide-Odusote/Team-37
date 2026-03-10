@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\InventoryLog;
+use App\Models\OrderItem;
+use App\Models\FinalOrder;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Customer;
@@ -119,17 +121,81 @@ class AdminDashboardController extends Controller
 
     /* Inventory report with total products, total stock, and low stock count */
     public function generateReport()
-    {
+{
+    // Inventory overview
     $totalProducts = Inventory::count();
     $totalStock = Inventory::sum('Quantity');
-    $lowStockCount = Inventory::whereColumn('Quantity', '<=', 'Threshold')->count();
+    $lowStockItems = Inventory::with('product')
+        ->whereColumn('Quantity', '<=', 'Threshold')
+        ->get();
+    $lowStockCount = $lowStockItems->count();
+    $lowStockValue = $lowStockItems->sum(fn($item) =>
+        $item->Quantity * $item->product->Price
+    );
+    $outOfStock = Inventory::where('Quantity', 0)->count();
+
+
+    // Outgoing orders
+    $totalOrders = FinalOrder::count();
+    $topSelling = OrderItem::with('product')
+    ->select('Product_ID', DB::raw('SUM(Quantity) as total_sold'))
+    ->groupBy('Product_ID')
+    ->orderByDesc('total_sold')
+    ->take(5)
+    ->get();
+    $totalUnitsSold = OrderItem::sum('Quantity');
+    $totalRevenue = OrderItem::sum(DB::raw('Quantity * Unit_Price'));
+    $ordersByStatus = FinalOrder::select('Status', DB::raw('count(*) as count'))
+        ->groupBy('Status')
+        ->get();
+
+
+    // Incoming restocks and returns
+    $restocks = InventoryLog::where('Action_Type', 'restock')->get();
+    $returns = InventoryLog::where('Action_Type', 'return')->get();
+
+    $totalRestockedUnits = $restocks->sum('Quantity_Changed');
+    $totalReturnedUnits = $returns->sum('Quantity_Changed');
+
+    $incomingValue = $restocks->sum(fn($log) =>
+        $log->Quantity_Changed * $log->product->Price
+    ) + $returns->sum(fn($log) =>
+        $log->Quantity_Changed * $log->product->Price
+    );
+
+
+    // Inventory adjustments
+    $adjustments = InventoryLog::where('Action_Type', 'adjustment')->get();
+    $totalAdjustments = $adjustments->count();
+    $adjustmentsByProduct = InventoryLog::where('Action_Type', 'adjustment')
+        ->select('Product_ID', DB::raw('SUM(Quantity_Changed) as total_adjusted'))
+        ->groupBy('Product_ID')
+        ->get();
+    $negativeAdjustments = $adjustments->where('Quantity_Changed', '<', 0)->count();
+    $positiveAdjustments = $adjustments->where('Quantity_Changed', '>', 0)->count();
+
 
     return view('admin.inventory.report', compact(
         'totalProducts',
         'totalStock',
-        'lowStockCount'
+        'lowStockItems',
+        'lowStockCount',
+        'lowStockValue',
+        'outOfStock',
+        'topSelling',
+        'totalOrders',
+        'totalUnitsSold',
+        'totalRevenue',
+        'ordersByStatus',
+        'totalRestockedUnits',
+        'totalReturnedUnits',
+        'incomingValue',
+        'totalAdjustments',
+        'adjustmentsByProduct',
+        'negativeAdjustments',
+        'positiveAdjustments'
     ));
-    }
+}
 
     /* Inventory restock and product management methods */
     public function restock(Request $request, $id)
