@@ -104,3 +104,74 @@
     background: #0055c0;
     color: #fff;
 }
+/* Dark Mode */
+body.dark-mode .report-container {
+    background-color: #020020;
+    color: #e0e0e0;
+}
+
+body.dark-mode .report-container h1 {
+    color: #ffffff;
+}
+
+body.dark-mode .report-card {
+    background: #06013a;
+    border: 2px solid #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .report-card h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .report-grid p {
+    color: #e0e0e0;
+}
+
+/* Table wrapper */
+body.dark-mode .report-table-wrapper {
+    background: #06013a;
+    border: 2px solid #444;
+}
+
+body.dark-mode .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #020020;
+    color: #06013a;
+}
+
+body.dark-mode .report-table thead {
+    background: #06013a;
+}
+
+body.dark-mode .report-table th {
+    color: #ffffff;
+    border-bottom: 2px solid #fff;
+}
+
+body.dark-mode .report-table td {
+    color: #e0e0e0;
+    border-bottom: 1px solid #fff;
+}
+
+body.dark-mode .report-table tbody tr:hover {
+    background: #2a2a2a;
+}
+
+/* Section titles */
+body.dark-mode .section-title {
+    color: #ffffff;
+}
+
+/* Buttons */
+body.dark-mode .btn-action {
+    background: #1e1e1e;
+    color: #0055c0;
+    border-color: #0055c0;
+}
+
+body.dark-mode .btn-action:hover {
+    background: #0055c0;
+    color: #fff;
+}

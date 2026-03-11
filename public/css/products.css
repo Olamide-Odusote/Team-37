@@ -159,10 +159,14 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     text-align: left;
 }
 
-.product-details h3 {
+.product-details h3 a {
     font-size: 1.1rem;
     margin: 0 0 6px 0;
     color: #111;
+}
+
+.product-details h3 a:hover {
+    color:#0055C0;
 }
 
 .product-details .desc {
@@ -173,10 +177,10 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
 
 /* Price and buttons row */
 .product-details .price {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: #e67e00;
     margin-bottom: 8px;
-    font-weight: 700;
+    font-weight: 1000;
 }
 
 .meta-row {
@@ -271,6 +275,21 @@ body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
     cursor: not-allowed;
     background: #f5f5f5;
 }
+
+
+/* Dark Mode */
+
+body.dark-mode .desc {
+    color: #B0ACAC;
+}
+
+body.dark-mode .product-results h3 a {
+    color: #ffffff;     
+}
+
+
+
+
 
 /* RESPONSIVE */
 @media (max-width: 900px) {

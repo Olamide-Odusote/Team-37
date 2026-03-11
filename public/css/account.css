@@ -123,3 +123,66 @@ input {
         grid-template-columns: 1fr;
     }
 }
+
+/* Dark Mode */
+
+body.dark-mode .account-container {
+    background-color: #020020; /* optional, page background */
+}
+
+body.dark-mode .account-card {
+    background-color: #06013a; /* card background */
+    box-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    color: #ffffff;
+}
+
+body.dark-mode .account-title,
+body.dark-mode .account-section h3 {
+    color: #ffffff;
+    border-bottom: 1px solid #444; 
+}
+
+body.dark-mode .account-section,
+body.dark-mode .account-grid,
+body.dark-mode .form-group label,
+body.dark-mode .danger-text,
+body.dark-mode .account-success,
+body.dark-mode .account-error {
+    color: #ffffff;
+}
+
+body.dark-mode input {
+    background-color: #020020;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+body.dark-mode .btn-action {
+    background-color: #0055c0;
+    color: #ffffff;
+    border: 2px solid #0055c0;
+}
+
+body.dark-mode .btn-action:hover {
+    background-color: #003d80;
+    color: #fff;
+}
+
+body.dark-mode .btn-danger {
+    background-color: #c0392b;
+    color: #fff;
+}
+
+body.dark-mode .btn-danger:hover {
+    background-color: #922b21;
+}
+
+body.dark-mode .account-success {
+    background-color: #2e7d32; 
+    color: #fff;
+}
+
+body.dark-mode .account-error {
+    background-color: #b71c1c; 
+    color: #fff;
+}

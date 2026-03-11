@@ -270,3 +270,14 @@
         width: 100%;
     }
 }
+
+/* Dark Mode */
+
+body.dark-mode .payment-section h2,
+body.dark-mode .payment-section h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .expiry-group label {
+    color: #ffffff !important;
+}

@@ -271,6 +271,21 @@
     color: #0055C0;
 }
 
+/* Dark Mode */
+
+/* price colour */
+body.dark-mode .product-container .product-meta li {
+    color: #dddddd !important;
+}
+
+body.dark-mode .product-container .product-price {
+    color: #000000 !important;
+}
+
+body.dark-mode .buy-box label[for="qty"] {
+    color: #000000 ; 
+}
+
 
 
 

@@ -282,3 +282,155 @@
         text-align: center;
     }
 }
+
+/* Dark Mode */
+
+
+body.dark-mode .admin-container {
+    background-color: #020020;
+    color: #e0e0e0;
+}
+
+body.dark-mode .stock-warning {
+    background: #4b1a1a;
+    color: #ffb3b3;
+}
+
+body.dark-mode .inventory-section {
+    background: #06013a;
+}
+
+body.dark-mode .section-header h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .admin-buttons .btn-admin,
+body.dark-mode .btn-admin {
+    background: #0055c0;
+    color: #fff;
+}
+
+body.dark-mode .btn-admin:hover {
+    background: #0044a0;
+}
+
+body.dark-mode .table-wrapper {
+    border: 2px solid #ffffff;
+}
+
+body.dark-mode .inventory-table {
+    background: #020020;
+    color: #e0e0e0;
+}
+
+body.dark-mode .inventory-table thead {
+    background: #00124A;
+}
+
+body.dark-mode .inventory-table th {
+    color: #ffffff;
+    border-bottom: 2px solid #444;
+}
+
+body.dark-mode .inventory-table td {
+    border-bottom: 1px solid #333;
+}
+
+body.dark-mode .inventory-table tbody tr:hover {
+    background: #2a2a2a;
+}
+
+body.dark-mode .product-image {
+    border: 1px solid #333;
+}
+
+body.dark-mode .stock-badge.normal {
+    background: #2e3c2f;
+    color: #a3d9a5;
+}
+
+body.dark-mode .stock-badge.low {
+    background: #3b1a1a;
+    color: #ff8a80;
+}
+
+body.dark-mode .btn-action {
+    background: #1e1e1e;
+    color: #0055c0;
+    border-color: #0055c0;
+}
+
+body.dark-mode .btn-action:hover {
+    background: #0055c0;
+    color: #fff;
+}
+
+body.dark-mode .btn-action.btn-delete {
+    border-color: #d32f2f;
+    color: #f88;
+}
+
+body.dark-mode .btn-action.btn-delete:hover {
+    background: #d32f2f;
+    color: #fff;
+}
+
+body.dark-mode .btn-action.btn-restock {
+    border-color: #f57c00;
+    color: #ffb366;
+}
+
+body.dark-mode .btn-action.btn-restock:hover {
+    background: #f57c00;
+    color: #fff;
+}
+
+body.dark-mode .modal {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .modal-content {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+}
+
+body.dark-mode .modal-content h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .modal-content label {
+    color: #ccc;
+}
+
+body.dark-mode .modal-content input {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode .btn-primary {
+    background: #0055c0;
+    color: #fff;
+}
+
+body.dark-mode .btn-primary:hover {
+    background: #0044a0;
+}
+
+body.dark-mode .btn-secondary {
+    background: #2a2a2a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: #3a3a3a;
+}
+
+body.dark-mode .close {
+    color: #ccc;
+}
+
+body.dark-mode .close:hover {
+    color: #fff;
+}

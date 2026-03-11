@@ -129,6 +129,7 @@ html {
     display: block !important;
     line-height: 1.2 !important;
     color: #222 !important;
+    font-weight: 700 !important;
 }
 
 /* Price cell */
@@ -230,4 +231,16 @@ html {
     text-decoration: none;
     display: block;
     line-height: 46px;
+}
+
+/* Dark Mode */
+
+body.dark-mode .basket-header {
+    color: #e0e0e0 !important;
+}
+
+/* Dark mode basket product name */
+body.dark-mode .basket > .product > .item > span,
+body.dark-mode .basket > .basket-product > .item > span {
+    color: #ffffff !important;
 }
