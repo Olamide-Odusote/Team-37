@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" /> 
 
+
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
     <link rel="stylesheet" href="{{ asset('css/alerts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('css/about.css') }}">
@@ -20,6 +22,9 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon-32x32.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 
 <body>
@@ -296,6 +301,176 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
+
+<!-- ChatBot -->
+<div id="chat-widget">
+    <div id="chat-button">
+    <img src="{{ asset('images/chatbotlogo.png') }}" alt="Chat" id="chat-logo">
+</div>
+    <div id="chat-box">
+        <div id="chat-header">
+    <img src="{{ asset('images/footer_logo2.png') }}" alt="Logo" id="chat-header-logo">
+    OmniCart Assistant
+    <span id="chat-close">✕</span>
+</div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-container">
+    <input type="text" id="chat-input" placeholder="Type a message...">
+    <button id="chat-send">➤</button>
+</div>
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+// Elements
+const chatButton = document.getElementById('chat-button');
+const chatBox = document.getElementById('chat-box');
+const chatClose = document.getElementById('chat-close');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const sendButton = document.getElementById('chat-send');
+
+let welcomeShown = false;
+
+
+// Open chat
+chatButton.addEventListener('click', () => {
+
+    chatBox.style.display = 'flex';
+
+    if(!welcomeShown){
+        addMessage("Hi! I'm the OmniCart assistant, How can I help you today?", "ai");
+        welcomeShown = true;
+    }
+
+});
+
+
+// Close chat
+chatClose.addEventListener('click', () => {
+    chatBox.style.display = 'none';
+});
+
+
+// Add message
+function addMessage(content, sender){
+
+    const div = document.createElement('div');
+    div.className = sender === "user" ? "message-user" : "message-ai";
+    div.innerHTML = `<span>${content}</span>`;
+
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+}
+
+
+// Typing indicator
+function showTyping(show){
+
+    let existing = document.querySelector(".typing");
+
+    if(show){
+        if(!existing){
+            const div = document.createElement("div");
+            div.className = "typing";
+            div.textContent = "Assistant is typing...";
+            chatMessages.appendChild(div);
+        }
+    } else {
+        if(existing) existing.remove();
+    }
+
+}
+
+
+function getBotReply(message){
+
+    const msg = message.toLowerCase();
+
+    
+
+    if(msg.includes("shipping") || msg.includes("delivery")){
+        return "Standard delivery takes 3-5 days. If you have any issues head to our Contact Page to get support";
+    }
+
+    if(msg.includes("return") || msg.includes("refund")|| msg.includes("returning")){
+        return "You can return items within 30 days if they are unused. If you need any more help , head to our contact page";
+    }
+
+    if(msg.includes("contact") || msg.includes("email") || msg.includes("support")|| msg.includes("help")){
+        return 'You can contact our support team on our <a href="/contact" target="_blank">Contact Page</a>.';
+    }
+
+    if(msg.includes("order") || msg.includes("track")){
+        return "You can track your order by clicking the basket icon and then the 'My Orders' button.";
+    }
+
+    if(msg.includes("best") || msg.includes("popular") || msg.includes("most")){
+        return "Our most popular products are the Dell Latitude 6300U Laptop (£229.00) and Hand Sanitiser (£2.49).";
+    }
+
+    if(msg.includes("payment") || msg.includes("card")){
+        return "We accept Visa, Mastercard, PayPal and Apple Pay.";
+    }
+
+    if(msg.includes("bye")){
+        return "Goodbye! Let me know if you need anything else.";
+    }
+    if(msg.includes("product") || msg.includes("buy") || msg.includes("shop")){
+    return "You can browse all our products on the <a href='/products'>Products Page</a>.";
+    }
+    if(msg.includes("thanks")){
+        return "No Problem! Let me know if you need anything else.";
+    }
+    if(msg.includes("hello") || msg.includes("hi") || msg.includes("hey")){
+        return "Hello! I'm the OmniCart Assistant, how can I help you today?";
+    }
+
+    return "I'm sorry, I didn't understand that.";
+
+}
+
+
+function sendMessage(){
+
+    const userMessage = chatInput.value.trim();
+    if(userMessage === "") return;
+
+    addMessage(userMessage, "user");
+    chatInput.value = "";
+
+    showTyping(true);
+
+    setTimeout(() => {
+
+        const reply = getBotReply(userMessage);
+
+        showTyping(false);
+        addMessage(reply, "ai");
+
+    }, 800);
+
+}
+
+
+chatInput.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        sendMessage();
+    }
+});
+
+
+sendButton.addEventListener("click", sendMessage);
+
+});
+
+</script>
+
+
+
 
 </body>
 </html>
