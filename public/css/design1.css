@@ -1,0 +1,128 @@
+.body {
+  background-color: #f3f6f8;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  color-scheme: #0055c0;
+  min-height: 100vh;
+  align-items: center;
+}
+.login {
+  background-color: white;
+  width: 320px;
+  padding: 18px 22px;
+  margin: 12px auto 30px auto;
+  max-width: 94%;
+  border: 1px solid #eee;
+  border-radius: 28px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 28px;
+}
+.signInText {
+  color: #0055c0;
+  font-size: 1.05em;
+  margin-bottom: 18px;
+  text-transform: none;
+  font-weight: 600;
+  
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 18px;
+  margin-bottom: 18px;
+}
+.input input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 0.95em;
+  outline: none;
+  text-align: left;
+}
+/* Update this in design1.css */
+.signInButton {
+ background-color: white; 
+  color: #0055c0;              
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #0055c0 ;             
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.signInButton:hover {
+  background-color: #004499; 
+}
+.forgotPassword {
+  font-size: 0.88em;
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.gab {
+  height: 8px;
+  margin: 12px 0 18px 0;
+}
+.NewToOmni {
+  font-size: 0.88em;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.text{
+  font-size: 0.88em;
+  color: #555;
+  margin-top: 18px;
+}
+.registerInButton { 
+background-color: white; 
+  color: #0055c0;              
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #0055c0 ;             
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.registerInButton:hover {
+  background-color: #004499; 
+}
+
+.continue {
+ background-color: white; 
+  color: #0055c0;              
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #0055c0 ;             
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.continue:hover {
+  background-color: #004499; 
+}

@@ -1,0 +1,332 @@
+/* Products listing styles */
+:root {
+    --page-max: 1300px;
+    --accent: #0055C0;
+    --muted: #666;
+    --border: #ddd;
+}
+
+* { box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; background: #f5f5f5; }
+
+/* PAGE LAYOUT */
+.products-page {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 20px;
+    max-width: var(--page-max);
+    margin: 20px auto;
+    padding: 0 12px;
+}
+
+/* SIDEBAR FILTERS */
+.filters {
+    background: #fff;
+    padding: 16px;
+    border-radius: 22px;
+    height: fit-content;
+    position: sticky;
+    top: 90px;
+}
+
+/* Filter section titles */
+.filters h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+/* Individual filter groups */
+.filter-group {
+    margin-bottom: 18px;
+}
+/* Filter group titles */
+.filter-group h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+/* Filter options */
+.filters ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* Individual filter items */
+.filters ul li {
+    margin-bottom: 6px;
+}
+/* Filter links */
+.filters a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 14px;
+}
+/* Hover and active states for filter links */
+.filters a:hover {
+    text-decoration: underline;
+}
+/* Active filter state */
+.filters a.active {
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(0, 85, 192, 0.06);
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+/* Category dropdown styles */
+.cat-checkbox {
+    margin-bottom: 8px;
+}
+
+.cat-checkbox label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cat-checkbox input[type="checkbox"] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+/* Filter action buttons */
+.apply-filters {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.apply-filters:hover {
+    opacity: 0.9;
+}
+
+.clear-filters {
+    margin-left: 10px;
+    color: #555;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.clear-filters:hover {
+    text-decoration: underline;
+}
+
+/* PRODUCT RESULTS AREA */
+.product-results {
+    background: transparent;
+}
+
+.product-results h2 {
+    font-size: 28px;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+    color: #111;
+}
+
+/* PRODUCT CARD - HORIZONTAL ROW (Amazon like) */
+.product-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+}
+
+.product-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image img {
+    width: 190px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.product-details {
+    text-align: left;
+}
+
+.product-details h3 a {
+    font-size: 1.1rem;
+    margin: 0 0 6px 0;
+    color: #111;
+}
+
+.product-details h3 a:hover {
+    color:#0055C0;
+}
+
+.product-details .desc {
+    color: #555;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* Price and buttons row */
+.product-details .price {
+    font-size: 1.5rem;
+    color: #e67e00;
+    margin-bottom: 8px;
+    font-weight: 1000;
+}
+
+.meta-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.view-btn {
+    padding: 6px 14px;
+    border: 2px solid #0055c0;
+    background: #fff;
+    color: #0055c0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 160ms ease;
+}
+
+.view-btn:hover {
+    background: #0055c0;
+    color: #fff;
+}
+
+/* Add to basket button */
+.add-basket {
+    padding: 6px 14px;
+    border: 2px solid #0055c0;
+    background: #0055C0;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 160ms ease;
+}
+
+.add-basket:hover {
+    background: #fff;
+    color: #0055C0;
+}
+
+/* PAGINATION */
+.pagination {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 20px 0;
+}
+
+.pagination li span,
+.pagination li a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.pagination li a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0, 85, 192, 0.05);
+}
+
+.pagination li.active span {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    font-weight: 600;
+}
+
+.pagination li.disabled span {
+    color: #ccc;
+    cursor: not-allowed;
+    background: #f5f5f5;
+}
+
+
+/* Dark Mode */
+
+body.dark-mode .desc {
+    color: #B0ACAC;
+}
+
+body.dark-mode .product-results h3 a {
+    color: #ffffff;     
+}
+
+
+
+
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .products-page {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .filters {
+        position: relative;
+        top: 0;
+    }
+
+    .product-row {
+        grid-template-columns: 150px 1fr;
+        gap: 14px;
+        padding: 14px 0;
+    }
+
+    .product-image img {
+        width: 140px;
+        height: auto;
+    }
+
+    .product-details h3 {
+        font-size: 1rem;
+    }
+
+    .pagination nav ul {
+        gap: 2px;
+    }
+
+    .pagination li span,
+    .pagination li a {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 4px;
+        font-size: 12px;
+    }
+}
