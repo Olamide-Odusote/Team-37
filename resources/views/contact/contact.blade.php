@@ -52,5 +52,19 @@
 
         <button type="submit" class="submit-button">Submit</button>
     </form>
+
+<div class="contact-social">
+    <h3>Follow OmniCart</h3>
+    <div class="social-links">
+        <a class="social-btn" href="https://www.instagram.com/omnicart37/" target="_blank" rel="noopener noreferrer" aria-label="OmniCart on Instagram">
+            <img src="{{ asset('images1/social/instagram.svg') }}" alt="Instagram">
+        </a>
+
+        <a class="social-btn" href="https://x.com/OmniCart37" target="_blank" rel="noopener noreferrer" aria-label="OmniCart on X">
+            <img src="{{ asset('images1/social/x.svg') }}" alt="X">
+        </a>
+    </div>
+</div>
+
 </div>
 @endsection
